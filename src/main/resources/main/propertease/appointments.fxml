@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="274.0" styleClass="note-bg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.AppointmentsController">
+   <children>
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="87.0" prefWidth="285.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="144.00003662109376" prefWidth="222.9999755859375" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="289.5999755859375" minWidth="10.0" prefWidth="35.80002441406248" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="67.0" GridPane.columnIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#removeAppointment" prefHeight="26.0" prefWidth="30.0" styleClass="rmv-button" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="117.0" prefWidth="206.0">
+               <children>
+                  <Label fx:id="labelDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-main-info" text="December 22, 2023, 3:30 PM." />
+                  <Label fx:id="labelExpert" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-info" text="Expert/Seller: Carmine De Micco">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelHouseName" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" styleClass="note-main-info" text="Appartamento" />
+                  <Label fx:id="labelHouseAddr" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-info" text="Napoli 081, Via Chiatamone 21/22">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+         </padding>
+      </GridPane>
+   </children>
+</AnchorPane>

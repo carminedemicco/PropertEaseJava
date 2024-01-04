@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.LoginViewController">
+   <children>
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="509.60003662109375" minWidth="10.0" prefWidth="300.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.79998779296875" minWidth="10.0" prefWidth="300.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #303030;">
+               <children>
+                  <Label text="PropertEase" textAlignment="CENTER" textFill="ALICEBLUE">
+                     <font>
+                        <Font name="Verdana Bold" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #242424;" GridPane.columnIndex="1">
+               <children>
+                  <VBox fx:id="SingInView" alignment="CENTER" spacing="20.0">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Welcome" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana Bold" size="23.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Access your Account" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="10.0">
+                           <children>
+                              <TextField fx:id="UsernameSingInField" promptText="Username" styleClass="txtfield">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <VBox>
+                                 <children>
+                                    <PasswordField fx:id="PasswordSingInField" promptText="Password" styleClass="txtfield">
+                                       <font>
+                                          <Font name="Verdana" size="12.0" />
+                                       </font>
+                                    </PasswordField>
+                                    <Label fx:id="ErrorSingInText" prefHeight="8.0" prefWidth="138.0" styleClass="error-msg" text="Invalid username or password." visible="false">
+                                       <font>
+                                          <Font size="9.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Button fx:id="SingInButton" mnemonicParsing="false" onAction="#SingInButtonAction" prefHeight="42.0" prefWidth="110.0" styleClass="btn" text="Sing In" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Label text="or Register Account " textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#SingUpButtonSwitch" prefHeight="42.0" prefWidth="110.0" styleClass="btn2" text="Sing Up" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" right="50.0" />
+                     </padding>
+                  </VBox>
+                  <VBox fx:id="SingUpView" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="18.0" visible="false">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Sing Up" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana Bold" size="23.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Register your Account" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="8.0">
+                           <children>
+                              <TextField fx:id="NameSingUpField" promptText="Name" styleClass="txtfield">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="SurnameSingUpField" layoutX="10.0" layoutY="10.0" promptText="Surname" styleClass="txtfield">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <ComboBox fx:id="AccountTypeComboBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Account Type" styleClass="combo-box" />
+                              <TextField fx:id="UsernameSingUpField" promptText="Username" styleClass="txtfield">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </TextField>
+                              <VBox>
+                                 <children>
+                                    <PasswordField fx:id="PasswordSingUpField" promptText="Password" styleClass="txtfield">
+                                       <font>
+                                          <Font name="Verdana" size="12.0" />
+                                       </font>
+                                    </PasswordField>
+                                    <Label fx:id="ErrorSingUpText" prefHeight="8.0" prefWidth="138.0" text="Username already exists. " visible="false">
+                                       <font>
+                                          <Font size="9.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Button fx:id="SubmitButton" mnemonicParsing="false" onAction="#ConfirmButtonAction" prefHeight="42.0" prefWidth="110.0" styleClass="btn" text="Submit" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Label text="or Access your Account " textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="10.0" />
+                                 </font>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#SingInButtonSwitch" prefHeight="42.0" prefWidth="110.0" styleClass="btn2" text="Sing In" textAlignment="CENTER" textFill="ALICEBLUE">
+                                 <font>
+                                    <Font name="Verdana" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" right="50.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

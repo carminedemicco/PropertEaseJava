@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="240.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.HousesController">
+   <children>
+      <VBox alignment="CENTER" layoutX="60.0" layoutY="14.0" maxHeight="351.0" prefHeight="351.0" prefWidth="255.0" styleClass="bg-house-grid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="img" fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" styleClass="img-house" />
+            <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="120.0" prefWidth="240.0" spacing="6.0" styleClass="info-vbox">
+               <children>
+                  <Label fx:id="name" styleClass="name-label" text="Casa Bellissima">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Label>
+                  <VBox>
+                     <children>
+                        <Label fx:id="address1" styleClass="address-label" text="Milano" />
+                        <Label fx:id="address2" styleClass="address-label" text="Via Ugo Tognazzi " />
+                     </children>
+                  </VBox>
+                  <Label fx:id="price" styleClass="price-label" text="\$0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&family=Nunito:wght@400;700&display=swap');
+* {
+    -fx-font-family: 'Nunito', Verdana, sans-serif;
+    -fx-text-fill: #f0f8ff;
+}
+
+/* LOGIN VIEW */
+.btn {
+    -fx-cursor: hand;
+    -fx-background-color: #404040;
+    -fx-background-radius: 25;
+    -fx-font-weight: bold;
+}
+.btn:hover{
+    -fx-border-color: #404040;
+    -fx-border-radius: 25;
+    -fx-background-color: transparent;
+ }
+
+.btn2 {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-border-color: #404040;
+    -fx-font-weight: bold;
+}
+.btn2:hover{
+    -fx-border-radius: 25;
+    -fx-background-color: #404040;
+}
+
+.txtfield{
+    -fx-background-color: #181818;
+    -fx-background-radius: 25;
+    -fx-font-size: 12;
+}
+
+.error-msg{
+    -fx-text-fill: red;
+}
+
+.combo-box{
+    -fx-background-color: #181818;
+    -fx-background-radius: 25;
+}
+.combo-box .text{
+    -fx-fill: derive(-fx-control-inner-background, -30%);
+}
+.combo-box .cell:selected .text{
+    -fx-fill: derive(-fx-control-inner-background, 0%);
+}
+
+.combo-box .list-view{
+    -fx-background-color: #181818;
+    -fx-background-radius: 25;
+}
+.combo-box .list-view .list-cell{
+    -fx-background-color: #181818;
+    -fx-background-radius: 25;
+}
+.combo-box .list-view .list-cell:hover{
+    -fx-background-color: #404040;
+}
+
+
+
+
+/* BUYER VIEW */
+.header{
+    -fx-background-color: #363636;
+}
+
+.logout-button{
+    -fx-background-image: url("img/icons/logout-icon.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+/* LEFT BAR */
+.bg-grid-appointments{
+    -fx-background-color: #303030;
+}
+
+/* NOTE LEFT BAR */
+.note-bg{
+    -fx-background-color: #242424;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-color: transparent;
+}
+.note-bg:hover{
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-color: #181818;
+}
+.note-main-info{
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+.note-info{
+    -fx-text-fill: #808080;
+    -fx-font-size: 10;
+}
+
+.rmv-button{
+    -fx-background-image: url("img/icons/xcirclevuoto-icon.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+.rmv-button:hover{
+    -fx-background-image: url("img/icons/xcirclered-icon.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+
+/* GRIGLIA CASE*/
+.bg-grid{
+    -fx-background-color: #242424;
+}
+
+/** RIQUADRO DI UNA CASA NELLA GRIGLIA **/
+.bg-house-grid{
+    -fx-background-color: #181818;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+.bg-house-grid:hover{
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-color: black;
+}
+
+.img-house{
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+
+}
+
+.info-vbox{
+    -fx-padding: 14;
+    -fx-font-size: 14;
+}
+
+
+.address-label{
+    -fx-text-fill: #808080;
+}
+
+.price-label{
+    -fx-padding: 4 12;
+    -fx-border-radius: 8;
+    -fx-border-color: #005700FF;
+    -fx-background-radius: 8;
+    -fx-background-color: #94f394;
+    -fx-text-fill: #242424;
+}
+
+.name-label{
+    -fx-font-weight: bold;
+}
+
+
+
+/* HOUSE DETAILS VIEW */
+.home-button{
+    -fx-background-image: url("img/icons/home-icon.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+.bg-house-details{
+    -fx-background-color: #242424;
+}
+
+.box-house-detais{
+    -fx-background-color: #181818;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-font-size: 16;
+    -fx-padding: 12;
+}
+
+.big-title-detail{
+    -fx-font-size: 20;
+    -fx-text-fill: #808080;
+}
+.title-detail{
+    -fx-font-weight: bold;
+}
+.value-detail{
+    -fx-text-fill: #808080;
+}
