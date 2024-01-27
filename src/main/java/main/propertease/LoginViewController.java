@@ -55,10 +55,6 @@ public class LoginViewController implements Initializable {
     @FXML
     private Button SubmitButton;
 
-    @FXML
-    private ComboBox<String> AccountTypeComboBox;
-    private final String[] AccountType = {"Buyer", "Seller", "Expert"};
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,8 +63,6 @@ public class LoginViewController implements Initializable {
             connectionDB = DBConnection.getDBConnection();
         } catch (Exception e) {throw new RuntimeException(e);}
 
-        // aggiunge gli elementi della ComboBox
-        AccountTypeComboBox.getItems().setAll(AccountType);
 
         // annulla il prompt automatico sui TextField
         Platform.runLater(()->SingInButton.requestFocus());
@@ -81,7 +75,7 @@ public class LoginViewController implements Initializable {
     @FXML
     void ConfirmButtonAction(ActionEvent event) throws Exception{
         // Controllo se c'è un campo non compilato
-        if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() || AccountTypeComboBox.getSelectionModel().isEmpty() ||
+        if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
         UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()){
             ErrorSingUpText.setText("Fill in all required fields.");
             ErrorSingUpText.setStyle("-fx-text-fill: red;");
@@ -101,8 +95,8 @@ public class LoginViewController implements Initializable {
             }
             // Se non è registrato: inserisco i dati del nuovo utente nel database
             else{
-                query = String.format("INSERT INTO useraccount (username, name, surname, password, type) VALUES ('%s', '%s', '%s', '%s', '%s'); ",
-                        UsernameSingUpField.getText(), NameSingUpField.getText(), SurnameSingUpField.getText(), PasswordSingUpField.getText(), AccountTypeComboBox.getValue());
+                query = String.format("INSERT INTO useraccount (username, name, surname, password, type) VALUES ('%s', '%s', '%s', '%s', 'Buyer'); ",
+                        UsernameSingUpField.getText(), NameSingUpField.getText(), SurnameSingUpField.getText(), PasswordSingUpField.getText());
                 System.out.println(query);
                 statement = connectionDB.createStatement();
                 statement.executeUpdate(query);
@@ -145,10 +139,9 @@ public class LoginViewController implements Initializable {
             String viewName;
             // Controlla se l'utente che ha fatto l'accesso è "Buyer"
             viewName = "buyerView.fxml";
-            // Controlla se l'utente che ha fatto l'accesso è "Seller"
-            //viewName = "sellerView.fxml";
-            // Controlla se l'utente che ha fatto l'accesso è "Expert"
-            //viewName = "expertView.fxml";
+            // Controlla se l'utente che ha fatto l'accesso è "Administrator"
+            //viewName = "adminView.fxml";
+
 
             // Carico la View in base al tipo di utente che ha fatto l'accesso
             Stage stage = (Stage) SingInButton.getScene().getWindow();
@@ -189,7 +182,6 @@ public class LoginViewController implements Initializable {
     private void singUpClearFields(){
         NameSingUpField.setText("");
         SurnameSingUpField.setText("");
-        AccountTypeComboBox.getSelectionModel().clearSelection();
         UsernameSingUpField.setText("");
         PasswordSingUpField.setText("");
     }

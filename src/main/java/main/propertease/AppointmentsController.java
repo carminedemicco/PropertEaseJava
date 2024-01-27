@@ -28,14 +28,14 @@ public class AppointmentsController {
     private Label labelDate;
 
     @FXML
-    private Label labelExpert;
+    private Label labelAgent;
 
     // Aggiornamento del valore dei campi della View
     // Prende in input un oggetto di classe Appointment
     public void setData(Appointment appointment){
         id = appointment.getId();
         labelDate.setText(appointment.getAppointmentDate());
-        labelExpert.setText(appointment.getExpertName());
+        labelAgent.setText(appointment.getAdministratorName());
         labelHouseName.setText(appointment.getHouseName());
         labelHouseAddr.setText(appointment.getHouseAddress());
     }
@@ -50,7 +50,7 @@ public class AppointmentsController {
         Statement statement = connectionDB.createStatement();
         statement.executeUpdate(query);
 
-        // NB: da valutare perchè se l'esperto elimina l'appuntamento dal database automaticamente viene eliminato anche per il cliente
+        // NB: da valutare perché se l'admin elimina l'appuntamento dal database automaticamente viene eliminato anche per il cliente
         // (senza nemmeno una notifica ?)
 
         // Ricarica la pagina escludendo l'appuntamento appena cancellato

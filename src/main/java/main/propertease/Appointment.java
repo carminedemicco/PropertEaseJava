@@ -4,7 +4,7 @@ public class Appointment {
     private int id;
     private String houseName;
     private String houseAddress;
-    private String expertName;
+    private String administratorName;
     private String appointmentDate;
 
     public int getId() {
@@ -31,12 +31,12 @@ public class Appointment {
         this.houseName = houseName;
     }
 
-    public String getExpertName() {
-        return expertName;
+    public String getAdministratorName() {
+        return administratorName;
     }
 
-    public void setExpertName(String expertName) {
-        this.expertName = expertName;
+    public void setAdministratorName(String administratorName) {
+        this.administratorName = administratorName;
     }
 
     public String getAppointmentDate() {

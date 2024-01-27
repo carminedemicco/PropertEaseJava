@@ -30,7 +30,7 @@
             <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="117.0" prefWidth="206.0">
                <children>
                   <Label fx:id="labelDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-main-info" text="December 22, 2023, 3:30 PM." />
-                  <Label fx:id="labelExpert" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-info" text="Expert/Seller: Carmine De Micco">
+                  <Label fx:id="labelAgent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="note-info" text="Estate Agent: Carmine De Micco">
                      <font>
                         <Font size="10.0" />
                      </font>

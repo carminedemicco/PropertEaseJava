@@ -77,7 +77,7 @@ public class BuyerViewController implements Initializable {
         String currentUsername = "carmine";
         String query = String.format("select appointment.ROWID, date, u.name as uname, u.surname, h.name as hname, h.address1, h.address2 from appointment " +
                 " inner join hause h on h.ROWID = appointment.id_house " +
-                " inner join useraccount u on u.username = appointment.username_seller_expert " +
+                " inner join useraccount u on u.username = appointment.username_administrator " +
                 "WHERE username_buyer = '%s'", currentUsername);
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -87,7 +87,7 @@ public class BuyerViewController implements Initializable {
             appointment.setId(resultSet.getInt("ROWID"));
             appointment.setHouseName(resultSet.getString("hname"));
             appointment.setHouseAddress(resultSet.getString("address1") + ", " + resultSet.getString("address2"));
-            appointment.setExpertName("Expert/Seller: " + resultSet.getString("uname") + " " + resultSet.getString("surname"));
+            appointment.setAdministratorName("Estate Agent: " + resultSet.getString("uname") + " " + resultSet.getString("surname"));
             // Codice di conversione dal tipo Date a String
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy, h:mm a.", Locale.ENGLISH);
             String formattedDate = sdf.format(resultSet.getTimestamp("date"));

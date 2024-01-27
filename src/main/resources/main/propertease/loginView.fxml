@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -130,7 +129,6 @@
                                     <Font name="Verdana" size="12.0" />
                                  </font>
                               </TextField>
-                              <ComboBox fx:id="AccountTypeComboBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Account Type" styleClass="combo-box" />
                               <TextField fx:id="UsernameSingUpField" promptText="Username" styleClass="txtfield">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
