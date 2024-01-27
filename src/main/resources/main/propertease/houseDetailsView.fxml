@@ -297,6 +297,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
+                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#makeAppointmentButton" prefHeight="36.0" prefWidth="190.0" styleClass="appointment-button" text="Make an Appointment" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -356,7 +357,6 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button mnemonicParsing="false" text="Prenota Appuntamento" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

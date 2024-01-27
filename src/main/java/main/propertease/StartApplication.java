@@ -11,8 +11,9 @@ public class StartApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("buyerView.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("houseDetailsView.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("buyerView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("houseDetailsView.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("calendar.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
         stage.setTitle("PropertEase");

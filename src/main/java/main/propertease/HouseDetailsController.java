@@ -12,8 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -101,7 +104,7 @@ public class HouseDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /* NB: DA MODIFICARE CON I DATI PROVENIENTI DAL DATABASE */
-        // Imposta l'immgine più grande
+        // Imposta l'immagine più grande
         Image image = new Image(getClass().getResourceAsStream("img/house.png"));
         img1.setPreserveRatio(false); //si adatta alla dimensione
         Rectangle roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
@@ -127,4 +130,26 @@ public class HouseDetailsController implements Initializable {
         detailbox2.setEffect(new DropShadow(20, Color.BLACK));
         detailbox3.setEffect(new DropShadow(20, Color.BLACK));
     }
+
+    // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
+    @FXML
+    void makeAppointmentButton(ActionEvent event) throws IOException {
+        Stage primaryStage = (Stage) detailbox1.getScene().getWindow();
+
+        // Crea la nuova scena
+        Stage newStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupSelectDate.fxml"));
+        Scene newScene = new Scene(fxmlLoader.load());
+        newStage.setScene(newScene);
+
+        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primaryStage);
+
+        // Mostra la nuova finestra
+        newStage.setResizable(false);
+        newStage.setTitle("Make an Appointment");
+        newStage.show();
+    }
+
 }
