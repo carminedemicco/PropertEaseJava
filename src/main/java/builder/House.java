@@ -1,5 +1,4 @@
 package builder;
-// garage, loft, apartment, independent house TODO elimina commento
 // House class
 public class House {
 
@@ -15,15 +14,15 @@ public class House {
         this.bedrooms = bedrooms;
         this.sqm = sqm;
     }
-    private String address;
-    private int floor;
-    private boolean elevator;
-    private int balconies;
-    private int terrace;
-    private int garden;
-    private int accessories;
-    private int bedrooms;
-    private int sqm;
+    private final String address;
+    private final int floor;
+    private final boolean elevator;
+    private final int balconies;
+    private final int terrace;
+    private final int garden;
+    private final int accessories;
+    private final int bedrooms;
+    private final int sqm;
 
     public String getAddress() {
         return address;
