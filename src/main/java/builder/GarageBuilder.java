@@ -1,5 +1,7 @@
 package builder;
 
+import javafx.scene.image.Image;
+
 import java.lang.UnsupportedOperationException;
 
 public class GarageBuilder implements IBuilder {
@@ -49,20 +51,36 @@ public class GarageBuilder implements IBuilder {
     }
 
     @Override
+    public void setPrice(int price) {
+        _price = price;
+    }
+
+    @Override
+    public void setPics(Image[] pics) {
+        _pics = pics;
+    }
+
+    @Override
     public House getResult() {
         return new House(
-            _address,
-            0,
-            false,
-            0,
-            0,
-            0,
-            0,
-            0,
-            _sqm
+                _id,
+                _address,
+                0,
+                false,
+                0,
+                0,
+                0,
+                0,
+                0,
+                _sqm,
+                _price,
+                _pics
         );
     }
 
+    private int _id;
     private String _address;
     private int _sqm;
+    private int _price;
+    private Image[] _pics = new Image[3];
 }

@@ -1,5 +1,7 @@
 package builder;
 
+import javafx.scene.image.Image;
+
 import java.lang.UnsupportedOperationException;
 
 public class IndependentBuilder implements IBuilder {
@@ -19,19 +21,29 @@ public class IndependentBuilder implements IBuilder {
     }
 
     @Override
-    public void setBalconies(int balconies) { _balconies = balconies; }
+    public void setBalconies(int balconies) {
+        _balconies = balconies;
+    }
 
     @Override
-    public void setTerrace(int terrace) { _terrace = terrace; }
+    public void setTerrace(int terrace) {
+        _terrace = terrace;
+    }
 
     @Override
-    public void setGarden(int garden) { _garden = garden; }
+    public void setGarden(int garden) {
+        _garden = garden;
+    }
 
     @Override
-    public void setAccessories(int accessories) { _accessories = accessories; }
+    public void setAccessories(int accessories) {
+        _accessories = accessories;
+    }
 
     @Override
-    public void setBedrooms(int bedrooms) { _bedrooms = bedrooms; }
+    public void setBedrooms(int bedrooms) {
+        _bedrooms = bedrooms;
+    }
 
     @Override
     public void setSqm(int sqm) {
@@ -39,8 +51,19 @@ public class IndependentBuilder implements IBuilder {
     }
 
     @Override
+    public void setPrice(int price) {
+        _price = price;
+    }
+
+    @Override
+    public void setPics(Image[] pics) {
+        _pics = pics;
+    }
+
+    @Override
     public House getResult() {
         return new House(
+                _id,
                 _address,
                 0,
                 false,
@@ -49,10 +72,13 @@ public class IndependentBuilder implements IBuilder {
                 _garden,
                 _accessories,
                 _bedrooms,
-                _sqm
+                _sqm,
+                _price,
+                _pics
         );
     }
 
+    private int _id;
     private String _address;
     private int _balconies;
     private int _terrace;
@@ -60,4 +86,6 @@ public class IndependentBuilder implements IBuilder {
     private int _accessories;
     private int _bedrooms;
     private int _sqm;
+    private int _price;
+    private Image[] _pics = new Image[3];
 }
