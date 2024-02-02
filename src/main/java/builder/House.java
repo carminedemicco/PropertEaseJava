@@ -1,9 +1,14 @@
 package builder;
-// House class
-public class House {
 
-    public House (String address, int floor, boolean elevator, int balconies, int terrace,
-                  int garden, int accessories, int bedrooms, int sqm){
+import decorator.IPoster;
+import javafx.scene.image.Image;
+
+// House class
+public class House implements IPoster {
+
+    public House(int id, String address, int floor, boolean elevator, int balconies, int terrace,
+                 int garden, int accessories, int bedrooms, int sqm, int price, Image[] pics) {
+        this.id = id;
         this.address = address;
         this.floor = floor;
         this.elevator = elevator;
@@ -13,7 +18,11 @@ public class House {
         this.accessories = accessories;
         this.bedrooms = bedrooms;
         this.sqm = sqm;
+        this.price = price;
+        this.pics = pics;
     }
+
+    private final int id;
     private final String address;
     private final int floor;
     private final boolean elevator;
@@ -23,6 +32,12 @@ public class House {
     private final int accessories;
     private final int bedrooms;
     private final int sqm;
+    private final int price;
+    private Image[] pics = new Image[3];
+
+    public int getId() {
+        return id;
+    }
 
     public String getAddress() {
         return address;
@@ -58,5 +73,13 @@ public class House {
 
     public int getSqm() {
         return sqm;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public Image getPics(Image[] pics, int index) {
+        return this.pics[index];
     }
 }
