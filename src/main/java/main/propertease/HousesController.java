@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-// Classe che gestisce hauses.fxml: la view dedicata alla scheda delle case
+// Classe che gestisce houses.fxml: la view dedicata alla scheda delle case
 public class HousesController implements Initializable {
     private int id;
 

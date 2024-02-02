@@ -124,17 +124,20 @@ public class LoginViewController implements Initializable {
 
 
 
-    /* Schermata Sing In */
+    /* Schermata Sign In */
     // Al click del bottone di accesso
     @FXML
     void SingInButtonAction(ActionEvent event) throws Exception {
+        String username = UsernameSingInField.getText();
         // Query: controlla che le credenziali siano giuste
         String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
-                UsernameSingInField.getText(), PasswordSingInField.getText());
+                                     username, PasswordSingInField.getText());
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         if(resultSet.next()) { //se le credenziali sono giuste
+            User user = new User(username, resultSet.getInt("type"));
+
             /* ISTRUZIONI PER LO SWITCH DELLA VIEW */
             String viewName;
             // Controlla se l'utente che ha fatto l'accesso è "Buyer"

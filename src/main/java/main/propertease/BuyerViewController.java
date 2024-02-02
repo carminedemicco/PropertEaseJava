@@ -42,7 +42,7 @@ public class BuyerViewController implements Initializable {
         House house;
 
         // Query: dati principali di tutte le case
-        String query = "select ROWID, name, address1, address2, price, img1 from hause;";
+        String query = "select ROWID, name, address1, address2, price, img1 from house;";
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
@@ -76,7 +76,7 @@ public class BuyerViewController implements Initializable {
         /* NB: ↓ in futuro CAMBIARE il valore con l'username del utente corrente */
         String currentUsername = "carmine";
         String query = String.format("select appointment.ROWID, date, u.name as uname, u.surname, h.name as hname, h.address1, h.address2 from appointment " +
-                " inner join hause h on h.ROWID = appointment.id_house " +
+                " inner join house h on h.ROWID = appointment.id_house " +
                 " inner join useraccount u on u.username = appointment.username_administrator " +
                 "WHERE username_buyer = '%s'", currentUsername);
         Statement statement = connectionDB.createStatement();
