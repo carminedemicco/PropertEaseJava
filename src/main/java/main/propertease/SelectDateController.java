@@ -12,9 +12,12 @@ import javafx.stage.Stage;
 
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class PopupSelectDateController implements Initializable {
+public class SelectDateController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
@@ -38,14 +41,33 @@ public class PopupSelectDateController implements Initializable {
     // Se la data non è corretta visualizza l'errore senza chiudere la finestra
     @FXML
     void confirmButton(ActionEvent event) {
-        // Logica di controllo data
-        // ...
-        // Logica di inserimento appuntamento
-        // ...
+        // Prendo il testo del datePicker
+        String dateString = datePicker1.getEditor().getText();
+        // Creo una regex: regular expression, permette di definire il formato
+        String regex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(dateString);
 
-        // Chiusura della finestra corrente
-        Stage currentStage = (Stage) anchorPane.getScene().getWindow();
-        currentStage.close();
+        if (matcher.matches()) {
+            // Se la data è nel formato corretto
+            LocalDate date = datePicker1.getValue();
+
+            /* NB: da aggiungere */
+            // Logica di controllo data: vedi se c'è disponibilità in quella data
+            // ...
+            // Logica di inserimento appuntamento
+            // ...
+
+            // Chiusura della finestra corrente
+            Stage currentStage = (Stage) anchorPane.getScene().getWindow();
+            currentStage.close();
+
+        }
+        else {
+            // La data non è nel formato corretto
+            errorLabel.setText("Invalid date format.");
+            errorLabel.setVisible(true);
+        }
     }
 
 

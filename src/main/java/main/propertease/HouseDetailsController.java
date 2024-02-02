@@ -5,10 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -74,6 +76,9 @@ public class HouseDetailsController implements Initializable {
     @FXML
     private Label usernameLabel;
 
+    @FXML
+    private HBox adminButtonsArea;
+
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
     void logoutButton(ActionEvent event) throws Exception{
@@ -89,14 +94,13 @@ public class HouseDetailsController implements Initializable {
     }
 
 
-    // Al click del bottone home: ritorna alla View generale buyerView.fxml
+    // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
     void homeButton(ActionEvent event) throws Exception{
         Stage stage = (Stage) detailbox1.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("buyerView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-
     }
 
 
@@ -129,6 +133,31 @@ public class HouseDetailsController implements Initializable {
         detailbox1.setEffect(new DropShadow(20, Color.BLACK));
         detailbox2.setEffect(new DropShadow(20, Color.BLACK));
         detailbox3.setEffect(new DropShadow(20, Color.BLACK));
+
+
+        /* NB: mettere if: aggiunge il bottone di modifica casa solo se è log admin */
+        addAdminButtons();
+    }
+
+    // Funzione che aggiunge il bottone di modifica casa solo se i log è admin
+    private void addAdminButtons(){
+        Button btn1 = new Button();
+        btn1.getStyleClass().add("modify-house-button");
+        adminButtonsArea.getChildren().add(btn1);
+
+        /* NB: cambia il riferimento di FXML loader o modificare il file fxml in modo che permetta anche la modifica */
+        /* es: deve avere il bottone rimuovi e i text-field già compilati con i valori correnti */
+        btn1.setOnAction(e-> {
+            try {
+                Stage stage = (Stage) detailbox1.getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
     }
 
     // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento

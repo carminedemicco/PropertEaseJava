@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -43,24 +44,38 @@ public class AppointmentsController {
     // Al click del bottone di rimozione appuntamento
     @FXML
     void removeAppointment(ActionEvent event) throws Exception{
-        /* SQL: RIMUOVI DAL DATABASE DEGLI APPUNTAMENTI QUELLO SELEZIONATO */
-        /*
-        Connection connectionDB = DBConnection.getDBConnection();
-        String query = String.format("delete from appointment WHERE ROWID = %d", id);
-        Statement statement = connectionDB.createStatement();
-        statement.executeUpdate(query);
+        // Apri il popup di conferma
+        Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
+        Scene newScene = new Scene(fxmlLoader.load());
+        Stage newStage = new Stage();
+        newStage.setScene(newScene);
+        newStage.setResizable(false);
+        newStage.setTitle("Confirm Cancellation");
+        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primaryStage);
 
-        // NB: da valutare perché se l'admin elimina l'appuntamento dal database automaticamente viene eliminato anche per il cliente
-        // (senza nemmeno una notifica ?)
+        // mostra il popup e blocca l'esecuzione fino a quando lo Stage secondario non viene chiuso
+        newStage.showAndWait();
 
-        // Ricarica la pagina escludendo l'appuntamento appena cancellato
-        Stage stage = (Stage) anchorPane.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("buyerView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        */
+        // Prendo il controller del popup
+        PopupConfirmController popupConfirmController = fxmlLoader.getController();
+        // Prendo il valore di ritorno del popup dal controller
+        if(popupConfirmController.getResult()){
+            // Se restituisce true('Confirm') effettua la cancellazione dell'appuntamento dal database
 
+            /* NB: da cambiare con la cancellazione sul server */
+            // SQL: rimuovi dal database l'appuntamento selezionato.
+            Connection connectionDB = DBConnection.getDBConnection();
+            String query = String.format("delete from appointment WHERE ROWID = %d", id);
+            Statement statement = connectionDB.createStatement();
+            statement.executeUpdate(query);
 
-        // Unica alternativa è usare un campo flag nel database che indica se è visibile o meno
+            // Ricarica la pagina escludendo l'appuntamento appena cancellato
+            fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            primaryStage.setScene(scene);
+        }
     }
 }

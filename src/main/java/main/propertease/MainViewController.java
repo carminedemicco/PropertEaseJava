@@ -6,14 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,9 +25,9 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-// Classe che gestisce buyerView.fxml: la view dedicata alla schermata iniziale di un Buyer:
+// Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
 // Contiene la lista degli appuntamenti e la griglia delle case
-public class BuyerViewController implements Initializable {
+public class MainViewController implements Initializable {
      private Connection connectionDB;
 
     @FXML
@@ -31,6 +35,9 @@ public class BuyerViewController implements Initializable {
 
     @FXML
     private VBox gridAppointments;
+
+    @FXML
+    private HBox adminButtonsArea;
 
     /* NB: DA MODIFICARE CON LE CASE CHE ARRIVANO DAL DATABASE DEL SERVER */
     // Prende dal database i dati di tutte le case
@@ -107,9 +114,58 @@ public class BuyerViewController implements Initializable {
             connectionDB = DBConnection.getDBConnection();
             setHousesGrid();
             setAppointmentsGrid();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        /* NB: mettere if: aggiunge i bottoni solo se è log admin */
+        addAdminButtons();
+    }
+
+    private void addAdminButtons(){
+        Button btn1 = new Button();
+        Button btn2 = new Button();
+        btn1.getStyleClass().add("add-house-button");
+        btn2.getStyleClass().add("add-date-button");
+        adminButtonsArea.getChildren().add(btn1);
+        adminButtonsArea.getChildren().add(btn2);
+
+        // Al click del bottone di inserimento casa: porta alla View di inserimento
+        btn1.setOnAction(e-> {
+            try {
+                Stage stage = (Stage) gridPane.getScene().getWindow();
+                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        // Al click del bottone di inserimento disponibilità: apre il popup relativo
+        btn2.setOnAction(e-> {
+            try {
+                Stage primaryStage = (Stage) gridPane.getScene().getWindow();
+
+                // Crea la nuova scena
+                Stage newStage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
+                Scene newScene = new Scene(fxmlLoader.load());
+                newStage.setScene(newScene);
+
+                // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
+                newStage.initModality(Modality.WINDOW_MODAL);
+                newStage.initOwner(primaryStage);
+
+                // Mostra la nuova finestra
+                newStage.setResizable(false);
+                newStage.setTitle("Select Available Dates");
+                newStage.show();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
     }
 

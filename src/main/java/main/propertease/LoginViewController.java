@@ -135,22 +135,13 @@ public class LoginViewController implements Initializable {
         ResultSet resultSet = statement.executeQuery(query);
 
         if(resultSet.next()) { //se le credenziali sono giuste
-            /* ISTRUZIONI PER LO SWITCH DELLA VIEW */
-            String viewName;
-            // Controlla se l'utente che ha fatto l'accesso è "Buyer"
-            viewName = "buyerView.fxml";
-            // Controlla se l'utente che ha fatto l'accesso è "Administrator"
-            //viewName = "adminView.fxml";
-
-
-            // Carico la View in base al tipo di utente che ha fatto l'accesso
+            String viewName = "mainView.fxml";
             Stage stage = (Stage) SingInButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(viewName));
             Scene scene = new Scene(fxmlLoader.load());
             stage.hide();
             stage.setScene(scene);
             stage.show();
-
         }
         else{
             ErrorSingInText.setVisible(true);

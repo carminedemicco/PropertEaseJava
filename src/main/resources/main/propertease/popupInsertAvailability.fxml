@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="183.0" prefWidth="341.0" style="-fx-background-color: #242424;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.SelectDateController">
+<AnchorPane fx:id="anchorPane" prefHeight="219.0" prefWidth="353.0" style="-fx-background-color: #242424;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.InsertAvailabilityController">
    <children>
-      <GridPane prefHeight="192.0" prefWidth="400.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="219.0" prefWidth="359.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -22,17 +22,18 @@
           <RowConstraints maxHeight="144.00000610351563" minHeight="10.0" prefHeight="56.800024414062506" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox alignment="BASELINE_CENTER" prefHeight="184.0" prefWidth="400.0" spacing="10.0">
+            <VBox alignment="BASELINE_CENTER" prefHeight="183.0" prefWidth="359.0" spacing="10.0">
                <children>
-                  <Label styleClass="popup-appointment-title" text="Choose Appointment Date" />
-                  <DatePicker fx:id="datePicker1" prefHeight="26.0" prefWidth="214.0" promptText="Date (dd/mm/yyyy)" styleClass="date-picker" />
+                  <Label styleClass="popup-appointment-title" text="Enter your Availability" />
+                  <DatePicker fx:id="datePickerStart" layoutX="74.0" layoutY="76.0" prefHeight="26.0" prefWidth="214.0" promptText="Start Date (dd/mm/yyyy)" styleClass="date-picker" />
+                  <DatePicker fx:id="datePickerEnd" prefHeight="26.0" prefWidth="214.0" promptText="End Date (dd/mm/yyyy)" styleClass="date-picker" />
                   <Label fx:id="errorLabel" prefHeight="18.0" prefWidth="206.0" style="-fx-text-fill: red;" text="* Error Label" visible="false" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </VBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="400.0" spacing="10.0" GridPane.rowIndex="1">
+            <HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="359.0" spacing="10.0" GridPane.rowIndex="1">
                <children>
                   <Button mnemonicParsing="false" onAction="#cancelButton" styleClass="popup-appointment-button" text="Cancel" />
                   <Button mnemonicParsing="false" onAction="#confirmButton" styleClass="popup-appointment-button" text="Confirm" />

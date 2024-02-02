@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.propertease.AddHouseController">
+   <children>
+      <BorderPane layoutX="488.0" layoutY="286.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox alignment="CENTER" prefHeight="73.0" prefWidth="1280.0" styleClass="header" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="PropertEase">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="953.0" spacing="20.0">
+                     <children>
+                        <Label text="Hi, Name">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Button graphicTextGap="0.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#homeButton" prefHeight="1.0" prefWidth="28.0" styleClass="home-button" textAlignment="CENTER" />
+                        <Button graphicTextGap="0.0" layoutX="936.0" layoutY="34.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logoutButton" prefHeight="1.0" prefWidth="28.0" styleClass="logout-button" textAlignment="CENTER" />
+                     </children></HBox>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="bg-house-details" BorderPane.alignment="CENTER">
+               <content>
+                  <VBox alignment="TOP_CENTER" prefWidth="1264.0" spacing="20.0" styleClass="bg-house-details">
+                     <children>
+                        <VBox fx:id="detailbox11" layoutX="130.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="116.0" prefWidth="618.0" spacing="4.0" styleClass="box-house-detais">
+                           <children>
+                              <Label styleClass="big-title-detail" text="Images">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="885.6929321289062" startX="-100.0">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.46315789222717285" green="0.4511500895023346" blue="0.4511500895023346" opacity="0.8500000238418579" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.2526315748691559" green="0.2526315748691559" blue="0.2526315748691559" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.006729475100942127">
+                                             <color>
+                                                <Color red="0.501960813999176" green="0.501960813999176" blue="0.501960813999176" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.0941176488995552" green="0.0941176488995552" blue="0.0941176488995552" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
+                              </Line>
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="16.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#addImg1" styleClass="appointment-button" text="Add Image 1" />
+                                          <Label fx:id="nameImg1" style="-fx-text-fill: red;" text="No file selected yet." />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="16.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#addImg2" styleClass="appointment-button" text="Add Image 2" />
+                                          <Label fx:id="nameImg2" style="-fx-text-fill: red;" text="No file selected yet." />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="54.0" spacing="16.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#addImg3" styleClass="appointment-button" text="Add Image 3" />
+                                          <Label fx:id="nameImg3" style="-fx-text-fill: red;" text="No file selected yet." />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="detailbox1" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="116.0" prefWidth="618.0" spacing="4.0" styleClass="box-house-detais">
+                           <children>
+                              <Label styleClass="big-title-detail" text="Key Features">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="885.6929321289062" startX="-100.0">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.46315789222717285" green="0.4511500895023346" blue="0.4511500895023346" opacity="0.8500000238418579" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.2526315748691559" green="0.2526315748691559" blue="0.2526315748691559" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.006729475100942127">
+                                             <color>
+                                                <Color red="0.501960813999176" green="0.501960813999176" blue="0.501960813999176" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.0941176488995552" green="0.0941176488995552" blue="0.0941176488995552" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
+                              </Line>
+                              <VBox spacing="8.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Label styleClass="title-detail" text="Address:">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addressField" prefWidth="500.0" styleClass="text-field-detail" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="60.0">
+                                       <children>
+                                          <VBox spacing="8.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Floor:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="floorField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Garden:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="gardenField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="8.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="210.0" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Elevator:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="elevatorField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Accessories:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="accessoriesField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="164.0" layoutY="10.0" spacing="8.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Balconies:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="balconiesField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Bedrooms:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="bedroomsField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="164.0" layoutY="10.0" spacing="8.0">
+                                             <children>
+                                                <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="Terrace:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="terraceField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label styleClass="title-detail" text="sqm:">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <TextField fx:id="sqmField" prefWidth="100.0" styleClass="text-field-detail" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="detailbox3" maxWidth="1.7976931348623157E308" prefWidth="978.0" spacing="4.0" styleClass="box-house-detais">
+                           <children>
+                              <Label alignment="TOP_LEFT" styleClass="big-title-detail" text="Description">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="849.69287109375" startX="-100.0">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.46315789222717285" green="0.4511500895023346" blue="0.4511500895023346" opacity="0.8500000238418579" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                                 <stroke>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.2526315748691559" green="0.2526315748691559" blue="0.2526315748691559" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.006729475100942127">
+                                             <color>
+                                                <Color red="0.501960813999176" green="0.501960813999176" blue="0.501960813999176" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.0941176488995552" green="0.0941176488995552" blue="0.0941176488995552" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </stroke>
+                              </Line>
+                              <TextArea fx:id="descriptionField" prefHeight="120.0" prefWidth="1000.0" styleClass="text-field-description">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#resetButton" styleClass="confirm-button" text="Reset" />
+                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmButton" styleClass="confirm-button" text="Confirm" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="120.0" right="120.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
