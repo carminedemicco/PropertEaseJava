@@ -1,5 +1,6 @@
 package main.propertease;
 
+import builder.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,25 +44,34 @@ public class MainViewController implements Initializable {
     // Prende dal database i dati di tutte le case
     // Per ciascuna istanza crea un oggetto House corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti House
-    private List<House> houses = new ArrayList<>();
+    private final List<House> houses = new ArrayList<>();
     private List<House> getHouseData() throws Exception{
         List<House> houses = new ArrayList<>();
         House house;
+        Director director = new Director();
+        IBuilder apartmentBuilder = new ApartmentBuilder();
+        IBuilder garageBuilder = new GarageBuilder();
+        IBuilder independentBuilder = new IndependentBuilder();
 
-        // Query: dati principali di tutte le case
-        String query = "select ROWID, name, address1, address2, price, img1 from hause;";
+
+        // Query: dati di tutte le case
+        String query = "select * from hause;";
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         // Per ogni istanza setta i campi dell'oggetto corrispondente
         while (resultSet.next()){
-            house = new House();
-            house.setId(resultSet.getInt("ROWID"));
-            house.setName(resultSet.getString("name"));
-            house.setPrice(resultSet.getString("price"));
-            house.setAddress1(resultSet.getString("address1"));
-            house.setAddress2(resultSet.getString("address2"));
-            house.setImgsrc(resultSet.getString("img1"));
+            // if type = garage
+            house = director.constructGarage(garageBuilder);
+
+            // if type = apartment
+            house = director.constructApartment(apartmentBuilder,resultSet.getInt("ROWID"),resultSet.getString("address"),resultSet.getInt("floor"),
+                    resultSet.getBoolean("elevator"),resultSet.getInt("balconies"),resultSet.getInt("terrace"),resultSet.getInt("garden"),
+                    resultSet.getInt("accessories"), resultSet.getInt("bedrooms"), resultSet.getInt("sqm"), resultSet.getInt("price"), immagini;
+
+
+            // if type = independent
+            house = director.constructGarage(independentBuilder);
 
             houses.add(house);
         }

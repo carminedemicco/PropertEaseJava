@@ -25,5 +25,7 @@ public interface IBuilder {
 
     void setPics(Image[] pics);
 
+    void setId(int id);
+
     House getResult();
 }

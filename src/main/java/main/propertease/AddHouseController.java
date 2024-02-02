@@ -88,20 +88,19 @@ public class AddHouseController {
     }
 
 
-    File img1;
-    File img2;
-    File img3;
+    File[] pics = new File[3];
 
     // l'utente sceglie l'immagine 1 da caricare
     @FXML
     void addImg1(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
-        img1 = fc.showOpenDialog(null);
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
 
-        if (img1 != null) {
+        pics[0] = fc.showOpenDialog(null);
+
+        if (pics[0] != null) {
             nameImg1.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg1.setText(img1.getName());
+            nameImg1.setText(pics[0].getName());
         }
     }
 
@@ -109,12 +108,12 @@ public class AddHouseController {
     @FXML
     void addImg2(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
-        img2 = fc.showOpenDialog(null);
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+        pics[1] = fc.showOpenDialog(null);
 
-        if (img2 != null) {
+        if (pics[1] != null) {
             nameImg2.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg2.setText(img2.getName());
+            nameImg2.setText(pics[1].getName());
         }
     }
 
@@ -122,12 +121,12 @@ public class AddHouseController {
     @FXML
     void addImg3(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
-        img3 = fc.showOpenDialog(null);
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+        pics[2] = fc.showOpenDialog(null);
 
-        if (img3 != null) {
+        if (pics[2] != null) {
             nameImg3.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg3.setText(img3.getName());
+            nameImg3.setText(pics[2].getName());
         }
     }
 
@@ -141,9 +140,7 @@ public class AddHouseController {
     // Al click del bottone di reset vengono puliti tutti i campi
     @FXML
     void resetButton(ActionEvent event) {
-        img1 = null;
-        img2 = null;
-        img3 = null;
+        pics = new File[3];
         nameImg1.setStyle("-fx-text-fill: red");
         nameImg1.setText("No file selected yet.");
         nameImg2.setStyle("-fx-text-fill: red");
