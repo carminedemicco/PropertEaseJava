@@ -61,6 +61,11 @@ public class IndependentBuilder implements IBuilder {
     }
 
     @Override
+    public void setId(int id) {
+        _id = id;
+    }
+
+    @Override
     public House getResult() {
         return new House(
                 _id,

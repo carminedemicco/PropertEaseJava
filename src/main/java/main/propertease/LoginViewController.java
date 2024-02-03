@@ -124,36 +124,24 @@ public class LoginViewController implements Initializable {
 
 
 
-    /* Schermata Sign In */
+    /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
     void SingInButtonAction(ActionEvent event) throws Exception {
-        String username = UsernameSingInField.getText();
         // Query: controlla che le credenziali siano giuste
         String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
-                                     username, PasswordSingInField.getText());
+                UsernameSingInField.getText(), PasswordSingInField.getText());
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         if(resultSet.next()) { //se le credenziali sono giuste
-            User user = new User(username, resultSet.getInt("type"));
-
-            /* ISTRUZIONI PER LO SWITCH DELLA VIEW */
-            String viewName;
-            // Controlla se l'utente che ha fatto l'accesso è "Buyer"
-            viewName = "buyerView.fxml";
-            // Controlla se l'utente che ha fatto l'accesso è "Administrator"
-            //viewName = "adminView.fxml";
-
-
-            // Carico la View in base al tipo di utente che ha fatto l'accesso
+            String viewName = "mainView.fxml";
             Stage stage = (Stage) SingInButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(viewName));
             Scene scene = new Scene(fxmlLoader.load());
             stage.hide();
             stage.setScene(scene);
             stage.show();
-
         }
         else{
             ErrorSingInText.setVisible(true);

@@ -26,16 +26,22 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
-                  <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="953.0" spacing="20.0">
+                  <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="953.0" spacing="40.0">
                      <children>
                         <Label text="Hi, Name">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Button graphicTextGap="0.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#homeButton" prefHeight="1.0" prefWidth="28.0" styleClass="home-button" textAlignment="CENTER" />
-                        <Button graphicTextGap="0.0" layoutX="936.0" layoutY="34.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logoutButton" prefHeight="1.0" prefWidth="28.0" styleClass="logout-button" textAlignment="CENTER" />
-                     </children></HBox>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0">
+                           <children>
+                              <Button graphicTextGap="0.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#homeButton" prefHeight="1.0" prefWidth="28.0" styleClass="home-button" textAlignment="CENTER" />
+                              <HBox fx:id="adminButtonsArea" alignment="CENTER" spacing="20.0" />
+                              <Button graphicTextGap="0.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#logoutButton" prefWidth="28.0" styleClass="logout-button" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </top>
