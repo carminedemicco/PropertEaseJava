@@ -1,6 +1,6 @@
 package main.propertease;
 
-import builder.*;
+import main.propertease.builder.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ import java.util.*;
 // Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
 // Contiene la lista degli appuntamenti e la griglia delle case
 public class MainViewController implements Initializable {
-     private Connection connectionDB;
+    private Connection connectionDB;
 
     @FXML
     private GridPane gridPane;
@@ -45,10 +45,11 @@ public class MainViewController implements Initializable {
     // Per ciascuna istanza crea un oggetto House corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti House
     private final List<House> houses = new ArrayList<>();
-    private List<House> getHouseData() throws Exception{
+
+    private List<House> getHouseData() throws Exception {
         List<House> houses = new ArrayList<>();
         House house;
-        Director director = new Director();
+        HouseDirector houseDirector = new HouseDirector();
         IBuilder apartmentBuilder = new ApartmentBuilder();
         IBuilder garageBuilder = new GarageBuilder();
         IBuilder independentBuilder = new IndependentBuilder();
@@ -60,7 +61,7 @@ public class MainViewController implements Initializable {
         ResultSet resultSet = statement.executeQuery(query);
 
         // Per ogni istanza setta i campi dell'oggetto corrispondente
-        while (resultSet.next()){
+        /*while (resultSet.next()){
             // if type = garage
             house = director.constructGarage(garageBuilder);
 
@@ -74,7 +75,7 @@ public class MainViewController implements Initializable {
             house = director.constructGarage(independentBuilder);
 
             houses.add(house);
-        }
+        }*/
 
         return houses;
     }
@@ -85,7 +86,8 @@ public class MainViewController implements Initializable {
     // Per ciascuna istanza crea un oggetto Appointment corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti Appointment
     private List<Appointment> appointments = new ArrayList<>();
-    private List<Appointment> getAppointmentData() throws Exception{
+
+    private List<Appointment> getAppointmentData() throws Exception {
         List<Appointment> appointments = new ArrayList<>();
         Appointment appointment;
 
@@ -93,13 +95,13 @@ public class MainViewController implements Initializable {
         /* NB: ↓ in futuro CAMBIARE il valore con l'username del utente corrente */
         String currentUsername = "carmine";
         String query = String.format("select appointment.ROWID, date, u.name as uname, u.surname, h.name as hname, h.address1, h.address2 from appointment " +
-                " inner join hause h on h.ROWID = appointment.id_house " +
-                " inner join useraccount u on u.username = appointment.username_administrator " +
-                "WHERE username_buyer = '%s'", currentUsername);
+                                         " inner join hause h on h.ROWID = appointment.id_house " +
+                                         " inner join useraccount u on u.username = appointment.username_administrator " +
+                                         "WHERE username_buyer = '%s'", currentUsername);
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
             appointment = new Appointment();
             appointment.setId(resultSet.getInt("ROWID"));
             appointment.setHouseName(resultSet.getString("hname"));
@@ -133,7 +135,7 @@ public class MainViewController implements Initializable {
         addAdminButtons();
     }
 
-    private void addAdminButtons(){
+    private void addAdminButtons() {
         Button btn1 = new Button();
         Button btn2 = new Button();
         btn1.getStyleClass().add("add-house-button");
@@ -142,7 +144,7 @@ public class MainViewController implements Initializable {
         adminButtonsArea.getChildren().add(btn2);
 
         // Al click del bottone di inserimento casa: porta alla View di inserimento
-        btn1.setOnAction(e-> {
+        btn1.setOnAction(e -> {
             try {
                 Stage stage = (Stage) gridPane.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
@@ -154,7 +156,7 @@ public class MainViewController implements Initializable {
         });
 
         // Al click del bottone di inserimento disponibilità: apre il popup relativo
-        btn2.setOnAction(e-> {
+        btn2.setOnAction(e -> {
             try {
                 Stage primaryStage = (Stage) gridPane.getScene().getWindow();
 
@@ -182,7 +184,7 @@ public class MainViewController implements Initializable {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception{
+    void logoutButton(ActionEvent event) throws Exception {
         // Operazioni di logout
         //...
 
@@ -197,10 +199,11 @@ public class MainViewController implements Initializable {
 
 
     // Carica la griglia delle case
-    public void setHousesGrid() throws Exception{
+    public void setHousesGrid() throws Exception {
         houses.addAll(getHouseData());
 
-        int row = 1; int column = 0;
+        int row = 1;
+        int column = 0;
 
         for (House house : houses) {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -211,7 +214,7 @@ public class MainViewController implements Initializable {
             HousesController housesController = fxmlLoader.getController();
             housesController.setData(house);
 
-            if (column == 3){
+            if (column == 3) {
                 column = 0;
                 row++;
             }
@@ -222,7 +225,7 @@ public class MainViewController implements Initializable {
 
 
     // Carica la griglia degli appuntamenti
-    public void setAppointmentsGrid() throws Exception{
+    public void setAppointmentsGrid() throws Exception {
         appointments.addAll(getAppointmentData());
         for (Appointment appointment : appointments) {
             FXMLLoader fxmlLoader = new FXMLLoader();

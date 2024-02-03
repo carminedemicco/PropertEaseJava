@@ -42,7 +42,7 @@ public class InsertAvailabilityController implements Initializable {
     // Se le date sono corrette inserisce le date nel database e chiude la finestra
     // Se le date non sono corrette visualizza l'errore senza chiudere la finestra
     @FXML
-    void confirmButton(ActionEvent event){
+    void confirmButton(ActionEvent event) {
         // Prendo il testo dei datePicker
         String startDateString = datePickerStart.getEditor().getText();
         String endDateString = datePickerEnd.getEditor().getText();
@@ -80,7 +80,7 @@ public class InsertAvailabilityController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // annulla il prompt automatico sul DataPicker
-        Platform.runLater(()->anchorPane.requestFocus());
+        Platform.runLater(() -> anchorPane.requestFocus());
 
         datePickerStart.setShowWeekNumbers(false);
         datePickerEnd.setShowWeekNumbers(false);

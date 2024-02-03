@@ -61,42 +61,41 @@ public class LoginViewController implements Initializable {
         // Connessione al database
         try {
             connectionDB = DBConnection.getDBConnection();
-        } catch (Exception e) {throw new RuntimeException(e);}
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
         // annulla il prompt automatico sui TextField
-        Platform.runLater(()->SingInButton.requestFocus());
+        Platform.runLater(() -> SingInButton.requestFocus());
     }
-
 
 
     /* Schermata Sing Up */
     // Al click del bottone di conferma per la creazione di un account
     @FXML
-    void ConfirmButtonAction(ActionEvent event) throws Exception{
+    void ConfirmButtonAction(ActionEvent event) throws Exception {
         // Controllo se c'è un campo non compilato
         if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
-        UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()){
+                UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()) {
             ErrorSingUpText.setText("Fill in all required fields.");
             ErrorSingUpText.setStyle("-fx-text-fill: red;");
             ErrorSingUpText.setVisible(true);
-        }
-
-        else{
+        } else {
             // Controllo se l'username è già registrato
             String query = String.format("SELECT * FROM useraccount WHERE username = '%s' ", UsernameSingUpField.getText());
             Statement statement = connectionDB.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 System.out.println("Utente già registrato");
                 ErrorSingUpText.setText("Username already exists.");
                 ErrorSingUpText.setStyle("-fx-text-fill: red;");
                 ErrorSingUpText.setVisible(true);
             }
             // Se non è registrato: inserisco i dati del nuovo utente nel database
-            else{
+            else {
                 query = String.format("INSERT INTO useraccount (username, name, surname, password, type) VALUES ('%s', '%s', '%s', '%s', 'Buyer'); ",
-                        UsernameSingUpField.getText(), NameSingUpField.getText(), SurnameSingUpField.getText(), PasswordSingUpField.getText());
+                    UsernameSingUpField.getText(), NameSingUpField.getText(), SurnameSingUpField.getText(), PasswordSingUpField.getText());
                 System.out.println(query);
                 statement = connectionDB.createStatement();
                 statement.executeUpdate(query);
@@ -123,18 +122,17 @@ public class LoginViewController implements Initializable {
     }
 
 
-
     /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
     void SingInButtonAction(ActionEvent event) throws Exception {
         // Query: controlla che le credenziali siano giuste
         String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
-                UsernameSingInField.getText(), PasswordSingInField.getText());
+            UsernameSingInField.getText(), PasswordSingInField.getText());
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
-        if(resultSet.next()) { //se le credenziali sono giuste
+        if (resultSet.next()) { //se le credenziali sono giuste
             String viewName = "mainView.fxml";
             Stage stage = (Stage) SingInButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(viewName));
@@ -142,8 +140,7 @@ public class LoginViewController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.show();
-        }
-        else{
+        } else {
             ErrorSingInText.setVisible(true);
             System.out.println("Accesso Fallito");
         }
@@ -166,11 +163,12 @@ public class LoginViewController implements Initializable {
 
 
     // Procedure per il reset dei Field
-    private void singInClearFields(){
+    private void singInClearFields() {
         UsernameSingInField.setText("");
         PasswordSingInField.setText("");
     }
-    private void singUpClearFields(){
+
+    private void singUpClearFields() {
         NameSingUpField.setText("");
         SurnameSingUpField.setText("");
         UsernameSingUpField.setText("");

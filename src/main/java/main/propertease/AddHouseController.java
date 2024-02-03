@@ -65,7 +65,7 @@ public class AddHouseController {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception{
+    void logoutButton(ActionEvent event) throws Exception {
         // Operazioni di logout
         //...
 
@@ -80,7 +80,7 @@ public class AddHouseController {
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event) throws Exception{
+    void homeButton(ActionEvent event) throws Exception {
         Stage stage = (Stage) detailbox1.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
