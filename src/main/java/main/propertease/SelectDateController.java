@@ -62,8 +62,7 @@ public class SelectDateController implements Initializable {
             Stage currentStage = (Stage) anchorPane.getScene().getWindow();
             currentStage.close();
 
-        }
-        else {
+        } else {
             // La data non è nel formato corretto
             errorLabel.setText("Invalid date format.");
             errorLabel.setVisible(true);
@@ -74,7 +73,7 @@ public class SelectDateController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // annulla il prompt automatico sul DataPicker
-        Platform.runLater(()->anchorPane.requestFocus());
+        Platform.runLater(() -> anchorPane.requestFocus());
 
         datePicker1.setShowWeekNumbers(false);
     }

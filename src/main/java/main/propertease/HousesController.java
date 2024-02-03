@@ -1,5 +1,6 @@
 package main.propertease;
 
+import main.propertease.builder.House;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,22 +42,23 @@ public class HousesController implements Initializable {
 
     // Aggiornamento del valore dei campi della View
     // Prende in input un oggetto di classe House
-    public void setData(House house){
+    public void setData(House house) {
         id = house.getId();
-        name.setText(house.getName());
+        //name.setText(house.getName());
         price.setText("$ " + house.getPrice());
-        address1.setText(house.getAddress1());
-        address2.setText(house.getAddress2());
+        //address1.setText(house.getAddress1());
+        //address2.setText(house.getAddress2());
 
         //Proprietà dell'immagine
-        Image image = new Image(getClass().getResourceAsStream(house.getImgsrc()));
+        //Image image = new Image(getClass().getResourceAsStream(house.getImgsrc()));
         img.setPreserveRatio(false); //si adatta alla dimensione
-            //smusso gli angoli
-            Rectangle roundedRectangle = new Rectangle(img.getFitWidth(), img.getFitHeight());
-            roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25);
-            img.setClip(roundedRectangle);
+        //smusso gli angoli
+        Rectangle roundedRectangle = new Rectangle(img.getFitWidth(), img.getFitHeight());
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
+        img.setClip(roundedRectangle);
 
-        img.setImage(image);
+        //img.setImage(image);
     }
 
 

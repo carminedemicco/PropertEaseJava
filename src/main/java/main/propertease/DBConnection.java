@@ -9,10 +9,11 @@ import java.sql.DriverManager;
 public class DBConnection {
     private static Connection connection = null;
 
-    private DBConnection(){}
+    private DBConnection() {
+    }
 
-    public static Connection getDBConnection()throws Exception{
-        if (connection == null){
+    public static Connection getDBConnection() throws Exception {
+        if (connection == null) {
             connection = DriverManager.getConnection("jdbc:sqlite:properteasedb.sqlite");
         }
         return connection;
