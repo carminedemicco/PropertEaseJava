@@ -5,9 +5,10 @@ import javafx.scene.image.Image;
 
 // House class
 public class House implements IPoster {
-    public House(int id, String address, int floor, boolean elevator, int balconies, int terrace,
+    public House(int id, HouseType type, String address, int floor, boolean elevator, int balconies, int terrace,
                  int garden, int accessories, int bedrooms, int sqm, int price, Image[] pics) {
         this.id = id;
+        this.type = type;
         this.address = address;
         this.floor = floor;
         this.elevator = elevator;
@@ -22,6 +23,7 @@ public class House implements IPoster {
     }
 
     private final int id;
+    private final HouseType type;
     private final String address;
     private final int floor;
     private final boolean elevator;
@@ -32,10 +34,14 @@ public class House implements IPoster {
     private final int bedrooms;
     private final int sqm;
     private final int price;
-    private Image[] pics = new Image[3];
+    private final Image[] pics;
 
     public int getId() {
         return id;
+    }
+
+    public HouseType getType() {
+        return type;
     }
 
     public String getAddress() {
@@ -78,7 +84,11 @@ public class House implements IPoster {
         return price;
     }
 
-    public Image getPics(Image[] pics, int index) {
+    public Image getPics(int index) {
         return this.pics[index];
+    }
+
+    public String getName() {
+        return getType().toString();
     }
 }

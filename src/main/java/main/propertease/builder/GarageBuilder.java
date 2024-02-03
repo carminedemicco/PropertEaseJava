@@ -7,7 +7,7 @@ import java.lang.UnsupportedOperationException;
 public class GarageBuilder implements IBuilder {
     @Override
     public void setAddress(String address) {
-        _address = address;
+        this.address = address;
     }
 
     @Override
@@ -47,45 +47,52 @@ public class GarageBuilder implements IBuilder {
 
     @Override
     public void setSqm(int sqm) {
-        _sqm = sqm;
+        this.sqm = sqm;
     }
 
     @Override
     public void setPrice(int price) {
-        _price = price;
+        this.price = price;
     }
 
     @Override
     public void setPics(Image[] pics) {
-        _pics = pics;
+        this.pics = pics;
     }
 
     @Override
     public void setId(int id) {
-        _id = id;
+        this.id = id;
+    }
+
+    @Override
+    public void setType(HouseType type) {
+        this.type = type;
     }
 
     @Override
     public House getResult() {
         return new House(
-                _id,
-                _address,
-                0,
-                false,
-                0,
-                0,
-                0,
-                0,
-                0,
-                _sqm,
-                _price,
-                _pics
+            id,
+            type,
+            address,
+            0,
+            false,
+            0,
+            0,
+            0,
+            0,
+            0,
+            sqm,
+            price,
+            pics
         );
     }
 
-    private int _id;
-    private String _address;
-    private int _sqm;
-    private int _price;
-    private Image[] _pics = new Image[3];
+    private int id;
+    private HouseType type;
+    private String address;
+    private int sqm;
+    private int price;
+    private Image[] pics = new Image[3];
 }

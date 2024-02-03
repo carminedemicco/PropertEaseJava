@@ -49,7 +49,7 @@ public class MainViewController implements Initializable {
     private List<House> getHouseData() throws Exception {
         List<House> houses = new ArrayList<>();
         House house;
-        Director director = new Director();
+        HouseDirector houseDirector = new HouseDirector();
         IBuilder apartmentBuilder = new ApartmentBuilder();
         IBuilder garageBuilder = new GarageBuilder();
         IBuilder independentBuilder = new IndependentBuilder();
