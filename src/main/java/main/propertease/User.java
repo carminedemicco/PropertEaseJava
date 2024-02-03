@@ -1,20 +1,19 @@
 package main.propertease;
 
 public class User {
-
-    public User(String name, int perm) {
-        _name = name;
-        _perm = perm;
+    public User(String name, int privileges) {
+        this.name = name;
+        this.privileges = privileges;
     }
 
-    public String get_name() {
-        return _name;
+    public String getName() {
+        return name;
     }
 
-    public int get_perm() {
-        return _perm;
+    public int getPrivileges() {
+        return privileges;
     }
 
-    String _name;
-    int _perm;
+    String name;
+    int privileges;
 }
