@@ -81,7 +81,7 @@ public class HouseDetailsController implements Initializable {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception{
+    void logoutButton(ActionEvent event) throws Exception {
         // Operazioni di logout
         //...
 
@@ -96,7 +96,7 @@ public class HouseDetailsController implements Initializable {
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event) throws Exception{
+    void homeButton(ActionEvent event) throws Exception {
         Stage stage = (Stage) detailbox1.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -112,21 +112,27 @@ public class HouseDetailsController implements Initializable {
         Image image = new Image(getClass().getResourceAsStream("img/house.png"));
         img1.setPreserveRatio(false); //si adatta alla dimensione
         Rectangle roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
-        roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25); img1.setClip(roundedRectangle);
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
+        img1.setClip(roundedRectangle);
         img1.setImage(image);
 
         // Imposta la prima immagine piccola
         image = new Image(getClass().getResourceAsStream("img/house.png"));
         img2.setPreserveRatio(false);
         roundedRectangle = new Rectangle(img2.getFitWidth(), img2.getFitHeight());
-        roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25); img2.setClip(roundedRectangle);
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
+        img2.setClip(roundedRectangle);
         img2.setImage(image);
 
         // Imposta la seconda immagine piccola
         image = new Image(getClass().getResourceAsStream("img/house.png"));
         img3.setPreserveRatio(false);
         roundedRectangle = new Rectangle(img3.getFitWidth(), img3.getFitHeight());
-        roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25); img3.setClip(roundedRectangle);
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
+        img3.setClip(roundedRectangle);
         img3.setImage(image);
 
         // Imposta l'effetto sfumato alle box
@@ -140,14 +146,14 @@ public class HouseDetailsController implements Initializable {
     }
 
     // Funzione che aggiunge il bottone di modifica casa solo se i log è admin
-    private void addAdminButtons(){
+    private void addAdminButtons() {
         Button btn1 = new Button();
         btn1.getStyleClass().add("modify-house-button");
         adminButtonsArea.getChildren().add(btn1);
 
         /* NB: cambia il riferimento di FXML loader o modificare il file fxml in modo che permetta anche la modifica */
         /* es: deve avere il bottone rimuovi e i text-field già compilati con i valori correnti */
-        btn1.setOnAction(e-> {
+        btn1.setOnAction(e -> {
             try {
                 Stage stage = (Stage) detailbox1.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));

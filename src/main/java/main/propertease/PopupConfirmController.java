@@ -13,6 +13,7 @@ public class PopupConfirmController {
 
     // Alla chiusura del popup viene restituito true se l'utente clicca il bottone di conferma
     private boolean result = false;
+
     public boolean getResult() {
         return result;
     }

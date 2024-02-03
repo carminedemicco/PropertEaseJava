@@ -33,7 +33,7 @@ public class AppointmentsController {
 
     // Aggiornamento del valore dei campi della View
     // Prende in input un oggetto di classe Appointment
-    public void setData(Appointment appointment){
+    public void setData(Appointment appointment) {
         id = appointment.getId();
         labelDate.setText(appointment.getAppointmentDate());
         labelAgent.setText(appointment.getAdministratorName());
@@ -43,7 +43,7 @@ public class AppointmentsController {
 
     // Al click del bottone di rimozione appuntamento
     @FXML
-    void removeAppointment(ActionEvent event) throws Exception{
+    void removeAppointment(ActionEvent event) throws Exception {
         // Apri il popup di conferma
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
@@ -62,7 +62,7 @@ public class AppointmentsController {
         // Prendo il controller del popup
         PopupConfirmController popupConfirmController = fxmlLoader.getController();
         // Prendo il valore di ritorno del popup dal controller
-        if(popupConfirmController.getResult()){
+        if (popupConfirmController.getResult()) {
             // Se restituisce true('Confirm') effettua la cancellazione dell'appuntamento dal database
 
             /* NB: da cambiare con la cancellazione sul server */
