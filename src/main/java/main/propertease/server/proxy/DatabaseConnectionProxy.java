@@ -13,8 +13,8 @@ public class DatabaseConnectionProxy implements DatabaseConnection {
 
     private static DatabaseConnection ensureConnection() {
         if (instance == null) {
-            final var loader = DatabaseConnectionProxy.class;
-            final var path = Objects.requireNonNull(loader.getResource("/main/propertease/server/database/propertease.sqlite")).getPath();
+            final var resource = DatabaseConnectionProxy.class.getResource("/main/propertease/server/database/propertease.sqlite");
+            final var path = Objects.requireNonNull(resource).getPath();
             instance = new DatabaseConnectionImplementation(path);
         }
         return instance;

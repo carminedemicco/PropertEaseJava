@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -67,7 +68,15 @@ public class MainViewController implements Initializable {
             final var type = HouseType.fromValue(house.getInt("type"));
             switch (type) {
                 case APARTMENT: {
-                    final var images = new Image[3];
+                    final var images = new Image[] { null, null, null };
+                    for (var j = 0; j < images.length; j++) {
+                        if (!house.isNull("image" + j)) {
+                            final var image = house.getString("image" + j);
+                            final var bytes = Base64.getDecoder().decode(image);
+                            final var stream = new ByteArrayInputStream(bytes);
+                            images[j] = new Image(stream);
+                        }
+                    }
                     final var builder = new ApartmentBuilder();
                     final var result = houseDirector.constructApartment(
                         builder,

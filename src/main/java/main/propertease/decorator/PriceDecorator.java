@@ -2,7 +2,7 @@ package main.propertease.decorator;
 
 public class PriceDecorator
         extends BaseDecorator {
-    PriceDecorator(IPoster source) {
+    PriceDecorator(Poster source) {
         super(source);
     }
 

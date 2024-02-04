@@ -1,9 +1,9 @@
 package main.propertease.decorator;
 
-public class BaseDecorator implements IPoster {
-    private IPoster wrappee;
+public class BaseDecorator implements Poster {
+    private Poster wrappee;
 
-    BaseDecorator(IPoster source) {
+    BaseDecorator(Poster source) {
         wrappee = source;
     }
 
