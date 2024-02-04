@@ -67,15 +67,14 @@ public class AppointmentsController {
 
             /* NB: da cambiare con la cancellazione sul server */
             // SQL: rimuovi dal database l'appuntamento selezionato.
-            Connection connectionDB = DBConnection.getDBConnection();
-            String query = String.format("delete from appointment WHERE ROWID = %d", id);
+            /*String query = String.format("delete from appointment WHERE ROWID = %d", id);
             Statement statement = connectionDB.createStatement();
             statement.executeUpdate(query);
 
             // Ricarica la pagina escludendo l'appuntamento appena cancellato
             fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            primaryStage.setScene(scene);
+            primaryStage.setScene(scene);*/
         }
     }
 }

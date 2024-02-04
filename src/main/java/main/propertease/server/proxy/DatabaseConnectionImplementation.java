@@ -13,7 +13,7 @@ public class DatabaseConnectionImplementation implements DatabaseConnection {
     }
 
     @Override
-    public <T extends Iterable<Object>> ResultSet execute(String query, Optional<T> values) {
+    public ResultSet execute(String query, Optional<Iterable<Object>> values) {
         try {
             final var preparedStatement = connection.prepareStatement(query);
             if (values.isPresent()) {

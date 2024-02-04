@@ -1,5 +1,6 @@
 package main.propertease;
 
+import javafx.scene.image.Image;
 import main.propertease.builder.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 
 import java.io.IOException;
@@ -29,8 +31,6 @@ import java.util.*;
 // Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
 // Contiene la lista degli appuntamenti e la griglia delle case
 public class MainViewController implements Initializable {
-    private Connection connectionDB;
-
     @FXML
     private GridPane gridPane;
 
@@ -47,36 +47,54 @@ public class MainViewController implements Initializable {
     private final List<House> houses = new ArrayList<>();
 
     private List<House> getHouseData() throws Exception {
-        List<House> houses = new ArrayList<>();
-        House house;
-        HouseDirector houseDirector = new HouseDirector();
-        IBuilder apartmentBuilder = new ApartmentBuilder();
-        IBuilder garageBuilder = new GarageBuilder();
-        IBuilder independentBuilder = new IndependentBuilder();
+        final List<House> houses = new ArrayList<>();
+        final var query = """
+            {
+              "type": "poster",
+              "data": {
+                "request": "getHouses",
+              },
+            }
+        """;
+        final var data = ClientConnection
+            .getInstance()
+            .getClient()
+            .exchange(new JSONObject(query));
+        final var response = data.getJSONArray("response");
+        final var houseDirector = new HouseDirector();
+        for (var i = 0; i < response.length(); i++) {
+            final var house = response.getJSONObject(i);
+            final var type = HouseType.fromValue(house.getInt("type"));
+            switch (type) {
+                case APARTMENT: {
+                    final var images = new Image[3];
+                    final var builder = new ApartmentBuilder();
+                    final var result = houseDirector.constructApartment(
+                        builder,
+                        house.getInt("id"),
+                        type,
+                        house.getString("address"),
+                        house.getInt("floor"),
+                        house.getBoolean("elevator"),
+                        house.getInt("balconies"),
+                        house.getInt("terrace"),
+                        house.getInt("accessories"),
+                        house.getInt("bedrooms"),
+                        house.getInt("sqm"),
+                        house.getInt("price"),
+                        images
+                    );
+                    houses.add(result);
+                } break;
+                /*case GARAGE: {
 
+                } break;
+                case INDEPENDENT: {
 
-        // Query: dati di tutte le case
-        String query = "select * from house;";
-        Statement statement = connectionDB.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
+                } break;*/
+            }
 
-        // Per ogni istanza setta i campi dell'oggetto corrispondente
-        /*while (resultSet.next()){
-            // if type = garage
-            house = director.constructGarage(garageBuilder);
-
-            // if type = apartment
-            house = director.constructApartment(apartmentBuilder,resultSet.getInt("ROWID"),resultSet.getString("address"),resultSet.getInt("floor"),
-                    resultSet.getBoolean("elevator"),resultSet.getInt("balconies"),resultSet.getInt("terrace"),resultSet.getInt("garden"),
-                    resultSet.getInt("accessories"), resultSet.getInt("bedrooms"), resultSet.getInt("sqm"), resultSet.getInt("price"), immagini;
-
-
-            // if type = independent
-            house = director.constructGarage(independentBuilder);
-
-            houses.add(house);
-        }*/
-
+        }
         return houses;
     }
 
@@ -98,7 +116,7 @@ public class MainViewController implements Initializable {
                                          " inner join house h on h.ROWID = appointment.id_house " +
                                          " inner join useraccount u on u.username = appointment.username_administrator " +
                                          "WHERE username_buyer = '%s'", currentUsername);
-        Statement statement = connectionDB.createStatement();
+        /*Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {
@@ -113,7 +131,7 @@ public class MainViewController implements Initializable {
             appointment.setAppointmentDate(formattedDate);
 
             appointments.add(appointment);
-        }
+        }*/
 
         return appointments;
     }
@@ -123,7 +141,6 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            connectionDB = DBConnection.getDBConnection();
             setHousesGrid();
             setAppointmentsGrid();
 

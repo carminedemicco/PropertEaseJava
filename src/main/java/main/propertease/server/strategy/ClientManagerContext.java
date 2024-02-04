@@ -7,8 +7,9 @@ public class ClientManagerContext {
 
     public Runnable getRunnable() {
         return () -> {
-            while (true) {
-                strategy.communicate();
+            var isOpen = true;
+            while (isOpen) {
+                isOpen = strategy.communicate();
             }
         };
     }

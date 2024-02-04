@@ -9,6 +9,15 @@ public enum HouseType {
         this.value = value;
     }
 
+    public static HouseType fromValue(int value) {
+        return switch (value) {
+            case 0 -> APARTMENT;
+            case 1 -> GARAGE;
+            case 2 -> INDEPENDENT;
+            default -> throw new IllegalArgumentException("Unknown value: " + value);
+        };
+    }
+
     public int getValue() {
         return value;
     }

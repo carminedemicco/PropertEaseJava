@@ -17,8 +17,6 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginViewController implements Initializable {
-    private Connection connectionDB;
-
     @FXML
     private Label ErrorSingInText;
 
@@ -58,15 +56,6 @@ public class LoginViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Connessione al database
-        try {
-            connectionDB = DBConnection.getDBConnection();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
-        // annulla il prompt automatico sui TextField
         Platform.runLater(() -> SingInButton.requestFocus());
     }
 
@@ -76,7 +65,7 @@ public class LoginViewController implements Initializable {
     @FXML
     void ConfirmButtonAction(ActionEvent event) throws Exception {
         // Controllo se c'è un campo non compilato
-        if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
+        /*if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
                 UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()) {
             ErrorSingUpText.setText("Fill in all required fields.");
             ErrorSingUpText.setStyle("-fx-text-fill: red;");
@@ -105,7 +94,7 @@ public class LoginViewController implements Initializable {
 
                 singUpClearFields();
             }
-        }
+        }*/
     }
 
 
@@ -127,7 +116,7 @@ public class LoginViewController implements Initializable {
     @FXML
     void SingInButtonAction(ActionEvent event) throws Exception {
         // Query: controlla che le credenziali siano giuste
-        String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
+        /*String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
             UsernameSingInField.getText(), PasswordSingInField.getText());
         Statement statement = connectionDB.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
@@ -143,7 +132,7 @@ public class LoginViewController implements Initializable {
         } else {
             ErrorSingInText.setVisible(true);
             System.out.println("Accesso Fallito");
-        }
+        }*/
 
         singInClearFields();
     }

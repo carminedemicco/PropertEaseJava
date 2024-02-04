@@ -18,15 +18,14 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
     }
 
     @Override
-    public void communicate() {
+    public boolean communicate() {
         final var line = clientManager.readLine();
         if (line == null) {
-            clientManager.writeLine(clientManager.makeErrorMessage("invalid_input"));
             for (var server : secondaryServers) {
                 server.close();
             }
             clientManager.close();
-            return;
+            return false;
         }
         final var message = new JSONObject(line);
         try {
@@ -54,6 +53,7 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
         } catch (JSONException e) {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
         }
+        return true;
     }
 
     private final int POSTER_SERVER_INDEX = 0;

@@ -2,7 +2,7 @@ package main.propertease.builder;
 
 import javafx.scene.image.Image;
 
-public interface IBuilder {
+public interface HouseBuilder {
     void setAddress(String address);
 
     void setFloor(int floor);

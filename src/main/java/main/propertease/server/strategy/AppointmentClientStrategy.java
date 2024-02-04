@@ -10,12 +10,11 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
     }
 
     @Override
-    public void communicate() {
+    public boolean communicate() {
         final var line = clientManager.readLine();
         if (line == null) {
-            clientManager.writeLine(clientManager.makeErrorMessage("invalid_input"));
             clientManager.close();
-            return;
+            return false;
         }
         final var message = new JSONObject(line);
         try {
@@ -24,6 +23,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
         } catch (JSONException e) {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
         }
+        return true;
     }
 
     private final AbstractClientManager clientManager;

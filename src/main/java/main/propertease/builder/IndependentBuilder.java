@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 import java.lang.UnsupportedOperationException;
 
-public class IndependentBuilder implements IBuilder {
+public class IndependentBuilder implements HouseBuilder {
     @Override
     public void setAddress(String address) {
         this.address = address;

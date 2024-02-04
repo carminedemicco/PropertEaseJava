@@ -3,9 +3,23 @@ package main.propertease.builder;
 import javafx.scene.image.Image;
 
 public class HouseDirector {
-    public House constructApartment(IBuilder builder, int id, String address, int floor, boolean elevator, int balconies, int terrace,
-                                    int garden, int accessories, int bedrooms, int sqm, int price, Image[] pics) {
+    public House constructApartment(
+        HouseBuilder builder,
+        int id,
+        HouseType type,
+        String address,
+        int floor,
+        boolean elevator,
+        int balconies,
+        int terrace,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        Image[] pics
+    ) {
         builder.setId(id);
+        builder.setType(type);
         builder.setAddress(address);
         builder.setFloor(floor);
         builder.setElevator(elevator);
@@ -20,7 +34,7 @@ public class HouseDirector {
         return builder.getResult();
     }
 
-    public House constructGarage(IBuilder builder) {
+    public House constructGarage(HouseBuilder builder) {
         builder.setAddress("Via Don Giuseppe");
         builder.setSqm(120);
         builder.setPrice(18000);
@@ -29,7 +43,7 @@ public class HouseDirector {
         return builder.getResult();
     }
 
-    public House constructIndependent(IBuilder builder) {
+    public House constructIndependent(HouseBuilder builder) {
         builder.setAddress("Via Don Giuseppe");
         builder.setTerrace(23);
         builder.setBalconies(3);
