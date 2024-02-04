@@ -127,6 +127,9 @@
 .bg-grid{
     -fx-background-color: #242424;
 }
+.bg-grid > .viewport {
+    -fx-background-color: #242424;
+}
 
 /** RIQUADRO DI UNA CASA NELLA GRIGLIA **/
 .bg-house-grid{

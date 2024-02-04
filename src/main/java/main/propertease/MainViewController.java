@@ -1,5 +1,6 @@
 package main.propertease;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import main.propertease.builder.*;
 import javafx.event.ActionEvent;
@@ -86,12 +87,12 @@ public class MainViewController implements Initializable {
                     );
                     houses.add(result);
                 } break;
-                /*case GARAGE: {
+                case GARAGE: {
 
                 } break;
                 case INDEPENDENT: {
 
-                } break;*/
+                } break;
             }
 
         }
@@ -235,6 +236,7 @@ public class MainViewController implements Initializable {
                 column = 0;
                 row++;
             }
+
             gridPane.add(anchorPane, column++, row);
             GridPane.setMargin(anchorPane, new Insets(15));
         }
