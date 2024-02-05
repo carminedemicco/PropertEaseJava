@@ -152,10 +152,11 @@ public class MainViewController implements Initializable {
     }
 
 
-    // Avviato alla creazione della View
+    // Avviato alla creazione della View TODO filtrare la UI e aggiungere Hi, "nome"
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameUser.setText("Hi, " + "");
+
+        nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
 
         try {
             setHousesGrid();
@@ -165,8 +166,9 @@ public class MainViewController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        /* NB: mettere if: aggiunge i bottoni solo se è log admin */
-        addAdminButtons();
+        if(UserAccess.getUser().getPrivileges() == 1){
+            addAdminButtons();
+        }
     }
 
     private void addAdminButtons() {

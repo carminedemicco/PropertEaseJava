@@ -3,9 +3,12 @@ package main.propertease;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -105,7 +108,7 @@ public class LoginViewController implements Initializable {
     /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
-    void singInButtonAction(ActionEvent event) {
+    void singInButtonAction(ActionEvent event) throws Exception{
         final var query = """
         {
           "type": "generic",
@@ -127,6 +130,7 @@ public class LoginViewController implements Initializable {
             .exchange(message);
         if (data.isNull("response")) {
             // gestisci l'errore
+            errorSingInText.setVisible(true);
         } else {
             final var response = data.getJSONObject("response");
             final var firstName = response.getString("first_name");
@@ -135,6 +139,12 @@ public class LoginViewController implements Initializable {
             final var user = new User(username, firstName, lastName, privileges);
             UserAccess.setUser(user);
             // vai alla schermata successiva
+            Stage stage = (Stage) signInButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.hide();
+            stage.setScene(scene);
+            stage.show();
         }
         singInClearFields();
     }

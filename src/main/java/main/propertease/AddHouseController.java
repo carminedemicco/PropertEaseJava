@@ -68,6 +68,9 @@ public class AddHouseController implements Initializable {
     private Label nameImg3;
 
     @FXML
+    private Label nameUser;
+
+    @FXML
     private ComboBox<String> houseTypeComboBox;
     private final String[] houseType = {"Apartment", "Garage", "Independent"};
 
@@ -163,6 +166,7 @@ public class AddHouseController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
         // aggiunge gli elementi della ComboBox
         houseTypeComboBox.getItems().setAll(houseType);
 

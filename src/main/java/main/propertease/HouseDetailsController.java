@@ -79,6 +79,9 @@ public class HouseDetailsController implements Initializable {
     @FXML
     private HBox adminButtonsArea;
 
+    @FXML
+    private Label nameUser;
+
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
     void logoutButton(ActionEvent event) throws Exception {
@@ -109,6 +112,7 @@ public class HouseDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /* NB: DA MODIFICARE CON I DATI PROVENIENTI DAL DATABASE */
         // Imposta l'immagine più grande
+        nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
         Image image = new Image(getClass().getResourceAsStream("img/house.png"));
         img1.setPreserveRatio(false); //si adatta alla dimensione
         Rectangle roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
@@ -140,9 +144,9 @@ public class HouseDetailsController implements Initializable {
         detailbox2.setEffect(new DropShadow(20, Color.BLACK));
         detailbox3.setEffect(new DropShadow(20, Color.BLACK));
 
-
-        /* NB: mettere if: aggiunge il bottone di modifica casa solo se è log admin */
-        addAdminButtons();
+        if(UserAccess.getUser().getPrivileges() == 1){
+            addAdminButtons();
+        }
     }
 
     // Funzione che aggiunge il bottone di modifica casa solo se i log è admin
