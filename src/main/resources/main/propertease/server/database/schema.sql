@@ -3,7 +3,7 @@ drop table if exists House;
 drop table if exists Appointment;
 
 create table if not exists User (
-    username    varchar(256)    not null,
+    username    varchar(256)    not null primary key,
     password    varchar(256)    not null,
     first_name  varchar(256)    not null,
     last_name   varchar(256)    not null,

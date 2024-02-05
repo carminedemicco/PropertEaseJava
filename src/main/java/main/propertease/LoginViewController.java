@@ -3,67 +3,62 @@ package main.propertease;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginViewController implements Initializable {
     @FXML
-    private Label ErrorSingInText;
+    private Label errorSingInText;
 
     @FXML
-    private Label ErrorSingUpText;
+    private Label errorSingUpText;
 
     @FXML
-    private TextField NameSingUpField;
+    private TextField nameSingUpField;
 
     @FXML
-    private PasswordField PasswordSingInField;
+    private PasswordField passwordSingInField;
 
     @FXML
-    private PasswordField PasswordSingUpField;
+    private PasswordField passwordSingUpField;
 
     @FXML
-    private VBox SingInView;
+    private VBox singInView;
 
     @FXML
-    private VBox SingUpView;
+    private VBox singUpView;
 
     @FXML
-    private TextField SurnameSingUpField;
+    private TextField surnameSingUpField;
 
     @FXML
-    private TextField UsernameSingInField;
+    private TextField usernameSingInField;
 
     @FXML
-    private TextField UsernameSingUpField;
+    private TextField usernameSingUpField;
 
     @FXML
-    private Button SingInButton;
+    private Button signInButton;
 
     @FXML
-    private Button SubmitButton;
+    private Button submitButton;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() -> SingInButton.requestFocus());
+        Platform.runLater(() -> signInButton.requestFocus());
     }
 
 
     /* Schermata Sing Up */
     // Al click del bottone di conferma per la creazione di un account
     @FXML
-    void ConfirmButtonAction(ActionEvent event) throws Exception {
+    void confirmButtonAction(ActionEvent event) throws Exception {
         // Controllo se c'è un campo non compilato
         /*if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
                 UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()) {
@@ -100,22 +95,21 @@ public class LoginViewController implements Initializable {
 
     // Al click del bottone Sing In -> visualizza la schermata di Sing In
     @FXML
-    void SingInButtonSwitch(ActionEvent event) {
-        SingInView.setVisible(true);
-        SingUpView.setVisible(false);
+    void singInButtonSwitch(ActionEvent event) {
+        singInView.setVisible(true);
+        singUpView.setVisible(false);
 
         singUpClearFields();
-        ErrorSingUpText.setVisible(false);
+        errorSingUpText.setVisible(false);
 
-        SingInButton.requestFocus();
+        signInButton.requestFocus();
     }
 
 
     /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
-    void SingInButtonAction(ActionEvent event) throws Exception {
-        // Query: controlla che le credenziali siano giuste
+    void singInButtonAction(ActionEvent event) throws Exception {
         /*String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
             UsernameSingInField.getText(), PasswordSingInField.getText());
         Statement statement = connectionDB.createStatement();
@@ -134,6 +128,27 @@ public class LoginViewController implements Initializable {
             System.out.println("Accesso Fallito");
         }*/
 
+        final var query = """
+        {
+          "type": "generic",
+          "data": {
+            "request": "signin",
+            "parameters": {
+              "username": "%s",
+              "password": "%s"
+            }
+          }
+        }
+        """;
+        final var username = usernameSingInField.getText();
+        final var password = passwordSingInField.getText();
+        final var message = new JSONObject(String.format(query, username, password));
+        final var data = ClientConnection
+            .getInstance()
+            .getClient()
+            .exchange(message);
+        System.out.println(data);
+
 
         singInClearFields();
     }
@@ -141,27 +156,27 @@ public class LoginViewController implements Initializable {
 
     // Al click del bottone Sing Up -> visualizza la schermata di Sing Up
     @FXML
-    void SingUpButtonSwitch(ActionEvent event) {
-        SingInView.setVisible(false);
-        SingUpView.setVisible(true);
+    void singUpButtonSwitch(ActionEvent event) {
+        singInView.setVisible(false);
+        singUpView.setVisible(true);
 
         singInClearFields();
-        ErrorSingInText.setVisible(false);
+        errorSingInText.setVisible(false);
 
-        SubmitButton.requestFocus();
+        submitButton.requestFocus();
     }
 
 
     // Procedure per il reset dei Field
     private void singInClearFields() {
-        UsernameSingInField.setText("");
-        PasswordSingInField.setText("");
+        usernameSingInField.setText("");
+        passwordSingInField.setText("");
     }
 
     private void singUpClearFields() {
-        NameSingUpField.setText("");
-        SurnameSingUpField.setText("");
-        UsernameSingUpField.setText("");
-        PasswordSingUpField.setText("");
+        nameSingUpField.setText("");
+        surnameSingUpField.setText("");
+        usernameSingUpField.setText("");
+        passwordSingUpField.setText("");
     }
 }
