@@ -3,7 +3,9 @@ package main.propertease;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -12,8 +14,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AddHouseController {
+public class AddHouseController implements Initializable {
 
     @FXML
     private TextField accessoriesField;
@@ -62,6 +66,10 @@ public class AddHouseController {
 
     @FXML
     private Label nameImg3;
+
+    @FXML
+    private ComboBox<String> HouseTypepComboBox;
+    private final String[] HouseType = {"Apartment", "Garage", "Independent"};
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
@@ -160,4 +168,9 @@ public class AddHouseController {
         descriptionField.clear();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // aggiunge gli elementi della ComboBox
+        HouseTypepComboBox.getItems().setAll(HouseType);
+    }
 }
