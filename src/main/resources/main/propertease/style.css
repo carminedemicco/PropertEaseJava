@@ -262,8 +262,9 @@
     -fx-background-color: #303030;
     -fx-background-radius: 25;
     -fx-font-size: 14;
-    -fx-padding: 0 8;
+    -fx-padding: 4 8;
 }
+
 .text-field-description{
     -fx-background-color: #303030;
     -fx-background-radius: 25;
@@ -276,6 +277,31 @@
     -fx-background-color: #303030;
     -fx-border-color: #303030;
 }
+
+.combo-box{
+    -fx-background-color: #303030;
+    -fx-background-radius: 25;
+    -fx-font-size: 14;
+}
+.combo-box .text{
+    -fx-fill: derive(-fx-control-inner-background, -30%);
+}
+.combo-box .cell:selected .text{
+    -fx-fill: derive(-fx-control-inner-background, 0%);
+}
+
+.combo-box .list-view{
+    -fx-background-color: #303030;
+    -fx-background-radius: 25;
+}
+.combo-box .list-view .list-cell{
+    -fx-background-color: #303030;
+    -fx-background-radius: 25;
+}
+.combo-box .list-view .list-cell:hover{
+    -fx-background-color: #404040;
+}
+
 .confirm-button{
     -fx-cursor: hand;
     -fx-font-size: 16;
