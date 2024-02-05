@@ -2,12 +2,12 @@ package main.propertease.server.strategy;
 
 import main.propertease.server.Client;
 import main.propertease.server.mediator.AbstractClientManager;
+import main.propertease.server.proxy.DatabaseConnectionProxy;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.SQLException;
+import java.util.*;
 
 public class HandlerClientStrategy implements ClientManagerStrategy {
     public HandlerClientStrategy(AbstractClientManager clientManager) {
@@ -41,9 +41,15 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                     server = secondaryServers.get(POSTER_SERVER_INDEX);
                     break;
 
+                case "generic": {
+                    // TODO: capire se a Di Nardo gli va bene questa cosa o è necessario un altro server
+                    handleGenericRequest(data);
+                    return true;
+                }
+
                 default:
                     clientManager.writeLine(clientManager.makeErrorMessage("unknown_request: " + type));
-                    break;
+                    return true;
             }
             clientManager.writeLine(
                 Objects.requireNonNull(server)
@@ -54,6 +60,37 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
         }
         return true;
+    }
+
+    private void handleGenericRequest(JSONObject data) {
+        final var request = data.getString("request");
+        switch (request) {
+            case "signin": {
+                final var parameters = data.getJSONObject("parameters");
+                final var username = parameters.getString("username");
+                final var password = parameters.getString("password");
+                final var connection = new DatabaseConnectionProxy();
+                final var query = "select * from User where username = ? and password = ?";
+                final var queryData = Arrays.asList(new Object[] { username, password });
+                try (final var result = connection.execute(query, Optional.of(queryData))) {
+                    final var response = new JSONObject();
+                    if (result.next()) {
+                        final var user = new JSONObject();
+                        user.put("username", result.getString("username"));
+                        user.put("password", result.getString("password"));
+                        user.put("first_name", result.getString("first_name"));
+                        user.put("last_name", result.getString("last_name"));
+                        user.put("privileges", result.getInt("privileges"));
+                        response.put("response", user);
+                    } else {
+                        response.put("response", JSONObject.NULL);
+                    }
+                    clientManager.writeLine(response.toString());
+                } catch (SQLException e) {
+                    clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
+                }
+            } break;
+        }
     }
 
     private final int POSTER_SERVER_INDEX = 0;
