@@ -48,12 +48,10 @@ public class LoginViewController implements Initializable {
     @FXML
     private Button submitButton;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> signInButton.requestFocus());
     }
-
 
     /* Schermata Sing Up */
     // Al click del bottone di conferma per la creazione di un account
@@ -92,7 +90,6 @@ public class LoginViewController implements Initializable {
         }*/
     }
 
-
     // Al click del bottone Sing In -> visualizza la schermata di Sing In
     @FXML
     void singInButtonSwitch(ActionEvent event) {
@@ -105,29 +102,10 @@ public class LoginViewController implements Initializable {
         signInButton.requestFocus();
     }
 
-
     /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
-    void singInButtonAction(ActionEvent event) throws Exception {
-        /*String query = String.format("SELECT * FROM useraccount WHERE username = '%s' AND password = '%s'",
-            UsernameSingInField.getText(), PasswordSingInField.getText());
-        Statement statement = connectionDB.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-
-        if (resultSet.next()) { //se le credenziali sono giuste
-            String viewName = "mainView.fxml";
-            Stage stage = (Stage) SingInButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(viewName));
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.hide();
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            ErrorSingInText.setVisible(true);
-            System.out.println("Accesso Fallito");
-        }*/
-
+    void singInButtonAction(ActionEvent event) {
         final var query = """
         {
           "type": "generic",
@@ -152,7 +130,6 @@ public class LoginViewController implements Initializable {
 
         singInClearFields();
     }
-
 
     // Al click del bottone Sing Up -> visualizza la schermata di Sing Up
     @FXML
