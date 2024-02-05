@@ -160,7 +160,7 @@ public class HouseDetailsController implements Initializable {
         btn1.getStyleClass().add("modify-house-button");
         adminButtonsArea.getChildren().add(btn1);
 
-        /* NB: cambia il riferimento di FXML loader o modificare il file fxml in modo che permetta anche la modifica */
+        // TODO: cambia il riferimento di FXML loader o modificare il file fxml in modo che permetta anche la modifica
         /* es: deve avere il bottone rimuovi e i text-field già compilati con i valori correnti */
         btn1.setOnAction(e -> {
             try {
@@ -211,6 +211,6 @@ public class HouseDetailsController implements Initializable {
         accessoriesLabel.setText(String.valueOf(house.getAccessories()));
         bedroomsLabel.setText(String.valueOf(house.getBedrooms()));
         sqmLabel.setText(String.valueOf(house.getSqm()));
-        descriptionLabel.setText(""); // TODO aggiungere il campo description al builder
+        descriptionLabel.setText(""); // TODO aggiungere il campo description al builder per procedere
     }
 }

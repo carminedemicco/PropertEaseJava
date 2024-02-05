@@ -72,10 +72,12 @@ public class AddHouseController implements Initializable {
     private Label nameUser;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private ComboBox<String> houseTypeComboBox;
     private final String[] houseType = {"Apartment", "Garage", "Independent"};
 
-    private House house;
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
@@ -147,7 +149,10 @@ public class AddHouseController implements Initializable {
     // Al click del bottone di conferma inserisce la nuova casa nel database
     @FXML
     void confirmButton(ActionEvent event) {
-        /* NB: inserire tutta la logica di inserimento nel database */
+        //TODO controlla se tutti i campi necessari sono compilati
+        errorLabel.setVisible(true);
+
+        //TODO inserire tutta la logica di inserimento nel database
         // ...
     }
 
@@ -229,9 +234,5 @@ public class AddHouseController implements Initializable {
         bedroomsField.setDisable(false);
     }
 
-    public void setData(House house) {
-        this.house = house;
 
-
-    }
 }
