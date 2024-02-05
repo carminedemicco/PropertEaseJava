@@ -1,5 +1,7 @@
 package main.propertease;
 
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import main.propertease.builder.House;
 
 import javafx.fxml.FXML;
@@ -40,10 +42,13 @@ public class HousesController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
+    private House house;
 
     // Aggiornamento del valore dei campi della View
     // Prende in input un oggetto di classe House
     public void setData(House house) {
+        this.house = house;
+
         id = house.getId();
         name.setText(house.getName());
         price.setText("$ " + house.getPrice());
@@ -68,20 +73,21 @@ public class HousesController implements Initializable {
 
         // Click su una casa -> mostra la View con i suoi dettagli
         anchorPane.setOnMouseClicked(event -> {
-            System.out.println("AnchorPane Clicked " + id);
-
-            // Istruzioni di set per la nuova schermata
-            // ...
-
             // Istruzioni di cambio schermata
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("houseDetailsView.fxml"));
             Stage stage = (Stage)anchorPane.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("houseDetailsView.fxml"));
             Scene scene;
             try {
                 scene = new Scene(fxmlLoader.load());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            // Istruzioni di set per la nuova schermata
+            HouseDetailsController houseDetailsController = fxmlLoader.getController();
+            houseDetailsController.setData(house);
+
             stage.setScene(scene);
         });
 

@@ -152,7 +152,7 @@ public class MainViewController implements Initializable {
     }
 
 
-    // Avviato alla creazione della View TODO filtrare la UI e aggiungere Hi, "nome"
+    // Avviato alla creazione della View
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

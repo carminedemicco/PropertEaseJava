@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.propertease.builder.House;
 
 import java.io.File;
 import java.net.URL;
@@ -73,6 +74,8 @@ public class AddHouseController implements Initializable {
     @FXML
     private ComboBox<String> houseTypeComboBox;
     private final String[] houseType = {"Apartment", "Garage", "Independent"};
+
+    private House house;
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
@@ -224,5 +227,11 @@ public class AddHouseController implements Initializable {
         gardenField.setDisable(false);
         accessoriesField.setDisable(false);
         bedroomsField.setDisable(false);
+    }
+
+    public void setData(House house) {
+        this.house = house;
+
+
     }
 }

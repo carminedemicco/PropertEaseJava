@@ -17,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.propertease.builder.House;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,8 @@ import java.util.ResourceBundle;
 
 // Classe che gestisce houseDetails.fxml: la view dedicata ai dettagli di una casa
 public class HouseDetailsController implements Initializable {
+    @FXML
+    private Label addressLabel;
 
     @FXML
     private Label accessoriesLabel;
@@ -81,6 +84,8 @@ public class HouseDetailsController implements Initializable {
 
     @FXML
     private Label nameUser;
+
+    private House house;
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
@@ -191,4 +196,21 @@ public class HouseDetailsController implements Initializable {
         newStage.show();
     }
 
+    public void setData(House house) {
+        this.house = house;
+
+        img1.setImage(house.getPics(0));
+        img2.setImage(house.getPics(1));
+        img3.setImage(house.getPics(2));
+        addressLabel.setText(house.getAddress());
+        floorLabel.setText(String.valueOf(house.getFloor()));
+        elevatorLabel.setText((house.hasElevator())?"Yes":"No");
+        balconiesLabel.setText(String.valueOf(house.getBalconies()));
+        terraceLabel.setText(String.valueOf(house.getTerrace()));
+        gardenLabel.setText(String.valueOf(house.getGarden()));
+        accessoriesLabel.setText(String.valueOf(house.getAccessories()));
+        bedroomsLabel.setText(String.valueOf(house.getBedrooms()));
+        sqmLabel.setText(String.valueOf(house.getSqm()));
+        descriptionLabel.setText(""); // TODO aggiungere il campo description al builder
+    }
 }

@@ -108,7 +108,7 @@
                                                       <Font size="16.0" />
                                                    </font>
                                                 </Label>
-                                                <Label layoutX="10.0" layoutY="10.0" styleClass="value-detail" text="Via Chiatamone">
+                                                <Label fx:id="addressLabel" layoutX="10.0" layoutY="10.0" styleClass="value-detail" text="Via Chiatamone">
                                                    <font>
                                                       <Font size="16.0" />
                                                    </font>
@@ -293,12 +293,12 @@
                                                 </LinearGradient>
                                              </stroke>
                                           </Line>
-                                          <Label fx:id="marketedbyLabel" layoutX="10.0" layoutY="10.0" styleClass="title-detail" text="Marketed By Name Surname ">
+                                          <Label fx:id="marketedbyLabel" layoutX="10.0" layoutY="10.0" styleClass="title-detail" text="Marketed By Dinasty8 ">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="usernameLabel" layoutX="10.0" layoutY="36.0" styleClass="title-detail" text="Username">
+                                          <Label fx:id="usernameLabel" layoutX="10.0" layoutY="36.0" styleClass="title-detail" text="propertease@gmail.com">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
