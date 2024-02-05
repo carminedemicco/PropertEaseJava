@@ -125,9 +125,17 @@ public class LoginViewController implements Initializable {
             .getInstance()
             .getClient()
             .exchange(message);
-        System.out.println(data);
-
-
+        if (data.isNull("response")) {
+            // gestisci l'errore
+        } else {
+            final var response = data.getJSONObject("response");
+            final var firstName = response.getString("first_name");
+            final var lastName = response.getString("last_name");
+            final var privileges = response.getInt("privileges");
+            final var user = new User(username, firstName, lastName, privileges);
+            UserAccess.setUser(user);
+            // vai alla schermata successiva
+        }
         singInClearFields();
     }
 

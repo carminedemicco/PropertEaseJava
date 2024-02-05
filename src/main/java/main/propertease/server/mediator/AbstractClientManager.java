@@ -31,7 +31,6 @@ public abstract class AbstractClientManager {
             }
             return line.translateEscapes();
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
