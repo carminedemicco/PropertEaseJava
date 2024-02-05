@@ -16,13 +16,13 @@ import java.util.ResourceBundle;
 
 public class LoginViewController implements Initializable {
     @FXML
-    private Label errorSingInText;
+    private Label errorSignInText;
 
     @FXML
-    private Label errorSingUpText;
+    private Label errorSignUpText;
 
     @FXML
-    private TextField nameSingUpField;
+    private TextField firstNameSignUpField;
 
     @FXML
     private PasswordField passwordSingInField;
@@ -37,13 +37,13 @@ public class LoginViewController implements Initializable {
     private VBox singUpView;
 
     @FXML
-    private TextField surnameSingUpField;
+    private TextField lastNameSignUpField;
 
     @FXML
-    private TextField usernameSingInField;
+    private TextField usernameSignInField;
 
     @FXML
-    private TextField usernameSingUpField;
+    private TextField usernameSignUpField;
 
     @FXML
     private Button signInButton;
@@ -61,36 +61,53 @@ public class LoginViewController implements Initializable {
     @FXML
     void confirmButtonAction(ActionEvent event) throws Exception {
         // Controllo se c'è un campo non compilato
-        /*if (NameSingUpField.getText().isEmpty() || SurnameSingUpField.getText().isEmpty() ||
-                UsernameSingUpField.getText().isEmpty() || PasswordSingUpField.getText().isEmpty()) {
-            ErrorSingUpText.setText("Fill in all required fields.");
-            ErrorSingUpText.setStyle("-fx-text-fill: red;");
-            ErrorSingUpText.setVisible(true);
+        if (firstNameSignUpField.getText().isEmpty() || lastNameSignUpField.getText().isEmpty() ||
+                usernameSignUpField.getText().isEmpty() || passwordSingUpField.getText().isEmpty()) {
+            errorSignUpText.setText("Fill in all required fields.");
+            errorSignUpText.setStyle("-fx-text-fill: red;");
+            errorSignUpText.setVisible(true);
         } else {
-            // Controllo se l'username è già registrato
-            String query = String.format("SELECT * FROM useraccount WHERE username = '%s' ", UsernameSingUpField.getText());
-            Statement statement = connectionDB.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            if (resultSet.next()) {
-                System.out.println("Utente già registrato");
-                ErrorSingUpText.setText("Username already exists.");
-                ErrorSingUpText.setStyle("-fx-text-fill: red;");
-                ErrorSingUpText.setVisible(true);
-            }
-            // Se non è registrato: inserisco i dati del nuovo utente nel database
-            else {
-                query = String.format("INSERT INTO useraccount (username, name, surname, password, type) VALUES ('%s', '%s', '%s', '%s', 'Buyer'); ",
-                    UsernameSingUpField.getText(), NameSingUpField.getText(), SurnameSingUpField.getText(), PasswordSingUpField.getText());
-                System.out.println(query);
-                statement = connectionDB.createStatement();
-                statement.executeUpdate(query);
-                ErrorSingUpText.setText("Registration Successful!");
-                ErrorSingUpText.setStyle("-fx-text-fill: green;");
-                ErrorSingUpText.setVisible(true);
+            final var query = """
+              {
+                "type": "generic",
+                "data": {
+                  "request": "signup",
+                  "parameters": {
+                    "username": "%s",
+                    "first_name": "%s",
+                    "last_name": "%s",
+                    "password": "%s",
+                  }
+                }
+              }
+            """;
+            final var message = new JSONObject(
+                String.format(
+                    query,
+                    usernameSignUpField.getText(),
+                    firstNameSignUpField.getText(),
+                    lastNameSignUpField.getText(),
+                    passwordSingUpField.getText()
+                )
+            );
+            final var data = ClientConnection
+                .getInstance()
+                .getClient()
+                .exchange(message);
+            if (data.isNull("response")) {
+                // Se l'utente è già registrato, visualizzo un messaggio di errore
+                errorSignUpText.setText("Username already exists.");
+                errorSignUpText.setStyle("-fx-text-fill: red;");
+                errorSignUpText.setVisible(true);
+            } else {
+                // Se non è registrato: inserisco i dati del nuovo utente nel database
+                errorSignUpText.setText("Registration Successful!");
+                errorSignUpText.setStyle("-fx-text-fill: green;");
+                errorSignUpText.setVisible(true);
 
                 singUpClearFields();
             }
-        }*/
+        }
     }
 
     // Al click del bottone Sing In -> visualizza la schermata di Sing In
@@ -100,7 +117,7 @@ public class LoginViewController implements Initializable {
         singUpView.setVisible(false);
 
         singUpClearFields();
-        errorSingUpText.setVisible(false);
+        errorSignUpText.setVisible(false);
 
         signInButton.requestFocus();
     }
@@ -110,18 +127,18 @@ public class LoginViewController implements Initializable {
     @FXML
     void singInButtonAction(ActionEvent event) throws Exception{
         final var query = """
-        {
-          "type": "generic",
-          "data": {
-            "request": "signin",
-            "parameters": {
-              "username": "%s",
-              "password": "%s"
+          {
+            "type": "generic",
+            "data": {
+              "request": "signin",
+              "parameters": {
+                "username": "%s",
+                "password": "%s"
+              }
             }
           }
-        }
         """;
-        final var username = usernameSingInField.getText();
+        final var username = usernameSignInField.getText();
         final var password = passwordSingInField.getText();
         final var message = new JSONObject(String.format(query, username, password));
         final var data = ClientConnection
@@ -130,7 +147,7 @@ public class LoginViewController implements Initializable {
             .exchange(message);
         if (data.isNull("response")) {
             // gestisci l'errore
-            errorSingInText.setVisible(true);
+            errorSignInText.setVisible(true);
         } else {
             final var response = data.getJSONObject("response");
             final var firstName = response.getString("first_name");
@@ -156,7 +173,7 @@ public class LoginViewController implements Initializable {
         singUpView.setVisible(true);
 
         singInClearFields();
-        errorSingInText.setVisible(false);
+        errorSignInText.setVisible(false);
 
         submitButton.requestFocus();
     }
@@ -164,14 +181,14 @@ public class LoginViewController implements Initializable {
 
     // Procedure per il reset dei Field
     private void singInClearFields() {
-        usernameSingInField.setText("");
+        usernameSignInField.setText("");
         passwordSingInField.setText("");
     }
 
     private void singUpClearFields() {
-        nameSingUpField.setText("");
-        surnameSingUpField.setText("");
-        usernameSingUpField.setText("");
+        firstNameSignUpField.setText("");
+        lastNameSignUpField.setText("");
+        usernameSignUpField.setText("");
         passwordSingUpField.setText("");
     }
 }

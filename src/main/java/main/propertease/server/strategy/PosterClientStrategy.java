@@ -9,10 +9,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Base64;
-import java.util.Objects;
 import java.util.Optional;
 
 public class PosterClientStrategy implements ClientManagerStrategy {
@@ -33,35 +30,38 @@ public class PosterClientStrategy implements ClientManagerStrategy {
             final var request = message.getString("request");
             switch (request) {
                 case "getHouses": {
-                    try (final var result = database.execute("select ROWID, * from House;", Optional.empty())) {
+                    database.executeQuery("select ROWID, * from House;", Optional.empty(), (result) -> {
                         final var houses = new JSONArray();
-                        while (result.next()) {
-                            final var house = new JSONObject();
-                            final var houseId = result.getInt("ROWID");
-                            house.put("id", houseId);
-                            house.put("type", result.getInt("type"));
-                            house.put("address", result.getString("address"));
-                            house.put("price", result.getInt("price"));
-                            house.put("floor", result.getInt("floor"));
-                            house.put("elevator", result.getBoolean("elevator"));
-                            house.put("balconies", result.getInt("balconies"));
-                            house.put("terrace", result.getInt("terrace"));
-                            house.put("garden", result.getInt("garden"));
-                            house.put("accessories", result.getInt("accessories"));
-                            house.put("bedrooms", result.getInt("bedrooms"));
-                            house.put("sqm", result.getInt("sqm"));
-                            house.put("description", result.getString("description"));
-                            house.put("image0", getHouseImageAsBase64(houseId, result.getString("image0")));
-                            house.put("image1", getHouseImageAsBase64(houseId, result.getString("image1")));
-                            house.put("image2", getHouseImageAsBase64(houseId, result.getString("image2")));
-                            houses.put(house);
-                        }
                         final var response = new JSONObject();
-                        response.put("response", houses);
+                        try {
+                            while (result.next()) {
+                                final var house = new JSONObject();
+                                final var houseId = result.getInt("ROWID");
+                                house.put("id", houseId);
+                                house.put("type", result.getInt("type"));
+                                house.put("address", result.getString("address"));
+                                house.put("price", result.getInt("price"));
+                                house.put("floor", result.getInt("floor"));
+                                house.put("elevator", result.getBoolean("elevator"));
+                                house.put("balconies", result.getInt("balconies"));
+                                house.put("terrace", result.getInt("terrace"));
+                                house.put("garden", result.getInt("garden"));
+                                house.put("accessories", result.getInt("accessories"));
+                                house.put("bedrooms", result.getInt("bedrooms"));
+                                house.put("sqm", result.getInt("sqm"));
+                                house.put("description", result.getString("description"));
+                                house.put("image0", getHouseImageAsBase64(houseId, result.getString("image0")));
+                                house.put("image1", getHouseImageAsBase64(houseId, result.getString("image1")));
+                                house.put("image2", getHouseImageAsBase64(houseId, result.getString("image2")));
+                                houses.put(house);
+                            }
+                            response.put("response", houses);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            response.put("response", JSONObject.NULL);
+                        }
                         clientManager.writeLine(response.toString());
-                    } catch (SQLException e) {
-                        clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
-                    }
+                    });
                 } break;
             }
         } catch (JSONException e) {

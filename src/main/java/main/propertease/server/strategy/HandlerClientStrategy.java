@@ -71,24 +71,50 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                 final var password = parameters.getString("password");
                 final var connection = new DatabaseConnectionProxy();
                 final var query = "select * from User where username = ? and password = ?";
-                final var queryData = Arrays.asList(new Object[] { username, password });
-                try (final var result = connection.execute(query, Optional.of(queryData))) {
+                final var queryData = Arrays.<Object>asList(username, password);
+                connection.executeQuery(query, Optional.of(queryData), (result) -> {
                     final var response = new JSONObject();
-                    if (result.next()) {
-                        final var user = new JSONObject();
-                        user.put("username", result.getString("username"));
-                        user.put("password", result.getString("password"));
-                        user.put("first_name", result.getString("first_name"));
-                        user.put("last_name", result.getString("last_name"));
-                        user.put("privileges", result.getInt("privileges"));
-                        response.put("response", user);
-                    } else {
-                        response.put("response", JSONObject.NULL);
+                    try {
+                        if (result.next()) {
+                            final var user = new JSONObject();
+                            user.put("username", result.getString("username"));
+                            user.put("password", result.getString("password"));
+                            user.put("first_name", result.getString("first_name"));
+                            user.put("last_name", result.getString("last_name"));
+                            user.put("privileges", result.getInt("privileges"));
+                            response.put("response", user);
+                        } else {
+                            response.put("response", JSONObject.NULL);
+                        }
+                        clientManager.writeLine(response.toString());
+                    } catch (SQLException e) {
+                        clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
                     }
-                    clientManager.writeLine(response.toString());
-                } catch (SQLException e) {
-                    clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
+                });
+            } break;
+
+            case "signup": {
+                final var parameters = data.getJSONObject("parameters");
+                final var username = parameters.getString("username");
+                final var password = parameters.getString("password");
+                final var firstName = parameters.getString("first_name");
+                final var lastName = parameters.getString("last_name");
+                final var connection = new DatabaseConnectionProxy();
+                final var query = "insert into User values (?, ?, ?, ?, 0)";
+                final var queryData = Arrays.<Object>asList(
+                    username,
+                    password,
+                    firstName,
+                    lastName
+                );
+                final var response = new JSONObject();
+                try {
+                    connection.executeUpdate(query, Optional.of(queryData));
+                    response.put("response", new JSONObject());
+                } catch (Exception e) {
+                    response.put("response", JSONObject.NULL);
                 }
+                clientManager.writeLine(response.toString());
             } break;
         }
     }

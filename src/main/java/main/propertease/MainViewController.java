@@ -56,12 +56,12 @@ public class MainViewController implements Initializable {
     private List<House> getHouseData() throws Exception {
         final List<House> houses = new ArrayList<>();
         final var query = """
-            {
-              "type": "poster",
-              "data": {
-                "request": "getHouses",
-              },
-            }
+          {
+            "type": "poster",
+            "data": {
+              "request": "getHouses",
+            },
+          }
         """;
         final var data = ClientConnection
             .getInstance()

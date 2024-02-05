@@ -53,7 +53,7 @@
                         </VBox>
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <TextField fx:id="usernameSingInField" promptText="Username" styleClass="txtfield">
+                              <TextField fx:id="usernameSignInField" promptText="Username" styleClass="txtfield">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font>
@@ -65,7 +65,7 @@
                                           <Font name="Verdana" size="12.0" />
                                        </font>
                                     </PasswordField>
-                                    <Label fx:id="errorSingInText" prefHeight="8.0" prefWidth="138.0" styleClass="error-msg" text="Invalid username or password." visible="false">
+                                    <Label fx:id="errorSignInText" prefHeight="8.0" prefWidth="138.0" styleClass="error-msg" text="Invalid username or password." visible="false">
                                        <font>
                                           <Font size="9.0" />
                                        </font>
@@ -119,17 +119,17 @@
                         </VBox>
                         <VBox alignment="CENTER" spacing="8.0">
                            <children>
-                              <TextField fx:id="nameSingUpField" promptText="Name" styleClass="txtfield">
+                              <TextField fx:id="firstNameSignUpField" promptText="Name" styleClass="txtfield">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="surnameSingUpField" layoutX="10.0" layoutY="10.0" promptText="Surname" styleClass="txtfield">
+                              <TextField fx:id="lastNameSignUpField" layoutX="10.0" layoutY="10.0" promptText="Surname" styleClass="txtfield">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="usernameSingUpField" promptText="Username" styleClass="txtfield">
+                              <TextField fx:id="usernameSignUpField" promptText="Username" styleClass="txtfield">
                                  <font>
                                     <Font name="Verdana" size="12.0" />
                                  </font>
@@ -141,7 +141,7 @@
                                           <Font name="Verdana" size="12.0" />
                                        </font>
                                     </PasswordField>
-                                    <Label fx:id="errorSingUpText" prefHeight="8.0" prefWidth="138.0" text="Username already exists. " visible="false">
+                                    <Label fx:id="errorSignUpText" prefHeight="8.0" prefWidth="138.0" text="Username already exists. " visible="false">
                                        <font>
                                           <Font size="9.0" />
                                        </font>
