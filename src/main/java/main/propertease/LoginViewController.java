@@ -134,6 +134,7 @@ public class LoginViewController implements Initializable {
             System.out.println("Accesso Fallito");
         }*/
 
+
         singInClearFields();
     }
 

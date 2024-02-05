@@ -1,6 +1,6 @@
 package main.propertease.decorator;
 
-public interface IPoster {
+public interface Poster {
     int getPrice();
     /*String[] getImages();
     String getDescription();*/

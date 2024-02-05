@@ -1,12 +1,25 @@
 package main.propertease.builder;
 
-import main.propertease.decorator.IPoster;
+import main.propertease.decorator.Poster;
 import javafx.scene.image.Image;
 
 // House class
-public class House implements IPoster {
-    public House(int id, HouseType type, String address, int floor, boolean elevator, int balconies, int terrace,
-                 int garden, int accessories, int bedrooms, int sqm, int price, Image[] pics) {
+public class House implements Poster {
+    public House(
+        int id,
+        HouseType type,
+        String address,
+        int floor,
+        boolean elevator,
+        int balconies,
+        int terrace,
+        int garden,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        Image[] pics
+    ) {
         this.id = id;
         this.type = type;
         this.address = address;

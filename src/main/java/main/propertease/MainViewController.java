@@ -1,6 +1,7 @@
 package main.propertease;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import main.propertease.builder.*;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -40,6 +42,10 @@ public class MainViewController implements Initializable {
 
     @FXML
     private HBox adminButtonsArea;
+
+    @FXML
+    private Label nameUser;
+
 
     /* NB: DA MODIFICARE CON LE CASE CHE ARRIVANO DAL DATABASE DEL SERVER */
     // Prende dal database i dati di tutte le case
@@ -68,7 +74,15 @@ public class MainViewController implements Initializable {
             final var type = HouseType.fromValue(house.getInt("type"));
             switch (type) {
                 case APARTMENT: {
-                    final var images = new Image[3];
+                    final var images = new Image[] { null, null, null };
+                    for (var j = 0; j < images.length; j++) {
+                        if (!house.isNull("image" + j)) {
+                            final var image = house.getString("image" + j);
+                            final var bytes = Base64.getDecoder().decode(image);
+                            final var stream = new ByteArrayInputStream(bytes);
+                            images[j] = new Image(stream);
+                        }
+                    }
                     final var builder = new ApartmentBuilder();
                     final var result = houseDirector.constructApartment(
                         builder,
@@ -141,6 +155,8 @@ public class MainViewController implements Initializable {
     // Avviato alla creazione della View
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameUser.setText("Hi, " + "");
+
         try {
             setHousesGrid();
             setAppointmentsGrid();

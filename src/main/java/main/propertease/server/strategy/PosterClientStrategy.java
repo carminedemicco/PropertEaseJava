@@ -6,7 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Objects;
 import java.util.Optional;
 
 public class PosterClientStrategy implements ClientManagerStrategy {
@@ -31,7 +37,8 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                         final var houses = new JSONArray();
                         while (result.next()) {
                             final var house = new JSONObject();
-                            house.put("id", result.getInt("ROWID"));
+                            final var houseId = result.getInt("ROWID");
+                            house.put("id", houseId);
                             house.put("type", result.getInt("type"));
                             house.put("address", result.getString("address"));
                             house.put("price", result.getInt("price"));
@@ -44,9 +51,9 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                             house.put("bedrooms", result.getInt("bedrooms"));
                             house.put("sqm", result.getInt("sqm"));
                             house.put("description", result.getString("description"));
-                            house.put("image0", result.getString("image0"));
-                            house.put("image1", result.getString("image1"));
-                            house.put("image2", result.getString("image2"));
+                            house.put("image0", getHouseImageAsBase64(houseId, result.getString("image0")));
+                            house.put("image1", getHouseImageAsBase64(houseId, result.getString("image1")));
+                            house.put("image2", getHouseImageAsBase64(houseId, result.getString("image2")));
                             houses.put(house);
                         }
                         final var response = new JSONObject();
@@ -61,6 +68,27 @@ public class PosterClientStrategy implements ClientManagerStrategy {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
         }
         return true;
+    }
+
+    private static URL getHouseImagePath(int houseId, String name) {
+        final var classPath = String.format("/main/propertease/server/images/%d/%s", houseId, name);
+        return PosterClientStrategy.class.getResource(classPath);
+    }
+
+    private static Object getHouseImageAsBase64(int houseId, String name) {
+        final var path = getHouseImagePath(houseId, name);
+        // TODO: ritorna immagine di default
+        if (path == null) {
+            return JSONObject.NULL;
+        }
+        try {
+            final var bytes = Files.readAllBytes(Path.of(path.toURI()));
+            final var encoded = Base64.getEncoder().encode(bytes);
+            return new String(encoded);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JSONObject.NULL;
+        }
     }
 
     private final AbstractClientManager clientManager;
