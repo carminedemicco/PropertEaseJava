@@ -174,7 +174,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="HouseTypepComboBox" prefWidth="351.0" promptText="No type selected" />
+                                          <ComboBox fx:id="houseTypeComboBox" onAction="#blockFields" prefWidth="228.0" promptText="No type selected" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0">

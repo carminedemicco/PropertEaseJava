@@ -68,8 +68,8 @@ public class AddHouseController implements Initializable {
     private Label nameImg3;
 
     @FXML
-    private ComboBox<String> HouseTypepComboBox;
-    private final String[] HouseType = {"Apartment", "Garage", "Independent"};
+    private ComboBox<String> houseTypeComboBox;
+    private final String[] houseType = {"Apartment", "Garage", "Independent"};
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
@@ -156,6 +156,53 @@ public class AddHouseController implements Initializable {
         nameImg3.setStyle("-fx-text-fill: red");
         nameImg3.setText("No file selected yet.");
 
+        houseTypeComboBox.setValue("");
+
+        descriptionField.clear();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // aggiunge gli elementi della ComboBox
+        houseTypeComboBox.getItems().setAll(houseType);
+
+    }
+
+    // function che si attiva ogni volta che cambia il valore della combobox(anche quando faccio reset)
+    // alla selezione del tipo di casa blocca i campi non compilabili
+    @FXML
+    private void blockFields(){
+        resetKeyFeaturesFields();
+        switch (houseTypeComboBox.getValue()){
+            case "Apartment":
+                gardenField.setDisable(true);
+
+                break;
+
+            case "Garage":
+                floorField.setDisable(true);
+                elevatorField.setDisable(true);
+                balconiesField.setDisable(true);
+                terraceField.setDisable(true);
+                gardenField.setDisable(true);
+                accessoriesField.setDisable(true);
+                bedroomsField.setDisable(true);
+
+                break;
+
+            case "Independent":
+                floorField.setDisable(true);
+                elevatorField.setDisable(true);
+                break;
+
+            default:
+                System.out.println("No house type selected.");
+                break;
+        }
+
+    }
+
+    private void resetKeyFeaturesFields(){
         addressField.clear();
         floorField.clear();
         elevatorField.clear();
@@ -165,12 +212,13 @@ public class AddHouseController implements Initializable {
         accessoriesField.clear();
         bedroomsField.clear();
         sqmField.clear();
-        descriptionField.clear();
-    }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // aggiunge gli elementi della ComboBox
-        HouseTypepComboBox.getItems().setAll(HouseType);
+        floorField.setDisable(false);
+        elevatorField.setDisable(false);
+        balconiesField.setDisable(false);
+        terraceField.setDisable(false);
+        gardenField.setDisable(false);
+        accessoriesField.setDisable(false);
+        bedroomsField.setDisable(false);
     }
 }
