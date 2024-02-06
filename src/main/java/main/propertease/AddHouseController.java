@@ -5,11 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.propertease.builder.House;
@@ -36,13 +32,7 @@ public class AddHouseController implements Initializable {
     private TextArea descriptionField;
 
     @FXML
-    private VBox detailbox1;
-
-    @FXML
-    private VBox detailbox11;
-
-    @FXML
-    private VBox detailbox3;
+    private Button deleteButton;
 
     @FXML
     private TextField elevatorField;
@@ -75,8 +65,53 @@ public class AddHouseController implements Initializable {
     private Label errorLabel;
 
     @FXML
+    private TextField priceField;
+
+    @FXML
     private ComboBox<String> houseTypeComboBox;
     private final String[] houseType = {"Apartment", "Garage", "Independent"};
+
+    // Variabile bool che contiene true se la casa deve essere modificata
+    Boolean modifyHouse = false;
+
+    House house;
+
+    public void setModifyData(House house){
+        modifyHouse = true;
+
+        this.house = house;
+
+        String type = null;
+        switch (house.getType()){
+            case APARTMENT -> type = "Apartment";
+            case GARAGE -> type = "Garage";
+            case INDEPENDENT -> type = "Independent";
+        }
+
+        // Precompila i campi per la modifica
+        nameImg1.setStyle("-fx-text-fill: #f0f8ff");
+        nameImg1.setText("img1.png");
+        nameImg2.setStyle("-fx-text-fill: #f0f8ff");
+        nameImg2.setText("img2.png");
+        nameImg3.setStyle("-fx-text-fill: #f0f8ff");
+        nameImg3.setText("img3.png");
+        houseTypeComboBox.setValue(type);
+        addressField.setText(house.getAddress());
+        floorField.setText(String.valueOf(house.getFloor()));
+        elevatorField.setText(String.valueOf(house.hasElevator()));
+        balconiesField.setText(String.valueOf(house.getBalconies()));
+        terraceField.setText(String.valueOf(house.getTerrace()));
+        gardenField.setText(String.valueOf(house.getGarden()));
+        accessoriesField.setText(String.valueOf(house.getAccessories()));
+        bedroomsField.setText(String.valueOf(house.getBedrooms()));
+        sqmField.setText(String.valueOf(house.getSqm()));
+        priceField.setText(String.valueOf(house.getPrice()));
+        // TODO aspettare che sia aggiunto il campo description al builder
+        //descriptionField.setText(house.getDescription());
+
+        // Si rende visibile il bottone di cancellazione casa
+        deleteButton.setVisible(true);
+    }
 
 
     // Al click del bottone di logout: ritorna alla View di login
@@ -85,7 +120,7 @@ public class AddHouseController implements Initializable {
         // Operazioni di logout
         //...
 
-        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var stage = (Stage)addressField.getScene().getWindow();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         final var scene = new Scene(fxmlLoader.load());
         stage.hide();
@@ -97,7 +132,7 @@ public class AddHouseController implements Initializable {
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
     void homeButton(ActionEvent event) throws Exception {
-        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var stage = (Stage)addressField.getScene().getWindow();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         final var scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -107,11 +142,9 @@ public class AddHouseController implements Initializable {
     File[] pics = new File[3];
 
     // l'utente sceglie l'immagine 1 da caricare
+    final FileChooser fc = new FileChooser();
     @FXML
     void addImg1(ActionEvent event) {
-        final var fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
-
         pics[0] = fc.showOpenDialog(null);
 
         if (pics[0] != null) {
@@ -123,8 +156,6 @@ public class AddHouseController implements Initializable {
     // l'utente sceglie l'immagine 2 da caricare
     @FXML
     void addImg2(ActionEvent event) {
-        final var fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         pics[1] = fc.showOpenDialog(null);
 
         if (pics[1] != null) {
@@ -136,8 +167,6 @@ public class AddHouseController implements Initializable {
     // l'utente sceglie l'immagine 3 da caricare
     @FXML
     void addImg3(ActionEvent event) {
-        final var fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         pics[2] = fc.showOpenDialog(null);
 
         if (pics[2] != null) {
@@ -152,8 +181,13 @@ public class AddHouseController implements Initializable {
         //TODO controlla se tutti i campi necessari sono compilati
         errorLabel.setVisible(true);
 
-        //TODO inserire tutta la logica di inserimento nel database
-        // ...
+        if(modifyHouse){
+            //TODO inserire tutta la logica di modica nel database
+            // ...
+        }else {
+            //TODO inserire tutta la logica di inserimento nel database
+            // ...
+        }
     }
 
     // Al click del bottone di reset vengono puliti tutti i campi
@@ -172,11 +206,20 @@ public class AddHouseController implements Initializable {
         descriptionField.clear();
     }
 
+    @FXML
+    void deleteButtonAction(ActionEvent event) {
+        // TODO rimozione del database della casa
+        //...
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
         // aggiunge gli elementi della ComboBox
         houseTypeComboBox.getItems().setAll(houseType);
+
+        // Definisco le estensioni accettate del FileChooser
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
 
     }
 
@@ -233,6 +276,4 @@ public class AddHouseController implements Initializable {
         accessoriesField.setDisable(false);
         bedroomsField.setDisable(false);
     }
-
-
 }

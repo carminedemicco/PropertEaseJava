@@ -167,6 +167,8 @@ public class HouseDetailsController implements Initializable {
                 Stage stage = (Stage)detailbox1.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
+                AddHouseController addHouseController = fxmlLoader.getController();
+                addHouseController.setModifyData(house);
                 stage.setScene(scene);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

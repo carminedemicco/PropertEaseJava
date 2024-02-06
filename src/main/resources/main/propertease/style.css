@@ -257,7 +257,7 @@
 }
 
 
-/* INSERT DETAILS VIEW */
+/* ADD HOUSE VIEW */
 .text-field-detail{
     -fx-background-color: #303030;
     -fx-background-radius: 25;
@@ -315,6 +315,21 @@
     -fx-background-color: transparent;
     -fx-border-radius: 25;
     -fx-border-color: #404040;
+}
+
+.remove-button{
+    -fx-cursor: hand;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-background-color: #B22223 ;
+    -fx-background-radius: 25;
+    -fx-border-color: transparent;
+    -fx-border-width: 3;
+}
+.remove-button:hover{
+    -fx-background-color: transparent;
+    -fx-border-radius: 25;
+    -fx-border-color: #B22223 ;
 }
 
 
