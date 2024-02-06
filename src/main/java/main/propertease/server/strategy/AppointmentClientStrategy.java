@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -61,6 +62,24 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                         }
                         clientManager.writeLine(response.toString());
                     });
+                    break;
+                }
+
+                case "insertAgentAvailability": {
+                    final var parameters = message.getJSONObject("parameters");
+                    final var user = parameters.getString("agent");
+                    final var startDate = parameters.getString("start_date");
+                    final var endDate = parameters.getString("end_date");
+                    final var query = "insert into Availability values (?, ?, ?)";
+                    final var queryParameters = Arrays.<Object>asList(user, startDate, endDate);
+                    final var response = new JSONObject();
+                    try {
+                        database.executeUpdate(query, Optional.of(queryParameters));
+                        response.put("response", new JSONObject());
+                    } catch (SQLException e) {
+                        response.put("response", JSONObject.NULL);
+                    }
+                    clientManager.writeLine(response.toString());
                     break;
                 }
             }

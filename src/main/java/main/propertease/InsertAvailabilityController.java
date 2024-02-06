@@ -9,11 +9,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InsertAvailabilityController implements Initializable {
@@ -63,19 +62,25 @@ public class InsertAvailabilityController implements Initializable {
                 errorLabel.setVisible(true);
             } else {
                 // TODO: Logica di inserimento disponibilità
-                // ...
+                final var user = UserAccess.getUser();
                 final var query = """
                     {
                       "type": "appointment",
                       "data": {
                         "request": "insertAgentAvailability",
                         "parameters": {
-                          
+                          "agent": "%s",
+                          "start_date": "%s",
+                          "end_date": "%s",
                         }
                       }
                     }
                 """;
-
+                final var message = new JSONObject(String.format(query, user.getUsername(), startDate, endDate));
+                final var data = ClientConnection
+                    .getInstance()
+                    .getClient()
+                    .exchange(message);
                 // Chiusura della finestra corrente
                 final var currentStage = (Stage)anchorPane.getScene().getWindow();
                 currentStage.close();

@@ -42,7 +42,6 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                     break;
 
                 case "generic": {
-                    // TODO: capire se a Di Nardo gli va bene questa cosa o è necessario un altro server
                     handleGenericRequest(data);
                     return true;
                 }
