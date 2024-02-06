@@ -6,19 +6,20 @@ import javafx.scene.image.Image;
 // House class
 public class House implements Poster {
     public House(
-        int id,
-        HouseType type,
-        String address,
-        int floor,
-        boolean elevator,
-        int balconies,
-        int terrace,
-        int garden,
-        int accessories,
-        int bedrooms,
-        int sqm,
-        int price,
-        Image[] pics
+            int id,
+            HouseType type,
+            String address,
+            int floor,
+            boolean elevator,
+            int balconies,
+            int terrace,
+            int garden,
+            int accessories,
+            int bedrooms,
+            int sqm,
+            int price,
+            String description,
+            Image[] pics
     ) {
         this.id = id;
         this.type = type;
@@ -32,6 +33,7 @@ public class House implements Poster {
         this.bedrooms = bedrooms;
         this.sqm = sqm;
         this.price = price;
+        this.description = description;
         this.pics = pics;
     }
 
@@ -47,6 +49,7 @@ public class House implements Poster {
     private final int bedrooms;
     private final int sqm;
     private final int price;
+    private final String description;
     private final Image[] pics;
 
     public int getId() {
@@ -96,6 +99,8 @@ public class House implements Poster {
     public int getPrice() {
         return price;
     }
+
+    public String getDescription() { return description; }
 
     public Image getPics(int index) {
         return this.pics[index];

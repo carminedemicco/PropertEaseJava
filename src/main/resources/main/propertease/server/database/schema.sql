@@ -1,6 +1,7 @@
 drop table if exists User;
 drop table if exists House;
 drop table if exists Appointment;
+drop table if exists Availability;
 
 create table if not exists User (
     username    varchar(256)    primary key,
@@ -44,6 +45,17 @@ create table if not exists Appointment (
         on update cascade,
     foreign key (house)
         references House(ROWID)
+        on delete cascade
+        on update cascade
+);
+
+create table if not exists Availability (
+    agent       varchar(256)    not null,
+    start_date  date            not null,
+    end_date    date            not null,
+
+    foreign key (agent)
+        references User(username)
         on delete cascade
         on update cascade
 );

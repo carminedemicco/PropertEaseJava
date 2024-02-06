@@ -95,6 +95,7 @@ public class MainViewController implements Initializable {
                         house.getInt("bedrooms"),
                         house.getInt("sqm"),
                         house.getInt("price"),
+                        house.getString("description"),
                         images
                     );
                     houses.add(result);
