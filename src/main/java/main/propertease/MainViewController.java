@@ -128,14 +128,18 @@ public class MainViewController implements Initializable {
               {
                 "type": "appointment",
                 "data": {
-                  "request": "getAppointmentsForUser",
                   "parameters": {
                     "username": "%s"
                   }
                 }
               }
-            """;
+        """;
         final var message = new JSONObject(String.format(query, user.getUsername()));
+        if (user.getPrivileges() == 1) {
+            message.getJSONObject("data").put("request", "getAppointmentsForAgent");
+        } else {
+            message.getJSONObject("data").put("request", "getAppointmentsForUser");
+        }
         final var data = ClientConnection
             .getInstance()
             .getClient()
@@ -153,7 +157,7 @@ public class MainViewController implements Initializable {
 
         final var appointment = new Appointment();
         appointment.setId(info.getInt("id"));
-        appointment.setHouseName(houseInfo.getString("name"));
+        appointment.setHouseName(HouseType.fromValue(houseInfo.getInt("type")).toString());
         appointment.setHouseAddress(houseInfo.getString("address"));
         appointment.setAdministratorName(
             String.format(
@@ -162,10 +166,7 @@ public class MainViewController implements Initializable {
                 agentInfo.getString("last_name")
             )
         );
-        // Codice di conversione dal tipo Date a String
-        final var dateFormat = new SimpleDateFormat("MMMM d, yyyy, h:mm a.", Locale.ENGLISH);
-        final var formattedDate = dateFormat.format(info.getString("date"));
-        appointment.setAppointmentDate(formattedDate);
+        appointment.setAppointmentDate(info.getString("date"));
         return appointment;
     }
 
