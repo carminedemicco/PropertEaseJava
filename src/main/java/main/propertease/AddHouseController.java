@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.propertease.builder.House;
+import main.propertease.memento.Memento;
 
 import java.io.File;
 import java.net.URL;
@@ -76,6 +78,7 @@ public class AddHouseController implements Initializable {
     Boolean modifyHouse = false;
 
     House house;
+    Memento houseMemento;
 
     public void setModifyData(House house){
         modifyHouse = true;
@@ -117,9 +120,6 @@ public class AddHouseController implements Initializable {
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
     void logoutButton(ActionEvent event) throws Exception {
-        // Operazioni di logout
-        //...
-
         final Stage stage = (Stage)addressField.getScene().getWindow();
         final FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         final Scene scene = new Scene(fxmlLoader.load());
@@ -175,6 +175,10 @@ public class AddHouseController implements Initializable {
         }
     }
 
+
+    // Function di set House per
+
+
     // Al click del bottone di conferma inserisce la nuova casa nel database
     @FXML
     void confirmButton(ActionEvent event) {
@@ -223,13 +227,32 @@ public class AddHouseController implements Initializable {
         }
 
         if(notGood){
+            errorLabel.setText("Fill in all required fields.");
+            errorLabel.setStyle("-fx-fill: red");
             errorLabel.setVisible(true);
         }
 
         if(modifyHouse){
-            //TODO inserire tutta la logica di modica nel database
+            // Memento: prima della modifica dell'oggetto salvo il suo stato
+            houseMemento = house.createMemento();
+            // Modifica l'oggetto con i nuovi parametri inseriti
+            // TODO impostare i set per tutti i campi dell'oggetto(?)
+            house.setAddress(addressField.getText());
+
+            //TODO inserire tutta la logica di modifica nel database
             // ...
+
+            errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
+            errorLabel.setStyle("-fx-text-fill: green");
+            errorLabel.setVisible(true);
         }else {
+            // Converti gli oggetti File in oggetti Image
+            // (si può fare anche direttamente nel momento in vui prendo il file, nel codice sopra)
+
+            //TODO inserire il builder per una casa in base al tipo selezionato
+            //Copia e incolla dal metodo getHouseData in MainViewController
+
+
             //TODO inserire tutta la logica di inserimento nel database
             // ...
         }
@@ -238,17 +261,37 @@ public class AddHouseController implements Initializable {
     // Al click del bottone di reset vengono puliti tutti i campi
     @FXML
     void resetButton(ActionEvent event) {
-        pics = new File[3];
-        nameImg1.setStyle("-fx-text-fill: red");
-        nameImg1.setText("No file selected yet.");
-        nameImg2.setStyle("-fx-text-fill: red");
-        nameImg2.setText("No file selected yet.");
-        nameImg3.setStyle("-fx-text-fill: red");
-        nameImg3.setText("No file selected yet.");
+        if(modifyHouse){
+            // in modalità 'modifica casa' usa memento per ripristinare i Field
+            // lo stato ripristinato è quello che precede l'ultima modifica
+            if(houseMemento != null){
+                // Memento: ristabilisce il vecchio stato
+                houseMemento.restoreState();
+                // Ricarica i valori nei Field
+                setModifyData(house);
 
-        houseTypeComboBox.setValue("");
+                errorLabel.setText("Reset successfully completed. Click 'Confirm' to confirm changes.");
+                errorLabel.setStyle("-fx-text-fill: green");
+                errorLabel.setVisible(true);
+            }
+            else {
+                System.out.println("Nessuna modifica vecchia");
+            }
+        }
+        else {
+            // in modalità 'inserimento casa' azzera tutti i Field
+            pics = new File[3];
+            nameImg1.setStyle("-fx-text-fill: red");
+            nameImg1.setText("No file selected yet.");
+            nameImg2.setStyle("-fx-text-fill: red");
+            nameImg2.setText("No file selected yet.");
+            nameImg3.setStyle("-fx-text-fill: red");
+            nameImg3.setText("No file selected yet.");
 
-        descriptionField.clear();
+            houseTypeComboBox.setValue("");
+
+            descriptionField.clear();
+        }
     }
 
     @FXML
