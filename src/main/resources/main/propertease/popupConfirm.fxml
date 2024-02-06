@@ -27,12 +27,7 @@
                   <Label styleClass="popup-appointment-title" text="Confirm Cancellation" />
                   <VBox>
                      <children>
-                        <Label text="Are you sure you want to cancel ">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label text="this appointment?">
+                        <Label text="Are you sure you want to cancel?">
                            <font>
                               <Font size="14.0" />
                            </font>

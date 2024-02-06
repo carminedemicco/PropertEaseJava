@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.propertease.builder.House;
 
@@ -119,9 +120,9 @@ public class AddHouseController implements Initializable {
         // Operazioni di logout
         //...
 
-        final var stage = (Stage)addressField.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
+        final Stage stage = (Stage)addressField.getScene().getWindow();
+        final FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
+        final Scene scene = new Scene(fxmlLoader.load());
         stage.hide();
         stage.setScene(scene);
         stage.show();
@@ -174,7 +175,7 @@ public class AddHouseController implements Initializable {
         }
     }
 
-    // Al click del bottone di conferma inserisce la nuova casa nel database //TODO aggiungere price
+    // Al click del bottone di conferma inserisce la nuova casa nel database
     @FXML
     void confirmButton(ActionEvent event) {
         boolean notGood = false;
@@ -194,12 +195,14 @@ public class AddHouseController implements Initializable {
                             terraceField.getText().isEmpty() |
                             accessoriesField.getText().isEmpty() |
                             bedroomsField.getText().isEmpty() |
-                            sqmField.getText().isEmpty();
+                            sqmField.getText().isEmpty() |
+                            priceField.getText().isEmpty();
                     break;
 
                 case "Garage":
                     notGood |= addressField.getText().isEmpty() |
-                            sqmField.getText().isEmpty();
+                            sqmField.getText().isEmpty()|
+                            priceField.getText().isEmpty();
                     break;
 
                 case "Independent":
@@ -209,7 +212,8 @@ public class AddHouseController implements Initializable {
                             gardenField.getText().isEmpty() |
                             accessoriesField.getText().isEmpty() |
                             bedroomsField.getText().isEmpty() |
-                            sqmField.getText().isEmpty();
+                            sqmField.getText().isEmpty()|
+                            priceField.getText().isEmpty();
                     break;
 
                 default:
@@ -248,9 +252,31 @@ public class AddHouseController implements Initializable {
     }
 
     @FXML
-    void deleteButtonAction(ActionEvent event) {
-        // TODO rimozione del database della casa
-        //...
+    void deleteButtonAction(ActionEvent event) throws Exception{
+        // Apri il popup di conferma
+        Stage primaryStage = (Stage)addressField.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
+        Scene newScene = new Scene(fxmlLoader.load());
+        Stage newStage = new Stage();
+        newStage.setScene(newScene);
+        newStage.setResizable(false);
+        newStage.setTitle("Confirm Cancellation");
+        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(primaryStage);
+        // mostra il popup e blocca l'esecuzione fino a quando lo Stage secondario non viene chiuso
+        newStage.showAndWait();
+        // Prendo il controller del popup
+        PopupConfirmController popupConfirmController = fxmlLoader.getController();
+        // Prendo il valore di ritorno del popup dal controller
+        if (popupConfirmController.getResult()) {
+            // TODO rimozione del database della casa
+            //...
+
+            // dopo aver inserito ritorna alla schermata principale
+            homeButton(null);
+        }
+
     }
 
     @Override
