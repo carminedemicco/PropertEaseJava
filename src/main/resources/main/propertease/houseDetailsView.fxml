@@ -303,7 +303,7 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#makeAppointmentButton" prefHeight="36.0" prefWidth="190.0" styleClass="appointment-button" text="Make an Appointment" />
+                                          <Button fx:id="makeAppButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#makeAppointmentButton" prefHeight="36.0" prefWidth="190.0" styleClass="appointment-button" text="Make an Appointment" />
                                        </children>
                                     </VBox>
                                  </children>

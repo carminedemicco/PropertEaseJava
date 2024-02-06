@@ -85,6 +85,9 @@ public class HouseDetailsController implements Initializable {
     @FXML
     private Label nameUser;
 
+    @FXML
+    private Button makeAppButton;
+
     private House house;
 
     // Al click del bottone di logout: ritorna alla View di login
@@ -115,7 +118,8 @@ public class HouseDetailsController implements Initializable {
     // Avviato alla creazione della View
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /* NB: DA MODIFICARE CON I DATI PROVENIENTI DAL DATABASE */
+        //TODO DA MODIFICARE CON I DATI PROVENIENTI DAL DATABASE
+
         // Imposta l'immagine più grande
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
         Image image = new Image(getClass().getResourceAsStream("img/house.png"));
@@ -151,6 +155,8 @@ public class HouseDetailsController implements Initializable {
 
         if (UserAccess.getUser().getPrivileges() == 1) {
             addAdminButtons();
+
+            makeAppButton.setVisible(false);
         }
     }
 
@@ -160,8 +166,6 @@ public class HouseDetailsController implements Initializable {
         btn1.getStyleClass().add("modify-house-button");
         adminButtonsArea.getChildren().add(btn1);
 
-        // TODO: cambia il riferimento di FXML loader o modificare il file fxml in modo che permetta anche la modifica
-        /* es: deve avere il bottone rimuovi e i text-field già compilati con i valori correnti */
         btn1.setOnAction(e -> {
             try {
                 Stage stage = (Stage)detailbox1.getScene().getWindow();
