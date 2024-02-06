@@ -54,7 +54,10 @@ public class GarageBuilder implements HouseBuilder {
     public void setPrice(int price) {
         this.price = price;
     }
-
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
     @Override
     public void setPics(Image[] pics) {
         this.pics = pics;
@@ -85,6 +88,7 @@ public class GarageBuilder implements HouseBuilder {
             0,
             sqm,
             price,
+            description,
             pics
         );
     }
@@ -94,5 +98,6 @@ public class GarageBuilder implements HouseBuilder {
     private String address;
     private int sqm;
     private int price;
+    private String description;
     private Image[] pics = new Image[3];
 }

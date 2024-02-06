@@ -23,6 +23,8 @@ public interface HouseBuilder {
 
     void setPrice(int price);
 
+    void setDescription(String description);
+
     void setPics(Image[] pics);
 
     void setId(int id);

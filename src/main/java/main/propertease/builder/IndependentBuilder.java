@@ -56,6 +56,9 @@ public class IndependentBuilder implements HouseBuilder {
     }
 
     @Override
+    public void setDescription(String description) { this.description = description; }
+
+    @Override
     public void setPics(Image[] pics) {
         this.pics = pics;
     }
@@ -85,6 +88,7 @@ public class IndependentBuilder implements HouseBuilder {
             bedrooms,
             sqm,
             price,
+            description,
             pics
         );
     }
@@ -99,5 +103,6 @@ public class IndependentBuilder implements HouseBuilder {
     private int bedrooms;
     private int sqm;
     private int price;
+    private String description;
     private Image[] pics = new Image[3];
 }
