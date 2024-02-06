@@ -150,41 +150,45 @@ public class AddHouseController implements Initializable {
     // Al click del bottone di conferma inserisce la nuova casa nel database //TODO aggiungere price
     @FXML
     void confirmButton(ActionEvent event) {
-        boolean notGood = true;
+        boolean notGood = false;
 
-        switch (houseTypeComboBox.getValue()) {
-            case "Apartment":
-                notGood &= addressField.getText().isEmpty() &
-                        floorField.getText().isEmpty() &
-                        elevatorField.getText().isEmpty() &
-                        balconiesField.getText().isEmpty() &
-                        terraceField.getText().isEmpty() &
-                        accessoriesField.getText().isEmpty() &
-                        bedroomsField.getText().isEmpty() &
-                        sqmField.getText().isEmpty() &
-                        descriptionField.getText().isEmpty();
-                break;
+        if(houseTypeComboBox.getValue() == null)
+        {
+            System.out.println("No house type selected.");
+        }
+        else
+        {
+            switch (houseTypeComboBox.getValue()) {
+                case "Apartment":
+                    notGood |= addressField.getText().isEmpty() |
+                            floorField.getText().isEmpty() |
+                            elevatorField.getText().isEmpty() |
+                            balconiesField.getText().isEmpty() |
+                            terraceField.getText().isEmpty() |
+                            accessoriesField.getText().isEmpty() |
+                            bedroomsField.getText().isEmpty() |
+                            sqmField.getText().isEmpty();
+                    break;
 
-            case "Garage":
-                notGood &= addressField.getText().isEmpty() &
-                        sqmField.getText().isEmpty() &
-                        descriptionField.getText().isEmpty();
-                break;
+                case "Garage":
+                    notGood |= addressField.getText().isEmpty() |
+                            sqmField.getText().isEmpty();
+                    break;
 
-            case "Independent":
-                notGood &= addressField.getText().isEmpty() &
-                        balconiesField.getText().isEmpty() &
-                        terraceField.getText().isEmpty() &
-                        gardenField.getText().isEmpty() &
-                        accessoriesField.getText().isEmpty() &
-                        bedroomsField.getText().isEmpty() &
-                        sqmField.getText().isEmpty() &
-                        descriptionField.getText().isEmpty();
-                break;
+                case "Independent":
+                    notGood |= addressField.getText().isEmpty() |
+                            balconiesField.getText().isEmpty() |
+                            terraceField.getText().isEmpty() |
+                            gardenField.getText().isEmpty() |
+                            accessoriesField.getText().isEmpty() |
+                            bedroomsField.getText().isEmpty() |
+                            sqmField.getText().isEmpty();
+                    break;
 
-            default:
-                System.out.println("No house type selected.");
-                break;
+                default:
+                    System.out.println("No house type selected.");
+                    break;
+            }
         }
 
         if(notGood){
@@ -215,7 +219,7 @@ public class AddHouseController implements Initializable {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
         // aggiunge gli elementi della ComboBox
         houseTypeComboBox.getItems().setAll(houseType);
-
+        errorLabel.setVisible(false);
     }
 
     // function che si attiva ogni volta che cambia il valore della combobox(anche quando faccio reset)
