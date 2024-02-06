@@ -51,8 +51,7 @@ create table if not exists Appointment (
 
 create table if not exists Availability (
     agent       varchar(256)    not null,
-    start_date  date            not null,
-    end_date    date            not null,
+    time        date            not null,
 
     foreign key (agent)
         references User(username)

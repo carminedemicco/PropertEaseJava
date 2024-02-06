@@ -112,8 +112,9 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                     response.put("response", new JSONObject());
                 } catch (Exception e) {
                     response.put("response", JSONObject.NULL);
+                } finally {
+                    clientManager.writeLine(response.toString());
                 }
-                clientManager.writeLine(response.toString());
                 break;
             }
         }

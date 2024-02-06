@@ -94,11 +94,10 @@ public class HouseDetailsController implements Initializable {
     @FXML
     void logoutButton(ActionEvent event) throws Exception {
         // Operazioni di logout
-        //...
 
-        Stage stage = (Stage)detailbox1.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
         stage.hide();
         stage.setScene(scene);
         stage.show();
@@ -108,9 +107,9 @@ public class HouseDetailsController implements Initializable {
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
     void homeButton(ActionEvent event) throws Exception {
-        Stage stage = (Stage)detailbox1.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
 
@@ -122,9 +121,9 @@ public class HouseDetailsController implements Initializable {
 
         // Imposta l'immagine più grande
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
-        Image image = new Image(getClass().getResourceAsStream("img/house.png"));
+        var image = new Image(getClass().getResourceAsStream("img/house.png"));
         img1.setPreserveRatio(false); //si adatta alla dimensione
-        Rectangle roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
+        var roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
         roundedRectangle.setArcWidth(25);
         roundedRectangle.setArcHeight(25);
         img1.setClip(roundedRectangle);
@@ -162,16 +161,16 @@ public class HouseDetailsController implements Initializable {
 
     // Funzione che aggiunge il bottone di modifica casa solo se i log è admin
     private void addAdminButtons() {
-        Button btn1 = new Button();
+        final var btn1 = new Button();
         btn1.getStyleClass().add("modify-house-button");
         adminButtonsArea.getChildren().add(btn1);
 
         btn1.setOnAction(e -> {
             try {
-                Stage stage = (Stage)detailbox1.getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-                AddHouseController addHouseController = fxmlLoader.getController();
+                final var stage = (Stage)detailbox1.getScene().getWindow();
+                final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
+                final var scene = new Scene(fxmlLoader.load());
+                final var addHouseController = fxmlLoader.<AddHouseController>getController();
                 addHouseController.setModifyData(house);
                 stage.setScene(scene);
             } catch (IOException ex) {
@@ -184,12 +183,14 @@ public class HouseDetailsController implements Initializable {
     // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
     @FXML
     void makeAppointmentButton(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage)detailbox1.getScene().getWindow();
+        final var primaryStage = (Stage)detailbox1.getScene().getWindow();
 
         // Crea la nuova scena
-        Stage newStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupSelectDate.fxml"));
-        Scene newScene = new Scene(fxmlLoader.load());
+        final var newStage = new Stage();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupSelectDate.fxml"));
+        final var newScene = new Scene(fxmlLoader.load());
+        final var selectDataController = fxmlLoader.<SelectDateController>getController();
+        selectDataController.setData(house.getId());
         newStage.setScene(newScene);
 
         // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
@@ -210,7 +211,7 @@ public class HouseDetailsController implements Initializable {
         img3.setImage(house.getPics(2));
         addressLabel.setText(house.getAddress());
         floorLabel.setText(String.valueOf(house.getFloor()));
-        elevatorLabel.setText((house.hasElevator()) ? "Yes" : "No");
+        elevatorLabel.setText(house.hasElevator() ? "Yes" : "No");
         balconiesLabel.setText(String.valueOf(house.getBalconies()));
         terraceLabel.setText(String.valueOf(house.getTerrace()));
         gardenLabel.setText(String.valueOf(house.getGarden()));

@@ -1,9 +1,7 @@
 package main.propertease.server.proxy;
 
-import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 

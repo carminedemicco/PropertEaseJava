@@ -153,12 +153,12 @@ public class LoginViewController implements Initializable {
             final var firstName = response.getString("first_name");
             final var lastName = response.getString("last_name");
             final var privileges = response.getInt("privileges");
-            final var user = new User(username, firstName, lastName, privileges);
+            final var user = new User(firstName, lastName, username, privileges);
             UserAccess.setUser(user);
             // vai alla schermata successiva
-            Stage stage = (Stage)signInButton.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            final var stage = (Stage)signInButton.getScene().getWindow();
+            final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+            final var scene = new Scene(fxmlLoader.load());
             stage.hide();
             stage.setScene(scene);
             stage.show();

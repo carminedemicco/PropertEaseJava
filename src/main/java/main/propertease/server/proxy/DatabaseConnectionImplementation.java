@@ -8,6 +8,7 @@ public class DatabaseConnectionImplementation implements DatabaseConnection {
     public DatabaseConnectionImplementation(String host) {
         try {
             connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s", host));
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -17,7 +18,6 @@ public class DatabaseConnectionImplementation implements DatabaseConnection {
     public void executeUpdate(String query, Optional<? extends Iterable<Object>> values) throws SQLException {
         try (final var statement = prepareStatement(query, values)) {
             statement.executeUpdate();
-            connection.commit();
         }
     }
 

@@ -59,8 +59,9 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                         } catch (Exception e) {
                             e.printStackTrace();
                             response.put("response", JSONObject.NULL);
+                        } finally {
+                            clientManager.writeLine(response.toString());
                         }
-                        clientManager.writeLine(response.toString());
                     });
                     break;
                 }
