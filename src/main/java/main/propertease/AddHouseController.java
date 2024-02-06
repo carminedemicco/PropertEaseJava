@@ -17,6 +17,7 @@ import main.propertease.builder.House;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class AddHouseController implements Initializable {
 
@@ -146,12 +147,49 @@ public class AddHouseController implements Initializable {
         }
     }
 
-    // Al click del bottone di conferma inserisce la nuova casa nel database
+    // Al click del bottone di conferma inserisce la nuova casa nel database //TODO aggiungere price
     @FXML
     void confirmButton(ActionEvent event) {
-        //TODO controlla se tutti i campi necessari sono compilati
-        errorLabel.setVisible(true);
+        boolean notGood = true;
 
+        switch (houseTypeComboBox.getValue()) {
+            case "Apartment":
+                notGood &= addressField.getText().isEmpty() &
+                        floorField.getText().isEmpty() &
+                        elevatorField.getText().isEmpty() &
+                        balconiesField.getText().isEmpty() &
+                        terraceField.getText().isEmpty() &
+                        accessoriesField.getText().isEmpty() &
+                        bedroomsField.getText().isEmpty() &
+                        sqmField.getText().isEmpty() &
+                        descriptionField.getText().isEmpty();
+                break;
+
+            case "Garage":
+                notGood &= addressField.getText().isEmpty() &
+                        sqmField.getText().isEmpty() &
+                        descriptionField.getText().isEmpty();
+                break;
+
+            case "Independent":
+                notGood &= addressField.getText().isEmpty() &
+                        balconiesField.getText().isEmpty() &
+                        terraceField.getText().isEmpty() &
+                        gardenField.getText().isEmpty() &
+                        accessoriesField.getText().isEmpty() &
+                        bedroomsField.getText().isEmpty() &
+                        sqmField.getText().isEmpty() &
+                        descriptionField.getText().isEmpty();
+                break;
+
+            default:
+                System.out.println("No house type selected.");
+                break;
+        }
+
+        if(notGood){
+            errorLabel.setVisible(true);
+        }
         //TODO inserire tutta la logica di inserimento nel database
         // ...
     }
