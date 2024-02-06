@@ -117,35 +117,24 @@ public class HouseDetailsController implements Initializable {
     // Avviato alla creazione della View
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO DA MODIFICARE CON I DATI PROVENIENTI DAL DATABASE
-
-        // Imposta l'immagine più grande
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
-        var image = new Image(getClass().getResourceAsStream("img/house.png"));
+
+        // Imposta le immagini tonde
         img1.setPreserveRatio(false); //si adatta alla dimensione
         var roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
-        roundedRectangle.setArcWidth(25);
-        roundedRectangle.setArcHeight(25);
+        roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25);
         img1.setClip(roundedRectangle);
-        img1.setImage(image);
 
-        // Imposta la prima immagine piccola
-        image = new Image(getClass().getResourceAsStream("img/house.png"));
         img2.setPreserveRatio(false);
         roundedRectangle = new Rectangle(img2.getFitWidth(), img2.getFitHeight());
-        roundedRectangle.setArcWidth(25);
-        roundedRectangle.setArcHeight(25);
+        roundedRectangle.setArcWidth(25);roundedRectangle.setArcHeight(25);
         img2.setClip(roundedRectangle);
-        img2.setImage(image);
 
-        // Imposta la seconda immagine piccola
-        image = new Image(getClass().getResourceAsStream("img/house.png"));
         img3.setPreserveRatio(false);
         roundedRectangle = new Rectangle(img3.getFitWidth(), img3.getFitHeight());
         roundedRectangle.setArcWidth(25);
         roundedRectangle.setArcHeight(25);
         img3.setClip(roundedRectangle);
-        img3.setImage(image);
 
         // Imposta l'effetto sfumato alle box
         detailbox1.setEffect(new DropShadow(20, Color.BLACK));

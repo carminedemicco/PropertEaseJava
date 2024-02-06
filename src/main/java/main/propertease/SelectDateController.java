@@ -85,11 +85,11 @@ public class SelectDateController implements Initializable {
                 // Gestisci l'errore
                 switch (response.getString("error")) {
                     case "alreadyBooked":
-                        errorLabel.setText("You already have an appointment for this date.");
+                        errorLabel.setText("Already booked for this date.");
                         break;
 
                     case "notAvailable":
-                        errorLabel.setText("The agent is not available for this date.");
+                        errorLabel.setText("Agent is not available for this date.");
                         break;
 
                     default:
@@ -99,12 +99,10 @@ public class SelectDateController implements Initializable {
                 errorLabel.setVisible(true);
             } else {
                 // Appuntamento preso con successo
-                errorLabel.setVisible(false);
+                // Chiusura della finestra corrente
+                final var currentStage = (Stage)anchorPane.getScene().getWindow();
+                currentStage.close();
             }
-
-            // Chiusura della finestra corrente
-            final var currentStage = (Stage)anchorPane.getScene().getWindow();
-            currentStage.close();
 
         } else {
             // La data non è nel formato corretto
