@@ -93,7 +93,7 @@ public class HouseDetailsController implements Initializable {
         // Operazioni di logout
         //...
 
-        Stage stage = (Stage) detailbox1.getScene().getWindow();
+        Stage stage = (Stage)detailbox1.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.hide();
@@ -105,7 +105,7 @@ public class HouseDetailsController implements Initializable {
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
     void homeButton(ActionEvent event) throws Exception {
-        Stage stage = (Stage) detailbox1.getScene().getWindow();
+        Stage stage = (Stage)detailbox1.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -149,7 +149,7 @@ public class HouseDetailsController implements Initializable {
         detailbox2.setEffect(new DropShadow(20, Color.BLACK));
         detailbox3.setEffect(new DropShadow(20, Color.BLACK));
 
-        if(UserAccess.getUser().getPrivileges() == 1){
+        if (UserAccess.getUser().getPrivileges() == 1) {
             addAdminButtons();
         }
     }
@@ -164,7 +164,7 @@ public class HouseDetailsController implements Initializable {
         /* es: deve avere il bottone rimuovi e i text-field già compilati con i valori correnti */
         btn1.setOnAction(e -> {
             try {
-                Stage stage = (Stage) detailbox1.getScene().getWindow();
+                Stage stage = (Stage)detailbox1.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
                 stage.setScene(scene);
@@ -178,7 +178,7 @@ public class HouseDetailsController implements Initializable {
     // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
     @FXML
     void makeAppointmentButton(ActionEvent event) throws IOException {
-        Stage primaryStage = (Stage) detailbox1.getScene().getWindow();
+        Stage primaryStage = (Stage)detailbox1.getScene().getWindow();
 
         // Crea la nuova scena
         Stage newStage = new Stage();
@@ -204,7 +204,7 @@ public class HouseDetailsController implements Initializable {
         img3.setImage(house.getPics(2));
         addressLabel.setText(house.getAddress());
         floorLabel.setText(String.valueOf(house.getFloor()));
-        elevatorLabel.setText((house.hasElevator())?"Yes":"No");
+        elevatorLabel.setText((house.hasElevator()) ? "Yes" : "No");
         balconiesLabel.setText(String.valueOf(house.getBalconies()));
         terraceLabel.setText(String.valueOf(house.getTerrace()));
         gardenLabel.setText(String.valueOf(house.getGarden()));

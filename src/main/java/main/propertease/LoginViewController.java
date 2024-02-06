@@ -62,24 +62,24 @@ public class LoginViewController implements Initializable {
     void confirmButtonAction(ActionEvent event) throws Exception {
         // Controllo se c'è un campo non compilato
         if (firstNameSignUpField.getText().isEmpty() || lastNameSignUpField.getText().isEmpty() ||
-                usernameSignUpField.getText().isEmpty() || passwordSingUpField.getText().isEmpty()) {
+            usernameSignUpField.getText().isEmpty() || passwordSingUpField.getText().isEmpty()) {
             errorSignUpText.setText("Fill in all required fields.");
             errorSignUpText.setStyle("-fx-text-fill: red;");
             errorSignUpText.setVisible(true);
         } else {
             final var query = """
-              {
-                "type": "generic",
-                "data": {
-                  "request": "signup",
-                  "parameters": {
-                    "username": "%s",
-                    "first_name": "%s",
-                    "last_name": "%s",
-                    "password": "%s",
+                  {
+                    "type": "generic",
+                    "data": {
+                      "request": "signup",
+                      "parameters": {
+                        "username": "%s",
+                        "first_name": "%s",
+                        "last_name": "%s",
+                        "password": "%s",
+                      }
+                    }
                   }
-                }
-              }
             """;
             final var message = new JSONObject(
                 String.format(
@@ -125,19 +125,19 @@ public class LoginViewController implements Initializable {
     /* Schermata Sing In */
     // Al click del bottone di accesso
     @FXML
-    void singInButtonAction(ActionEvent event) throws Exception{
+    void singInButtonAction(ActionEvent event) throws Exception {
         final var query = """
-          {
-            "type": "generic",
-            "data": {
-              "request": "signin",
-              "parameters": {
-                "username": "%s",
-                "password": "%s"
+              {
+                "type": "generic",
+                "data": {
+                  "request": "signin",
+                  "parameters": {
+                    "username": "%s",
+                    "password": "%s"
+                  }
+                }
               }
-            }
-          }
-        """;
+            """;
         final var username = usernameSignInField.getText();
         final var password = passwordSingInField.getText();
         final var message = new JSONObject(String.format(query, username, password));
@@ -156,7 +156,7 @@ public class LoginViewController implements Initializable {
             final var user = new User(username, firstName, lastName, privileges);
             UserAccess.setUser(user);
             // vai alla schermata successiva
-            Stage stage = (Stage) signInButton.getScene().getWindow();
+            Stage stage = (Stage)signInButton.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.hide();

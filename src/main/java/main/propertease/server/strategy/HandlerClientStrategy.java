@@ -64,12 +64,12 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
 
     private void handleGenericRequest(JSONObject data) {
         final var request = data.getString("request");
+        final var connection = new DatabaseConnectionProxy();
         switch (request) {
             case "signin": {
                 final var parameters = data.getJSONObject("parameters");
                 final var username = parameters.getString("username");
                 final var password = parameters.getString("password");
-                final var connection = new DatabaseConnectionProxy();
                 final var query = "select * from User where username = ? and password = ?";
                 final var queryData = Arrays.<Object>asList(username, password);
                 connection.executeQuery(query, Optional.of(queryData), (result) -> {
@@ -91,7 +91,8 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                         clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
                     }
                 });
-            } break;
+                break;
+            }
 
             case "signup": {
                 final var parameters = data.getJSONObject("parameters");
@@ -99,7 +100,6 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                 final var password = parameters.getString("password");
                 final var firstName = parameters.getString("first_name");
                 final var lastName = parameters.getString("last_name");
-                final var connection = new DatabaseConnectionProxy();
                 final var query = "insert into User values (?, ?, ?, ?, 0)";
                 final var queryData = Arrays.<Object>asList(
                     username,
@@ -115,7 +115,8 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                     response.put("response", JSONObject.NULL);
                 }
                 clientManager.writeLine(response.toString());
-            } break;
+                break;
+            }
         }
     }
 

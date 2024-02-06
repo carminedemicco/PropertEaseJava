@@ -62,7 +62,8 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                         }
                         clientManager.writeLine(response.toString());
                     });
-                } break;
+                    break;
+                }
             }
         } catch (JSONException e) {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));

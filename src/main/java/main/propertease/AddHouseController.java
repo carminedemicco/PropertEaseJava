@@ -85,9 +85,9 @@ public class AddHouseController implements Initializable {
         // Operazioni di logout
         //...
 
-        Stage stage = (Stage) detailbox1.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
         stage.hide();
         stage.setScene(scene);
         stage.show();
@@ -97,9 +97,9 @@ public class AddHouseController implements Initializable {
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
     void homeButton(ActionEvent event) throws Exception {
-        Stage stage = (Stage) detailbox1.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        final var stage = (Stage)detailbox1.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
 
@@ -109,7 +109,7 @@ public class AddHouseController implements Initializable {
     // l'utente sceglie l'immagine 1 da caricare
     @FXML
     void addImg1(ActionEvent event) {
-        FileChooser fc = new FileChooser();
+        final var fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
 
         pics[0] = fc.showOpenDialog(null);
@@ -123,7 +123,7 @@ public class AddHouseController implements Initializable {
     // l'utente sceglie l'immagine 2 da caricare
     @FXML
     void addImg2(ActionEvent event) {
-        FileChooser fc = new FileChooser();
+        final var fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         pics[1] = fc.showOpenDialog(null);
 
@@ -136,7 +136,7 @@ public class AddHouseController implements Initializable {
     // l'utente sceglie l'immagine 3 da caricare
     @FXML
     void addImg3(ActionEvent event) {
-        FileChooser fc = new FileChooser();
+        final var fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         pics[2] = fc.showOpenDialog(null);
 
@@ -183,9 +183,9 @@ public class AddHouseController implements Initializable {
     // function che si attiva ogni volta che cambia il valore della combobox(anche quando faccio reset)
     // alla selezione del tipo di casa blocca i campi non compilabili
     @FXML
-    private void blockFields(){
+    private void blockFields() {
         resetKeyFeaturesFields();
-        switch (houseTypeComboBox.getValue()){
+        switch (houseTypeComboBox.getValue()) {
             case "Apartment":
                 gardenField.setDisable(true);
 
@@ -214,7 +214,7 @@ public class AddHouseController implements Initializable {
 
     }
 
-    private void resetKeyFeaturesFields(){
+    private void resetKeyFeaturesFields() {
         addressField.clear();
         floorField.clear();
         elevatorField.clear();

@@ -47,22 +47,20 @@ public class MainViewController implements Initializable {
     private Label nameUser;
 
 
-    /* NB: DA MODIFICARE CON LE CASE CHE ARRIVANO DAL DATABASE DEL SERVER */
     // Prende dal database i dati di tutte le case
     // Per ciascuna istanza crea un oggetto House corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti House
-    private final List<House> houses = new ArrayList<>();
 
-    private List<House> getHouseData() throws Exception {
+    private List<House> getHouseData() {
         final List<House> houses = new ArrayList<>();
         final var query = """
-          {
-            "type": "poster",
-            "data": {
-              "request": "getHouses",
-            },
-          }
-        """;
+              {
+                "type": "poster",
+                "data": {
+                  "request": "getHouses",
+                },
+              }
+            """;
         final var data = ClientConnection
             .getInstance()
             .getClient()
@@ -72,17 +70,17 @@ public class MainViewController implements Initializable {
         for (var i = 0; i < response.length(); i++) {
             final var house = response.getJSONObject(i);
             final var type = HouseType.fromValue(house.getInt("type"));
+            final var images = new Image[]{null, null, null};
+            for (var j = 0; j < images.length; j++) {
+                if (!house.isNull("image" + j)) {
+                    final var image = house.getString("image" + j);
+                    final var bytes = Base64.getDecoder().decode(image);
+                    final var stream = new ByteArrayInputStream(bytes);
+                    images[j] = new Image(stream);
+                }
+            }
             switch (type) {
                 case APARTMENT: {
-                    final var images = new Image[] { null, null, null };
-                    for (var j = 0; j < images.length; j++) {
-                        if (!house.isNull("image" + j)) {
-                            final var image = house.getString("image" + j);
-                            final var bytes = Base64.getDecoder().decode(image);
-                            final var stream = new ByteArrayInputStream(bytes);
-                            images[j] = new Image(stream);
-                        }
-                    }
                     final var builder = new ApartmentBuilder();
                     final var result = houseDirector.constructApartment(
                         builder,
@@ -100,13 +98,16 @@ public class MainViewController implements Initializable {
                         images
                     );
                     houses.add(result);
-                } break;
+                    break;
+                }
                 case GARAGE: {
 
-                } break;
+                    break;
+                }
                 case INDEPENDENT: {
 
-                } break;
+                    break;
+                }
             }
 
         }
@@ -114,66 +115,79 @@ public class MainViewController implements Initializable {
     }
 
 
-    /* NB: DA MODIFICARE CON GLI APPUNTAMENTI CHE ARRIVANO DAL DATABASE DEL SERVER */
     // Prende dal database i dati sugli appuntamenti dell'utente loggato
     // Per ciascuna istanza crea un oggetto Appointment corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti Appointment
-    private List<Appointment> appointments = new ArrayList<>();
 
     private List<Appointment> getAppointmentData() throws Exception {
-        List<Appointment> appointments = new ArrayList<>();
-        Appointment appointment;
-
-        // Query: seleziona i dati dell'esperto e della casa relativi agli appuntamenti dell'utente loggato
-        /* NB: ↓ in futuro CAMBIARE il valore con l'username del utente corrente */
-        String currentUsername = "carmine";
-        String query = String.format("select appointment.ROWID, date, u.name as uname, u.surname, h.name as hname, h.address1, h.address2 from appointment " +
-                                         " inner join house h on h.ROWID = appointment.id_house " +
-                                         " inner join useraccount u on u.username = appointment.username_administrator " +
-                                         "WHERE username_buyer = '%s'", currentUsername);
-        /*Statement statement = connectionDB.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-
-        while (resultSet.next()) {
-            appointment = new Appointment();
-            appointment.setId(resultSet.getInt("ROWID"));
-            appointment.setHouseName(resultSet.getString("hname"));
-            appointment.setHouseAddress(resultSet.getString("address1") + ", " + resultSet.getString("address2"));
-            appointment.setAdministratorName("Estate Agent: " + resultSet.getString("uname") + " " + resultSet.getString("surname"));
-            // Codice di conversione dal tipo Date a String
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy, h:mm a.", Locale.ENGLISH);
-            String formattedDate = sdf.format(resultSet.getTimestamp("date"));
-            appointment.setAppointmentDate(formattedDate);
-
-            appointments.add(appointment);
-        }*/
-
+        final var appointments = new ArrayList<Appointment>();
+        final var user = UserAccess.getUser();
+        // Seleziona i dati dell'esperto e della casa relativi agli appuntamenti dell'utente loggato
+        final var query = """
+              {
+                "type": "appointment",
+                "data": {
+                  "request": "getAppointmentsForUser",
+                  "parameters": {
+                    "username": "%s"
+                  }
+                }
+              }
+            """;
+        final var message = new JSONObject(String.format(query, user.getUsername()));
+        final var data = ClientConnection
+            .getInstance()
+            .getClient()
+            .exchange(message);
+        final var response = data.getJSONArray("response");
+        for (final var each : response) {
+            appointments.add(getAppointment((JSONObject)each));
+        }
         return appointments;
     }
 
+    private Appointment getAppointment(JSONObject info) {
+        final var agentInfo = info.getJSONObject("agent");
+        final var houseInfo = info.getJSONObject("house");
+
+        final var appointment = new Appointment();
+        appointment.setId(info.getInt("id"));
+        appointment.setHouseName(houseInfo.getString("name"));
+        appointment.setHouseAddress(houseInfo.getString("address"));
+        appointment.setAdministratorName(
+            String.format(
+                "Estate Agent: %s %s",
+                agentInfo.getString("first_name"),
+                agentInfo.getString("last_name")
+            )
+        );
+        // Codice di conversione dal tipo Date a String
+        final var dateFormat = new SimpleDateFormat("MMMM d, yyyy, h:mm a.", Locale.ENGLISH);
+        final var formattedDate = dateFormat.format(info.getString("date"));
+        appointment.setAppointmentDate(formattedDate);
+        return appointment;
+    }
 
     // Avviato alla creazione della View
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
 
         try {
             setHousesGrid();
             setAppointmentsGrid();
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        if(UserAccess.getUser().getPrivileges() == 1){
+        if (UserAccess.getUser().getPrivileges() == 1) {
             addAdminButtons();
         }
     }
 
     private void addAdminButtons() {
-        Button btn1 = new Button();
-        Button btn2 = new Button();
+        final var btn1 = new Button();
+        final var btn2 = new Button();
         btn1.getStyleClass().add("add-house-button");
         btn2.getStyleClass().add("add-date-button");
         adminButtonsArea.getChildren().add(btn1);
@@ -182,9 +196,9 @@ public class MainViewController implements Initializable {
         // Al click del bottone di inserimento casa: porta alla View di inserimento
         btn1.setOnAction(e -> {
             try {
-                Stage stage = (Stage) gridPane.getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
+                final var stage = (Stage)gridPane.getScene().getWindow();
+                final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
+                final var scene = new Scene(fxmlLoader.load());
                 stage.setScene(scene);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -194,12 +208,12 @@ public class MainViewController implements Initializable {
         // Al click del bottone di inserimento disponibilità: apre il popup relativo
         btn2.setOnAction(e -> {
             try {
-                Stage primaryStage = (Stage) gridPane.getScene().getWindow();
+                final var primaryStage = (Stage)gridPane.getScene().getWindow();
 
                 // Crea la nuova scena
-                Stage newStage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
-                Scene newScene = new Scene(fxmlLoader.load());
+                final var newStage = new Stage();
+                final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
+                final var newScene = new Scene(fxmlLoader.load());
                 newStage.setScene(newScene);
 
                 // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
@@ -225,9 +239,9 @@ public class MainViewController implements Initializable {
         //...
 
         // Torna alla schermata di login
-        Stage stage = (Stage) gridPane.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        final var stage = (Stage)gridPane.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
         stage.hide();
         stage.setScene(scene);
         stage.show();
@@ -236,18 +250,16 @@ public class MainViewController implements Initializable {
 
     // Carica la griglia delle case
     public void setHousesGrid() throws Exception {
-        houses.addAll(getHouseData());
-
         int row = 1;
         int column = 0;
 
-        for (House house : houses) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
+        for (final var house : getHouseData()) {
+            final var fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("houses.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
+            final var anchorPane = fxmlLoader.<AnchorPane>load();
             anchorPane.setEffect(new DropShadow(10, Color.BLACK));
 
-            HousesController housesController = fxmlLoader.getController();
+            final var housesController = fxmlLoader.<HousesController>getController();
             housesController.setData(house);
 
             if (column == 3) {
@@ -263,14 +275,13 @@ public class MainViewController implements Initializable {
 
     // Carica la griglia degli appuntamenti
     public void setAppointmentsGrid() throws Exception {
-        appointments.addAll(getAppointmentData());
-        for (Appointment appointment : appointments) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
+        for (final var appointment : getAppointmentData()) {
+            final var fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("appointments.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
+            final var anchorPane = fxmlLoader.<AnchorPane>load();
             anchorPane.setEffect(new DropShadow(5, Color.BLACK));
 
-            AppointmentsController appointmentsController = fxmlLoader.getController();
+            final var appointmentsController = fxmlLoader.<AppointmentsController>getController();
             appointmentsController.setData(appointment);
 
             gridAppointments.getChildren().add(anchorPane);

@@ -34,7 +34,7 @@ public class InsertAvailabilityController implements Initializable {
     @FXML
     void cancelButton(ActionEvent event) {
         // Chiusura della finestra corrente
-        Stage currentStage = (Stage) anchorPane.getScene().getWindow();
+        final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 
@@ -44,29 +44,40 @@ public class InsertAvailabilityController implements Initializable {
     @FXML
     void confirmButton(ActionEvent event) {
         // Prendo il testo dei datePicker
-        String startDateString = datePickerStart.getEditor().getText();
-        String endDateString = datePickerEnd.getEditor().getText();
+        final var startDateString = datePickerStart.getEditor().getText();
+        final var endDateString = datePickerEnd.getEditor().getText();
         // Creo una regex: regular expression, permette di definire il formato
-        String regex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher1 = pattern.matcher(startDateString);
-        Matcher matcher2 = pattern.matcher(endDateString);
+        final var regex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$";
+        final var pattern = Pattern.compile(regex);
+        final var matcher1 = pattern.matcher(startDateString);
+        final var matcher2 = pattern.matcher(endDateString);
 
         if (matcher1.matches() && matcher2.matches()) {
             // Se entrambe le date sono nel formato corretto
-            LocalDate startDate = datePickerStart.getValue();
-            LocalDate endDate = datePickerEnd.getValue();
+            final var startDate = datePickerStart.getValue();
+            final var endDate = datePickerEnd.getValue();
 
             if (startDate.isAfter(endDate)) {
                 // Data inizio successiva a data fine
                 errorLabel.setText("Start Date must precede End Date.");
                 errorLabel.setVisible(true);
             } else {
-                // NB: Logica di inserimento disponibilità
+                // TODO: Logica di inserimento disponibilità
                 // ...
+                final var query = """
+                    {
+                      "type": "appointment",
+                      "data": {
+                        "request": "insertAgentAvailability",
+                        "parameters": {
+                          
+                        }
+                      }
+                    }
+                """;
 
                 // Chiusura della finestra corrente
-                Stage currentStage = (Stage) anchorPane.getScene().getWindow();
+                final var currentStage = (Stage)anchorPane.getScene().getWindow();
                 currentStage.close();
             }
         } else {

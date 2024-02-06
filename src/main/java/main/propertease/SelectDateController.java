@@ -32,7 +32,7 @@ public class SelectDateController implements Initializable {
     @FXML
     void cancelButton(ActionEvent event) {
         // Chiusura della finestra corrente
-        Stage currentStage = (Stage) anchorPane.getScene().getWindow();
+        Stage currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 
@@ -59,7 +59,7 @@ public class SelectDateController implements Initializable {
             // ...
 
             // Chiusura della finestra corrente
-            Stage currentStage = (Stage) anchorPane.getScene().getWindow();
+            Stage currentStage = (Stage)anchorPane.getScene().getWindow();
             currentStage.close();
 
         } else {

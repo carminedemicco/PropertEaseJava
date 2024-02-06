@@ -1,5 +1,6 @@
 package main.propertease.server.proxy;
 
+import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -22,8 +23,8 @@ public class DatabaseConnectionProxy implements DatabaseConnection {
 
     private static DatabaseConnection ensureConnection() {
         if (instance == null) {
-            final var resource = DatabaseConnectionProxy.class.getResource("/main/propertease/server/database/propertease.sqlite");
-            final var path = Objects.requireNonNull(resource).getPath();
+            final var root = System.getProperty("user.dir");
+            final var path = String.format("%s/src/main/resources/main/propertease/server/database/propertease.sqlite", root);
             instance = new DatabaseConnectionImplementation(path);
         }
         return instance;

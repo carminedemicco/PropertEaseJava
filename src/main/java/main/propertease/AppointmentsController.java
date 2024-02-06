@@ -45,7 +45,7 @@ public class AppointmentsController {
     @FXML
     void removeAppointment(ActionEvent event) throws Exception {
         // Apri il popup di conferma
-        Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
+        Stage primaryStage = (Stage)anchorPane.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
         Scene newScene = new Scene(fxmlLoader.load());
         Stage newStage = new Stage();
