@@ -1,11 +1,11 @@
 package main.propertease.builder;
 
-import main.propertease.decorator.Poster;
+import main.propertease.decorator.HouseInterface;
 import javafx.scene.image.Image;
 import main.propertease.memento.Memento;
 
 // House class
-public class House implements Poster {
+public class House implements HouseInterface {
     public House(
             int id,
             HouseType type,
