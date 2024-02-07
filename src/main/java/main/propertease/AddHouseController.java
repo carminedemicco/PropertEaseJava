@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.propertease.builder.House;
+import main.propertease.builder.HouseType;
 import main.propertease.memento.Memento;
 
 import java.io.File;
@@ -100,14 +101,39 @@ public class AddHouseController implements Initializable {
         nameImg3.setStyle("-fx-text-fill: #f0f8ff");
         nameImg3.setText("img3.png");
         houseTypeComboBox.setValue(type);
+        // Durante la modifica non è possibile modificare il tipo di casa
+        houseTypeComboBox.setDisable(true);
+
         addressField.setText(house.getAddress());
-        floorField.setText(String.valueOf(house.getFloor()));
-        elevatorField.setText(String.valueOf(house.hasElevator()));
-        balconiesField.setText(String.valueOf(house.getBalconies()));
-        terraceField.setText(String.valueOf(house.getTerrace()));
-        gardenField.setText(String.valueOf(house.getGarden()));
-        accessoriesField.setText(String.valueOf(house.getAccessories()));
-        bedroomsField.setText(String.valueOf(house.getBedrooms()));
+
+        // Disabilito i Fields
+        blockFields();
+
+        switch (house.getType()) {
+            case APARTMENT:
+                floorField.setText(String.valueOf(house.getFloor()));
+                elevatorField.setText(String.valueOf(house.hasElevator()));
+                balconiesField.setText(String.valueOf(house.getBalconies()));
+                terraceField.setText(String.valueOf(house.getTerrace()));
+                accessoriesField.setText(String.valueOf(house.getAccessories()));
+                bedroomsField.setText(String.valueOf(house.getBedrooms()));
+
+                break;
+
+            case GARAGE:
+
+                break;
+
+            case INDEPENDENT:
+                balconiesField.setText(String.valueOf(house.getBalconies()));
+                terraceField.setText(String.valueOf(house.getTerrace()));
+                gardenField.setText(String.valueOf(house.getGarden()));
+                accessoriesField.setText(String.valueOf(house.getAccessories()));
+                bedroomsField.setText(String.valueOf(house.getBedrooms()));
+
+                break;
+        }
+
         sqmField.setText(String.valueOf(house.getSqm()));
         priceField.setText(String.valueOf(house.getPrice()));
         descriptionField.setText(house.getDescription());
@@ -117,66 +143,52 @@ public class AddHouseController implements Initializable {
     }
 
 
-    // Al click del bottone di logout: ritorna alla View di login
-    @FXML
-    void logoutButton(ActionEvent event) throws Exception {
-        final Stage stage = (Stage)addressField.getScene().getWindow();
-        final FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        final Scene scene = new Scene(fxmlLoader.load());
-        stage.hide();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
-    // Al click del bottone home: ritorna alla View generale mainView.fxml
-    @FXML
-    void homeButton(ActionEvent event) throws Exception {
-        final var stage = (Stage)addressField.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-    }
-
-
-    File[] pics = new File[3];
+    File[] picsFile = new File[3];
+    Image[] pics = new Image[3];
 
     // l'utente sceglie l'immagine 1 da caricare
     final FileChooser fc = new FileChooser();
     @FXML
     void addImg1(ActionEvent event) {
-        pics[0] = fc.showOpenDialog(null);
+        picsFile[0] = fc.showOpenDialog(null);
 
-        if (pics[0] != null) {
+        if (picsFile[0] != null) {
             nameImg1.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg1.setText(pics[0].getName());
+            nameImg1.setText(picsFile[0].getName());
+
+            // Creo un oggetto Image usando il file selezionato
+            pics[0] = new Image(picsFile[0].toURI().toString());
         }
     }
 
     // l'utente sceglie l'immagine 2 da caricare
     @FXML
     void addImg2(ActionEvent event) {
-        pics[1] = fc.showOpenDialog(null);
+        picsFile[1] = fc.showOpenDialog(null);
 
-        if (pics[1] != null) {
+        if (picsFile[1] != null) {
             nameImg2.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg2.setText(pics[1].getName());
+            nameImg2.setText(picsFile[1].getName());
+
+            // Creo un oggetto Image usando il file selezionato
+            pics[1] = new Image(picsFile[1].toURI().toString());
         }
     }
 
     // l'utente sceglie l'immagine 3 da caricare
     @FXML
     void addImg3(ActionEvent event) {
-        pics[2] = fc.showOpenDialog(null);
+        picsFile[2] = fc.showOpenDialog(null);
 
-        if (pics[2] != null) {
+        if (picsFile[2] != null) {
             nameImg3.setStyle("-fx-text-fill: #f0f8ff");
-            nameImg3.setText(pics[2].getName());
+            nameImg3.setText(picsFile[2].getName());
+
+            // Creo un oggetto Image usando il file selezionato
+            pics[2] = new Image(picsFile[2].toURI().toString());
         }
     }
 
-
-    // Function di set House per
 
 
     // Al click del bottone di conferma inserisce la nuova casa nel database
@@ -184,12 +196,12 @@ public class AddHouseController implements Initializable {
     void confirmButton(ActionEvent event) {
         boolean notGood = false;
 
-        if(houseTypeComboBox.getValue() == null)
-        {
+        // Controllo che tutti i campi siano compilati
+        if(houseTypeComboBox.getValue() == null) {
+            notGood = true;
             System.out.println("No house type selected.");
         }
-        else
-        {
+        else {
             switch (houseTypeComboBox.getValue()) {
                 case "Apartment":
                     notGood |= addressField.getText().isEmpty() |
@@ -221,41 +233,96 @@ public class AddHouseController implements Initializable {
                     break;
 
                 default:
+                    notGood = true;
                     System.out.println("No house type selected.");
                     break;
             }
         }
 
         if(notGood){
+            //Se qualche campo non è compilato
             errorLabel.setText("Fill in all required fields.");
-            errorLabel.setStyle("-fx-fill: red");
+            errorLabel.setStyle("-fx-text-fill: red");
             errorLabel.setVisible(true);
         }
+        else{
+            // Se tutti i campi sono compilati
 
-        if(modifyHouse){
-            // Memento: prima della modifica dell'oggetto salvo il suo stato
-            houseMemento = house.createMemento();
-            // Modifica l'oggetto con i nuovi parametri inseriti
-            // TODO impostare i set per tutti i campi dell'oggetto(?)
-            house.setAddress(addressField.getText());
+            if(modifyHouse){
+                // Se sono in modalità modifica
 
-            //TODO inserire tutta la logica di modifica nel database
-            // ...
+                // Memento: prima della modifica dell'oggetto salvo il suo stato
+                houseMemento = house.createMemento();
 
-            errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
-            errorLabel.setStyle("-fx-text-fill: green");
-            errorLabel.setVisible(true);
-        }else {
-            // Converti gli oggetti File in oggetti Image
-            // (si può fare anche direttamente nel momento in vui prendo il file, nel codice sopra)
+                // Modifica l'oggetto con i nuovi parametri inseriti
+                switch (house.getType()) {
+                    case APARTMENT:
+                        house.setAddress(addressField.getText());
+                        house.setFloor(Integer.parseInt(floorField.getText()));
+                        house.setElevator(Boolean.parseBoolean(elevatorField.getText()));
+                        house.setBalconies(Integer.parseInt(balconiesField.getText()));
+                        house.setTerrace(Integer.parseInt(terraceField.getText()));
+                        house.setAccessories(Integer.parseInt(accessoriesField.getText()));
+                        house.setBedrooms(Integer.parseInt(bedroomsField.getText()));
+                        house.setSqm(Integer.parseInt(sqmField.getText()));
+                        house.setPrice(Integer.parseInt(priceField.getText()));
+                        house.setDescription(descriptionField.getText());
+                        house.setPics(pics);
 
-            //TODO inserire il builder per una casa in base al tipo selezionato
-            //Copia e incolla dal metodo getHouseData in MainViewController
+                        break;
+
+                    case GARAGE:
+                        house.setAddress(addressField.getText());
+                        house.setSqm(Integer.parseInt(sqmField.getText()));
+                        house.setPrice(Integer.parseInt(priceField.getText()));
+                        house.setDescription(descriptionField.getText());
+                        house.setPics(pics);
+
+                        break;
+
+                    case INDEPENDENT:
+                        house.setAddress(addressField.getText());
+                        house.setBalconies(Integer.parseInt(balconiesField.getText()));
+                        house.setTerrace(Integer.parseInt(terraceField.getText()));
+                        house.setGarden(Integer.parseInt(gardenField.getText()));
+                        house.setAccessories(Integer.parseInt(accessoriesField.getText()));
+                        house.setBedrooms(Integer.parseInt(bedroomsField.getText()));
+                        house.setSqm(Integer.parseInt(sqmField.getText()));
+                        house.setPrice(Integer.parseInt(priceField.getText()));
+                        house.setDescription(descriptionField.getText());
+                        house.setPics(pics);
+
+                        break;
+                }
 
 
-            //TODO inserire tutta la logica di inserimento nel database
-            // ...
+                //TODO inserire tutta la logica di modifica nel database usando l'oggetto house
+                // ...
+
+                errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
+                errorLabel.setStyle("-fx-text-fill: green");
+                errorLabel.setVisible(true);
+            }
+            else {
+                // Se sono in modalità di inserimento
+
+                //TODO inserire il builder per una casa in base al tipo selezionato
+                //Copia e incolla dal metodo getHouseData in MainViewController
+                // (Image[] pics contiene le immagini caricate)
+
+
+                //TODO inserire tutta la logica di inserimento nel database
+                // ...
+
+                // dopo aver inserito ritorna alla schermata principale
+                try {
+                    homeButton(null);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
+
     }
 
     // Al click del bottone di reset vengono puliti tutti i campi
@@ -280,7 +347,7 @@ public class AddHouseController implements Initializable {
         }
         else {
             // in modalità 'inserimento casa' azzera tutti i Field
-            pics = new File[3];
+            picsFile = new File[3];
             nameImg1.setStyle("-fx-text-fill: red");
             nameImg1.setText("No file selected yet.");
             nameImg2.setStyle("-fx-text-fill: red");
@@ -289,6 +356,8 @@ public class AddHouseController implements Initializable {
             nameImg3.setText("No file selected yet.");
 
             houseTypeComboBox.setValue("");
+            addressField.clear();
+            priceField.clear();
 
             descriptionField.clear();
         }
@@ -316,22 +385,12 @@ public class AddHouseController implements Initializable {
             // TODO rimozione del database della casa
             //...
 
-            // dopo aver inserito ritorna alla schermata principale
+            // dopo aver eliminato ritorna alla schermata principale
             homeButton(null);
         }
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
-        // aggiunge gli elementi della ComboBox
-        houseTypeComboBox.getItems().setAll(houseType);
-
-        // Definisco le estensioni accettate del FileChooser
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
-
-    }
 
     // function che si attiva ogni volta che cambia il valore della combobox(anche quando faccio reset)
     // alla selezione del tipo di casa blocca i campi non compilabili
@@ -368,7 +427,6 @@ public class AddHouseController implements Initializable {
     }
 
     private void resetKeyFeaturesFields() {
-        addressField.clear();
         floorField.clear();
         elevatorField.clear();
         balconiesField.clear();
@@ -388,4 +446,35 @@ public class AddHouseController implements Initializable {
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
+        // aggiunge gli elementi della ComboBox
+        houseTypeComboBox.getItems().setAll(houseType);
+
+        // Definisco le estensioni accettate del FileChooser
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+    }
+
+
+    // Al click del bottone di logout: ritorna alla View di login
+    @FXML
+    void logoutButton(ActionEvent event) throws Exception {
+        final Stage stage = (Stage)addressField.getScene().getWindow();
+        final FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
+        final Scene scene = new Scene(fxmlLoader.load());
+        stage.hide();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    // Al click del bottone home: ritorna alla View generale mainView.fxml
+    @FXML
+    void homeButton(ActionEvent event) throws Exception {
+        final var stage = (Stage)addressField.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+        final var scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
 }

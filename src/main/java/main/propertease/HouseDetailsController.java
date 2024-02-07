@@ -207,6 +207,6 @@ public class HouseDetailsController implements Initializable {
         accessoriesLabel.setText(String.valueOf(house.getAccessories()));
         bedroomsLabel.setText(String.valueOf(house.getBedrooms()));
         sqmLabel.setText(String.valueOf(house.getSqm()));
-        descriptionLabel.setText(""); // TODO aggiungere il campo description al builder per procedere
+        descriptionLabel.setText(house.getDescription());
     }
 }
