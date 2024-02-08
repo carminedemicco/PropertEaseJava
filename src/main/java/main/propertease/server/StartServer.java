@@ -1,6 +1,5 @@
 package main.propertease.server;
 
-import main.propertease.server.mediator.Server;
 import main.propertease.server.strategy.AppointmentClientStrategy;
 import main.propertease.server.strategy.HandlerClientStrategy;
 import main.propertease.server.strategy.PosterClientStrategy;

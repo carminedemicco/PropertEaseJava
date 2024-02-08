@@ -1,8 +1,7 @@
 package main.propertease.server.strategy;
 
-import main.propertease.server.mediator.AbstractClientManager;
+import main.propertease.server.ClientManager;
 import main.propertease.server.proxy.DatabaseConnection;
-import main.propertease.server.proxy.DatabaseConnectionProxy;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,14 +9,13 @@ import org.json.JSONObject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PosterClientStrategy implements ClientManagerStrategy {
-    public PosterClientStrategy(AbstractClientManager clientManager) {
+    public PosterClientStrategy(ClientManager clientManager) {
         this.clientManager = clientManager;
     }
 
@@ -85,12 +83,11 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                     final var price = parameters.getInt("price");
                     final var description = parameters.getString("description");
                     final var pictures = parameters.getJSONArray("pictures");
-                    final var houseId = getNewHouseId(database);
-                    final var images = storeHouseImages(houseId, pictures);
 
                     final var response = new JSONObject();
                     if (!parameters.isNull("id")) {
-                        final var updateHouseId = parameters.getInt("id");
+                        final var houseId = parameters.getInt("id");
+                        final var images = storeHouseImages(houseId, pictures);
                         final var query = """
                             update House set
                               type = ?,
@@ -126,17 +123,19 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                             images.get(0),
                             images.get(1),
                             images.get(2),
-                            updateHouseId
+                            houseId
                         );
                         try {
                             database.executeUpdate(query, values);
-                            response.put("response", new JSONObject().put("id", updateHouseId));
+                            response.put("response", new JSONObject().put("id", houseId));
                         } catch (Exception e) {
                             response.put("response", JSONObject.NULL);
                         } finally {
                             clientManager.writeLine(response.toString());
                         }
                     } else {
+                        final var houseId = getNewHouseId(database);
+                        final var images = storeHouseImages(houseId, pictures);
                         final var query = """
                             insert into House values (
                               ?,
@@ -184,6 +183,23 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                     }
                     break;
                 }
+
+                case "deleteHouse": {
+                    final var parameters = message.getJSONObject("parameters");
+                    final var houseId = parameters.getInt("id");
+                    final var query = "delete from House where ROWID = ?";
+                    final var values = Collections.singletonList(houseId);
+                    final var response = new JSONObject();
+                    try {
+                        database.executeUpdate(query, values);
+                        response.put("response", new JSONObject());
+                    } catch (Exception e) {
+                        response.put("response", JSONObject.NULL);
+                    } finally {
+                        clientManager.writeLine(response.toString());
+                    }
+                    break;
+                }
             }
         } catch (JSONException e) {
             clientManager.writeLine(clientManager.makeErrorMessage(e.getMessage()));
@@ -198,7 +214,6 @@ public class PosterClientStrategy implements ClientManagerStrategy {
     }
 
     private static Object getHouseImageAsBase64(int houseId, String name) {
-        // TODO: ritorna immagine di default
         var path = Path.of(getHouseImagePath(houseId, name));
         if (!Files.exists(path)) {
             final var classPath = "/main/propertease/img/icons/placeholder.png";
@@ -258,5 +273,5 @@ public class PosterClientStrategy implements ClientManagerStrategy {
         return id.get();
     }
 
-    private final AbstractClientManager clientManager;
+    private final ClientManager clientManager;
 }

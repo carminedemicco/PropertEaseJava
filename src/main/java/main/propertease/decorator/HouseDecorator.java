@@ -1,7 +1,7 @@
 package main.propertease.decorator;
 
 public class HouseDecorator implements HouseInterface {
-    private HouseInterface wrappee;
+    private final HouseInterface wrappee;
 
     HouseDecorator(HouseInterface source) {
         wrappee = source;

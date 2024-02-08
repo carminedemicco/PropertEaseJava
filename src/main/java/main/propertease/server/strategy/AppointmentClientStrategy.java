@@ -1,22 +1,18 @@
 package main.propertease.server.strategy;
 
-import main.propertease.server.mediator.AbstractClientManager;
+import main.propertease.server.ClientManager;
 import main.propertease.server.proxy.DatabaseConnection;
-import main.propertease.server.proxy.DatabaseConnectionProxy;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Locale;
-import java.util.Optional;
 
 public class AppointmentClientStrategy implements ClientManagerStrategy {
-    public AppointmentClientStrategy(AbstractClientManager clientManager) {
+    public AppointmentClientStrategy(ClientManager clientManager) {
         this.clientManager = clientManager;
     }
 
@@ -49,17 +45,16 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                     final var endDate = LocalDate.parse(parameters.getString("end_date"));
                     final var query = "insert into Availability values (?, ?)";
                     final var response = new JSONObject();
-                    try {
-                        for (var date = startDate; date.isBefore(endDate) || date.isEqual(endDate); date = date.plusDays(1)) {
-                            final var queryParameters = Arrays.<Object>asList(user, date);
+                    for (var date = startDate; date.isBefore(endDate) || date.isEqual(endDate); date = date.plusDays(1)) {
+                        final var queryParameters = Arrays.<Object>asList(date, user);
+                        try {
                             database.executeUpdate(query, queryParameters);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                        response.put("response", new JSONObject());
-                    } catch (SQLException e) {
-                        response.put("response", JSONObject.NULL);
-                    } finally {
-                        clientManager.writeLine(response.toString());
                     }
+                    response.put("response", new JSONObject());
+                    clientManager.writeLine(response.toString());
                     break;
                 }
 
@@ -220,5 +215,5 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
         });
     }
 
-    private final AbstractClientManager clientManager;
+    private final ClientManager clientManager;
 }

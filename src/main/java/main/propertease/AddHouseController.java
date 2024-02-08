@@ -441,8 +441,27 @@ public class AddHouseController implements Initializable {
         final var popupConfirmController = fxmlLoader.<PopupConfirmController>getController();
         // Prendo il valore di ritorno del popup dal controller
         if (popupConfirmController.getResult()) {
-            // TODO rimozione del database della casa
-            //...
+            final var query = new JSONObject(
+                String.format(
+                    """
+                    {
+                      "type": "poster",
+                      "data": {
+                        "request": "deleteHouse",
+                        "parameters": {
+                          "id": %d
+                        }
+                      }
+                    }
+                    """,
+                    house.getId()
+                )
+            );
+            // Ignora la risposta
+            ClientConnection
+                .getInstance()
+                .getClient()
+                .exchange(query);
 
             // dopo aver eliminato ritorna alla schermata principale
             homeButton(null);
