@@ -49,7 +49,7 @@ public class HousesController implements Initializable {
         name.setText(house.getName());
         price.setText("$ " + house.getPrice());
         // Divido la stringa utilizzando il carattere "|"
-        String[] addressSplit = house.getAddress().split("\\|");
+        final var addressSplit = house.getAddress().split("\\|");
         address1.setText(addressSplit[0]);
         address2.setText(addressSplit[1]);
 
@@ -57,7 +57,7 @@ public class HousesController implements Initializable {
         //Proprietà dell'immagine
         img.setPreserveRatio(false); //si adatta alla dimensione
         //smusso gli angoli
-        Rectangle roundedRectangle = new Rectangle(img.getFitWidth(), img.getFitHeight());
+        final var roundedRectangle = new Rectangle(img.getFitWidth(), img.getFitHeight());
         roundedRectangle.setArcWidth(25);
         roundedRectangle.setArcHeight(25);
         img.setClip(roundedRectangle);
@@ -71,7 +71,8 @@ public class HousesController implements Initializable {
             // Istruzioni di cambio schermata
             try {
                 final var fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("houseDetailsView.fxml"));final var stage = (Stage)anchorPane.getScene().getWindow();
+                fxmlLoader.setLocation(getClass().getResource("houseDetailsView.fxml"));
+                final var stage = (Stage)anchorPane.getScene().getWindow();
                 final var scene = new Scene(fxmlLoader.load());
 
                 // Istruzioni di set per la nuova schermata

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -45,10 +46,10 @@ public class AppointmentsController {
     @FXML
     void removeAppointment(ActionEvent event) throws Exception {
         // Apri il popup di conferma
-        Stage primaryStage = (Stage)anchorPane.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
-        Scene newScene = new Scene(fxmlLoader.load());
-        Stage newStage = new Stage();
+        final var primaryStage = (Stage)anchorPane.getScene().getWindow();
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
+        final var newScene = new Scene(fxmlLoader.load());
+        final var newStage = new Stage();
         newStage.setScene(newScene);
         newStage.setResizable(false);
         newStage.setTitle("Confirm Cancellation");
@@ -60,21 +61,33 @@ public class AppointmentsController {
         newStage.showAndWait();
 
         // Prendo il controller del popup
-        PopupConfirmController popupConfirmController = fxmlLoader.getController();
+        final var popupConfirmController = fxmlLoader.<PopupConfirmController>getController();
         // Prendo il valore di ritorno del popup dal controller
         if (popupConfirmController.getResult()) {
-            // Se restituisce true('Confirm') effettua la cancellazione dell'appuntamento dal database
-
-            /* NB: da cambiare con la cancellazione sul server */
-            // SQL: rimuovi dal database l'appuntamento selezionato.
-            /*String query = String.format("delete from appointment WHERE ROWID = %d", id);
-            Statement statement = connectionDB.createStatement();
-            statement.executeUpdate(query);
-
-            // Ricarica la pagina escludendo l'appuntamento appena cancellato
-            fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            primaryStage.setScene(scene);*/
+            final var message = new JSONObject(
+                String.format(
+                    """
+                    {
+                      "type": "appointment",
+                      "data": {
+                        "request": "removeAppointment",
+                        "parameters": {
+                          "id": %d
+                        }
+                      }
+                    }
+                    """,
+                    id
+                )
+            );
+            // ignora il risultato di exchange, non può mai fallire
+            final var ignored = ClientConnection
+                .getInstance()
+                .getClient()
+                .exchange(message);
+            final var newFxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+            final var scene = new Scene(newFxmlLoader.load());
+            primaryStage.setScene(scene);
         }
     }
 }

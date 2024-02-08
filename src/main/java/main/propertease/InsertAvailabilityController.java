@@ -61,7 +61,6 @@ public class InsertAvailabilityController implements Initializable {
                 errorLabel.setText("Start Date must precede End Date.");
                 errorLabel.setVisible(true);
             } else {
-                // TODO: Logica di inserimento disponibilità
                 final var user = UserAccess.getUser();
                 final var query = """
                     {

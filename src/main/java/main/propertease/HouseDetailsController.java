@@ -122,12 +122,14 @@ public class HouseDetailsController implements Initializable {
         // Imposta le immagini tonde
         img1.setPreserveRatio(false); //si adatta alla dimensione
         var roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
-        roundedRectangle.setArcWidth(25); roundedRectangle.setArcHeight(25);
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
         img1.setClip(roundedRectangle);
 
         img2.setPreserveRatio(false);
         roundedRectangle = new Rectangle(img2.getFitWidth(), img2.getFitHeight());
-        roundedRectangle.setArcWidth(25);roundedRectangle.setArcHeight(25);
+        roundedRectangle.setArcWidth(25);
+        roundedRectangle.setArcHeight(25);
         img2.setClip(roundedRectangle);
 
         img3.setPreserveRatio(false);

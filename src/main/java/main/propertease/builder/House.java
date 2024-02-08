@@ -7,20 +7,20 @@ import main.propertease.memento.Memento;
 // House class
 public class House implements Poster {
     public House(
-            int id,
-            HouseType type,
-            String address,
-            int floor,
-            boolean elevator,
-            int balconies,
-            int terrace,
-            int garden,
-            int accessories,
-            int bedrooms,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int floor,
+        boolean elevator,
+        int balconies,
+        int terrace,
+        int garden,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         this.id = id;
         this.type = type;
@@ -40,7 +40,7 @@ public class House implements Poster {
 
     private int id;
     private HouseType type;
-    private  String address;
+    private String address;
     private int floor;
     private boolean elevator;
     private int balconies;
@@ -101,7 +101,9 @@ public class House implements Poster {
         return price;
     }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
     public Image getPics(int index) {
         return this.pics[index];
@@ -168,7 +170,7 @@ public class House implements Poster {
     }
 
     // Pattern Memento
-    public Memento createMemento(){
+    public Memento createMemento() {
         return new HouseMemento();
     }
 
@@ -188,10 +190,10 @@ public class House implements Poster {
         private final String mem_description;
         private final Image[] mem_pics;
 
-        public HouseMemento(){
+        public HouseMemento() {
             mem_id = id;
             mem_type = type;
-            mem_address= address;
+            mem_address = address;
             mem_floor = floor;
             mem_elevator = elevator;
             mem_balconies = balconies;

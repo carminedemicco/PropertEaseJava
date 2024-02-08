@@ -22,7 +22,7 @@ public class PopupConfirmController {
     @FXML
     void cancelButton(ActionEvent event) {
         // Chiusura della finestra corrente
-        Stage currentStage = (Stage)anchorPane.getScene().getWindow();
+        final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 
@@ -31,7 +31,7 @@ public class PopupConfirmController {
     void confirmButton(ActionEvent event) {
         result = true;
         // Chiusura della finestra corrente
-        Stage currentStage = (Stage)anchorPane.getScene().getWindow();
+        final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 

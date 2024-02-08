@@ -72,17 +72,19 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                     final var query = "select agent from Availability where time = ? and agent <> ?";
                     final var queryParameters = Arrays.<Object>asList(date, buyer);
                     final var response = new JSONObject();
+                    response.put("response", JSONObject.NULL);
                     database.executeQuery(query, Optional.of(queryParameters), (result) -> {
                         try {
                             if (result.next()) {
                                 final var agent = result.getString("agent");
+                                // controllo se esistono altri appuntamenti per lo stesso giorno
                                 final var checkQuery = """
-                                        select count(*) as count
-                                          from Appointment
-                                          where time = ? and
-                                                agent = ? and
-                                                buyer = ?
-                                    """;
+                                    select count(*) as count
+                                      from Appointment
+                                      where time = ? and
+                                            agent = ? and
+                                            buyer = ?
+                                """;
                                 final var checkQueryParameters = Arrays.<Object>asList(date, agent, buyer);
                                 database.executeQuery(checkQuery, Optional.of(checkQueryParameters), (checkResult) -> {
                                     final var insertQuery = "insert into Appointment values (?, ?, ?, ?)";
@@ -92,24 +94,58 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                                     try {
                                         if (checkResult.next()) {
                                             if (checkResult.getInt("count") > 0) {
-                                                response.put("error", "alreadyBooked");
+                                                response.put("response", new JSONObject().put("error", "alreadyBooked"));
                                             } else {
                                                 database.executeUpdate(insertQuery, Optional.of(insertQueryParameters));
                                                 database.executeUpdate(deleteAvailabilityQuery, Optional.of(deleteAvailabilityQueryParameters));
                                                 response.put("response", new JSONObject());
                                             }
                                         } else {
-                                            response.put("error", "unknown");
+                                            response.put("response", new JSONObject().put("error", "unknown"));
                                         }
                                     } catch (SQLException e) {
-                                        response.put("error", "unknown");
+                                        response.put("response", new JSONObject().put("error", "unknown"));
                                     }
                                 });
                             } else {
-                                response.put("error", "notAvailable");
+                                response.put("response", new JSONObject().put("error", "notAvailable"));
                             }
                         } catch (SQLException e) {
-                            response.put("error", "unknown");
+                            response.put("response", new JSONObject().put("error", "unknown"));
+                        } finally {
+                            clientManager.writeLine(response.toString());
+                        }
+                    });
+                    break;
+                }
+
+                case "removeAppointment": {
+                    final var parameters = message.getJSONObject("parameters");
+                    final var id = parameters.getInt("id");
+                    final var query = "select time, agent from Appointment where ROWID = ?";
+                    final var queryParameters = Collections.<Object>singletonList(id);
+                    final var response = new JSONObject();
+                    database.executeQuery(query, Optional.of(queryParameters), (result) -> {
+                        try {
+                            if (result.next()) {
+                                final var date = result.getString("time");
+                                final var agent = result.getString("agent");
+                                final var deleteQuery = "delete from Appointment where ROWID = ?";
+                                final var deleteQueryParameters = Collections.<Object>singletonList(id);
+                                final var insertQuery = "insert into Availability values (?, ?)";
+                                final var insertQueryParameters = Arrays.<Object>asList(agent, date);
+                                try {
+                                    database.executeUpdate(deleteQuery, Optional.of(deleteQueryParameters));
+                                    database.executeUpdate(insertQuery, Optional.of(insertQueryParameters));
+                                    response.put("response", new JSONObject());
+                                } catch (SQLException e) {
+                                    response.put("response", new JSONObject().put("error", "unknown"));
+                                }
+                            } else {
+                                response.put("response", new JSONObject().put("error", "notFound"));
+                            }
+                        } catch (SQLException e) {
+                            response.put("response", new JSONObject().put("error", "unknown"));
                         } finally {
                             clientManager.writeLine(response.toString());
                         }

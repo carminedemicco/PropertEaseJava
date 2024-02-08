@@ -102,11 +102,37 @@ public class MainViewController implements Initializable {
                     break;
                 }
                 case GARAGE: {
-
+                    final var builder = new GarageBuilder();
+                    final var result = houseDirector.constructGarage(
+                        builder,
+                        house.getInt("id"),
+                        type,
+                        house.getString("address"),
+                        house.getInt("price"),
+                        house.getInt("sqm"),
+                        house.getString("description"),
+                        images
+                    );
+                    houses.add(result);
                     break;
                 }
                 case INDEPENDENT: {
-
+                    final var builder = new IndependentBuilder();
+                    final var result = houseDirector.constructIndependent(
+                        builder,
+                        house.getInt("id"),
+                        type,
+                        house.getString("address"),
+                        house.getInt("garden"),
+                        house.getInt("terrace"),
+                        house.getInt("accessories"),
+                        house.getInt("bedrooms"),
+                        house.getInt("sqm"),
+                        house.getInt("price"),
+                        house.getString("description"),
+                        images
+                    );
+                    houses.add(result);
                     break;
                 }
             }
