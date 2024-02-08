@@ -2,19 +2,20 @@ package main.propertease.server.proxy;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class DatabaseConnectionProxy implements DatabaseConnection {
 
     @Override
-    public void executeUpdate(String query, Optional<? extends Iterable<Object>> values) throws SQLException {
+    public void executeUpdate(String query, Iterable<?> values) throws SQLException {
         final var instance = ensureConnection();
         instance.executeUpdate(query, values);
     }
 
     @Override
-    public void executeQuery(String query, Optional<? extends Iterable<Object>> values, Consumer<ResultSet> onCompletion) {
+    public void executeQuery(String query, Iterable<?> values, Consumer<ResultSet> onCompletion) {
         final var instance = ensureConnection();
         instance.executeQuery(query, values, onCompletion);
     }

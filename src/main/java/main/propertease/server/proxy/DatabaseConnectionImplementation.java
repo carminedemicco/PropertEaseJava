@@ -15,14 +15,14 @@ public class DatabaseConnectionImplementation implements DatabaseConnection {
     }
 
     @Override
-    public void executeUpdate(String query, Optional<? extends Iterable<Object>> values) throws SQLException {
+    public void executeUpdate(String query, Iterable<?> values) throws SQLException {
         try (final var statement = prepareStatement(query, values)) {
             statement.executeUpdate();
         }
     }
 
     @Override
-    public void executeQuery(String query, Optional<? extends Iterable<Object>> values, Consumer<ResultSet> onCompletion) {
+    public void executeQuery(String query, Iterable<?> values, Consumer<ResultSet> onCompletion) {
         try (final var statement = prepareStatement(query, values)) {
             onCompletion.accept(statement.executeQuery());
         } catch (SQLException e) {
@@ -30,11 +30,11 @@ public class DatabaseConnectionImplementation implements DatabaseConnection {
         }
     }
 
-    private PreparedStatement prepareStatement(String query, Optional<? extends Iterable<Object>> values) throws SQLException {
+    private PreparedStatement prepareStatement(String query, Iterable<?> values) throws SQLException {
         final var preparedStatement = connection.prepareStatement(query);
-        if (values.isPresent()) {
+        if (values != null) {
             var index = 1;
-            for (final var value : values.get()) {
+            for (final var value : values) {
                 preparedStatement.setObject(index, value);
                 index++;
             }

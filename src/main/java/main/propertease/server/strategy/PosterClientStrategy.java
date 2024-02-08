@@ -34,7 +34,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
             final var request = message.getString("request");
             switch (request) {
                 case "getHouses": {
-                    database.executeQuery("select ROWID, * from House;", Optional.empty(), (result) -> {
+                    database.executeQuery("select ROWID, * from House;", null, (result) -> {
                         final var houses = new JSONArray();
                         final var response = new JSONObject();
                         try {
@@ -129,7 +129,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                             updateHouseId
                         );
                         try {
-                            database.executeUpdate(query, Optional.of(values));
+                            database.executeUpdate(query, values);
                             response.put("response", new JSONObject().put("id", updateHouseId));
                         } catch (Exception e) {
                             response.put("response", JSONObject.NULL);
@@ -174,7 +174,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                             images.get(2)
                         );
                         try {
-                            database.executeUpdate(query, Optional.of(values));
+                            database.executeUpdate(query, values);
                             response.put("response", new JSONObject().put("id", houseId));
                         } catch (Exception e) {
                             response.put("response", JSONObject.NULL);
@@ -248,7 +248,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
 
     private static int getNewHouseId(DatabaseConnection database) {
         final var id = new AtomicInteger(-1);
-        database.executeQuery("select max(ROWID) from House;", Optional.empty(), (result) -> {
+        database.executeQuery("select max(ROWID) from House;", null, (result) -> {
             try {
                 id.set(result.getInt(1) + 1);
             } catch (Exception e) {

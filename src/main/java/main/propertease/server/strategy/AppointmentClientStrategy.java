@@ -52,7 +52,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                     try {
                         for (var date = startDate; date.isBefore(endDate) || date.isEqual(endDate); date = date.plusDays(1)) {
                             final var queryParameters = Arrays.<Object>asList(user, date);
-                            database.executeUpdate(query, Optional.of(queryParameters));
+                            database.executeUpdate(query, queryParameters);
                         }
                         response.put("response", new JSONObject());
                     } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                     final var queryParameters = Arrays.<Object>asList(date, buyer);
                     final var response = new JSONObject();
                     response.put("response", JSONObject.NULL);
-                    database.executeQuery(query, Optional.of(queryParameters), (result) -> {
+                    database.executeQuery(query, queryParameters, (result) -> {
                         try {
                             if (result.next()) {
                                 final var agent = result.getString("agent");
@@ -86,7 +86,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                                             buyer = ?
                                 """;
                                 final var checkQueryParameters = Arrays.<Object>asList(date, agent, buyer);
-                                database.executeQuery(checkQuery, Optional.of(checkQueryParameters), (checkResult) -> {
+                                database.executeQuery(checkQuery, checkQueryParameters, (checkResult) -> {
                                     final var insertQuery = "insert into Appointment values (?, ?, ?, ?)";
                                     final var insertQueryParameters = Arrays.<Object>asList(date, buyer, agent, house);
                                     final var deleteAvailabilityQuery = "delete from Availability where time = ? and agent = ?";
@@ -96,8 +96,8 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                                             if (checkResult.getInt("count") > 0) {
                                                 response.put("response", new JSONObject().put("error", "alreadyBooked"));
                                             } else {
-                                                database.executeUpdate(insertQuery, Optional.of(insertQueryParameters));
-                                                database.executeUpdate(deleteAvailabilityQuery, Optional.of(deleteAvailabilityQueryParameters));
+                                                database.executeUpdate(insertQuery, insertQueryParameters);
+                                                database.executeUpdate(deleteAvailabilityQuery, deleteAvailabilityQueryParameters);
                                                 response.put("response", new JSONObject());
                                             }
                                         } else {
@@ -125,7 +125,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                     final var query = "select time, agent from Appointment where ROWID = ?";
                     final var queryParameters = Collections.<Object>singletonList(id);
                     final var response = new JSONObject();
-                    database.executeQuery(query, Optional.of(queryParameters), (result) -> {
+                    database.executeQuery(query, queryParameters, (result) -> {
                         try {
                             if (result.next()) {
                                 final var date = result.getString("time");
@@ -135,8 +135,8 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                                 final var insertQuery = "insert into Availability values (?, ?)";
                                 final var insertQueryParameters = Arrays.<Object>asList(agent, date);
                                 try {
-                                    database.executeUpdate(deleteQuery, Optional.of(deleteQueryParameters));
-                                    database.executeUpdate(insertQuery, Optional.of(insertQueryParameters));
+                                    database.executeUpdate(deleteQuery, deleteQueryParameters);
+                                    database.executeUpdate(insertQuery, insertQueryParameters);
                                     response.put("response", new JSONObject());
                                 } catch (SQLException e) {
                                     response.put("response", new JSONObject().put("error", "unknown"));
@@ -193,7 +193,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
             """;
         }
         final var queryParameters = Collections.<Object>singletonList(username);
-        database.executeQuery(query, Optional.of(queryParameters), (result) -> {
+        database.executeQuery(query, queryParameters, (result) -> {
             final var appointments = new JSONArray();
             final var response = new JSONObject();
             try {
