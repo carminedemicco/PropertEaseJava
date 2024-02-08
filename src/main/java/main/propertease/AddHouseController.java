@@ -10,10 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import main.propertease.builder.ApartmentBuilder;
-import main.propertease.builder.House;
-import main.propertease.builder.HouseDirector;
-import main.propertease.builder.HouseType;
+import main.propertease.builder.*;
 import main.propertease.command.ButtonReceiver;
 import main.propertease.command.GoLoginViewCommand;
 import main.propertease.command.GoMainViewCommand;
@@ -337,7 +334,7 @@ public class AddHouseController implements Initializable {
                     }
 
                     case "Garage": {
-                        final var builder = new ApartmentBuilder();
+                        final var builder = new GarageBuilder();
                         final var director = new HouseDirector(builder);
                         house = director.constructGarage(
                             -1, // id sarà assegnato dal DB
@@ -352,7 +349,7 @@ public class AddHouseController implements Initializable {
                     }
 
                     case "Independent": {
-                        final var builder = new ApartmentBuilder();
+                        final var builder = new IndependentBuilder();
                         final var director = new HouseDirector(builder);
                         house = director.constructIndependent(
                             -1, // id sarà assegnato dal DB
