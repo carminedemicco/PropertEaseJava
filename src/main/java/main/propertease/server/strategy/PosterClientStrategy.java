@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -150,7 +151,13 @@ public class PosterClientStrategy implements ClientManagerStrategy {
         // TODO: ritorna immagine di default
         var path = Path.of(getHouseImagePath(houseId, name));
         if (!Files.exists(path)) {
-            return JSONObject.NULL;
+            final var classPath = "/main/propertease/img/icons/placeholder.png";
+            final var defaultResource = PosterClientStrategy.class.getResource(classPath);
+            try {
+                path = Path.of(Objects.requireNonNull(defaultResource).toURI());
+            } catch (URISyntaxException e) {
+                return JSONObject.NULL;
+            }
         }
         try {
             final var bytes = Files.readAllBytes(path);
