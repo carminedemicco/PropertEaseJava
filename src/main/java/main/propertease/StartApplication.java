@@ -15,6 +15,9 @@ public class StartApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("houseDetailsView.fxml"));
 
+        // Imposto lo stage primario che sarà utilizzato per il cambio tra le view
+        StageSingleton.getInstance().setPrimaryStage(stage);
+
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
         stage.setTitle("PropertEase");

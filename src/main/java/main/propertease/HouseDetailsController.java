@@ -16,6 +16,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.propertease.builder.House;
+import main.propertease.command.ButtonReceiver;
+import main.propertease.command.GoLoginViewCommand;
+import main.propertease.command.GoMainViewCommand;
+import main.propertease.command.Invoker;
 import main.propertease.decorator.HouseInterface;
 import main.propertease.decorator.HouseVat;
 
@@ -91,29 +95,27 @@ public class HouseDetailsController implements Initializable {
     @FXML
     private Button makeAppButton;
 
+
+    // Pattern Command
+    ButtonReceiver buttonReceiver;
+    GoMainViewCommand goMainViewCommand;
+    GoLoginViewCommand goLoginViewCommand;
+    Invoker invoker;
+
     private House house;
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception {
-        // Operazioni di logout
-
-        final var stage = (Stage)detailbox1.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.hide();
-        stage.setScene(scene);
-        stage.show();
+    void logoutButton(ActionEvent event){
+        // Pattern Command
+        invoker.placeCommand(goLoginViewCommand);
     }
-
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event) throws Exception {
-        final var stage = (Stage)detailbox1.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
+    void homeButton(ActionEvent event){
+        // Pattern Command
+        invoker.placeCommand(goMainViewCommand);
     }
 
 
@@ -121,6 +123,12 @@ public class HouseDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
+
+        // Pattern Command
+        buttonReceiver = new ButtonReceiver(StageSingleton.getInstance().getPrimaryStage());
+        goMainViewCommand = new GoMainViewCommand(buttonReceiver);
+        goLoginViewCommand = new GoLoginViewCommand(buttonReceiver);
+        invoker = new Invoker();
 
         // Imposta le immagini tonde
         img1.setPreserveRatio(false); //si adatta alla dimensione
@@ -161,7 +169,8 @@ public class HouseDetailsController implements Initializable {
 
         btn1.setOnAction(e -> {
             try {
-                final var stage = (Stage)detailbox1.getScene().getWindow();
+                // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
+                final var stage = StageSingleton.getInstance().getPrimaryStage();
                 final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
                 final var scene = new Scene(fxmlLoader.load());
                 final var addHouseController = fxmlLoader.<AddHouseController>getController();

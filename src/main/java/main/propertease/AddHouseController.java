@@ -14,6 +14,10 @@ import main.propertease.builder.ApartmentBuilder;
 import main.propertease.builder.House;
 import main.propertease.builder.HouseDirector;
 import main.propertease.builder.HouseType;
+import main.propertease.command.ButtonReceiver;
+import main.propertease.command.GoLoginViewCommand;
+import main.propertease.command.GoMainViewCommand;
+import main.propertease.command.Invoker;
 import main.propertease.memento.Memento;
 import org.json.JSONObject;
 
@@ -24,7 +28,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -85,6 +88,12 @@ public class AddHouseController implements Initializable {
     @FXML
     private ComboBox<String> houseTypeComboBox;
     private final String[] houseType = {"Apartment", "Garage", "Independent"};
+
+    // Pattern Command
+    ButtonReceiver buttonReceiver;
+    GoMainViewCommand goMainViewCommand;
+    GoLoginViewCommand goLoginViewCommand;
+    Invoker invoker;
 
     // Variabile bool che contiene true se la casa deve essere modificata
     Boolean modifyHouse = false;
@@ -415,7 +424,8 @@ public class AddHouseController implements Initializable {
     @FXML
     void deleteButtonAction(ActionEvent event) throws Exception {
         // Apri il popup di conferma
-        final var primaryStage = (Stage)addressField.getScene().getWindow();
+        // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
+        final var primaryStage = StageSingleton.getInstance().getPrimaryStage();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
         final var newScene = new Scene(fxmlLoader.load());
         final var newStage = new Stage();
@@ -501,6 +511,12 @@ public class AddHouseController implements Initializable {
         // aggiunge gli elementi della ComboBox
         houseTypeComboBox.getItems().setAll(houseType);
 
+        // Pattern Command
+        buttonReceiver = new ButtonReceiver(StageSingleton.getInstance().getPrimaryStage());
+        goMainViewCommand = new GoMainViewCommand(buttonReceiver);
+        goLoginViewCommand = new GoLoginViewCommand(buttonReceiver);
+        invoker = new Invoker();
+
         // Definisco le estensioni accettate del FileChooser
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
     }
@@ -578,22 +594,15 @@ public class AddHouseController implements Initializable {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception {
-        final var stage = (Stage)addressField.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.hide();
-        stage.setScene(scene);
-        stage.show();
+    void logoutButton(ActionEvent event){
+        // Pattern Command
+        invoker.placeCommand(goLoginViewCommand);
     }
-
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event) throws Exception {
-        final var stage = (Stage)addressField.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
+    void homeButton(ActionEvent event){
+        // Pattern Command
+        invoker.placeCommand(goMainViewCommand);
     }
 }

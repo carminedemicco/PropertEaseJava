@@ -1,6 +1,5 @@
 package main.propertease;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import main.propertease.builder.*;
@@ -19,16 +18,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import main.propertease.command.*;
 import org.json.JSONObject;
 
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 // Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
@@ -45,6 +41,13 @@ public class MainViewController implements Initializable {
 
     @FXML
     private Label nameUser;
+
+    // Pattern Command
+    ButtonReceiver buttonReceiver;
+    GoLoginViewCommand goLoginViewCommand;
+    GoAddHouseViewCommand goAddHouseViewCommand;
+    GoInsertAvailabilityViewCommand goInsertAvailabilityViewCommand;
+    Invoker invoker;
 
 
     // Prende dal database i dati di tutte le case
@@ -200,6 +203,13 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
 
+        // Pattern Command
+        buttonReceiver = new ButtonReceiver(StageSingleton.getInstance().getPrimaryStage());
+        goLoginViewCommand = new GoLoginViewCommand(buttonReceiver);
+        goAddHouseViewCommand = new GoAddHouseViewCommand(buttonReceiver);
+        goInsertAvailabilityViewCommand = new GoInsertAvailabilityViewCommand(buttonReceiver);
+        invoker = new Invoker();
+
         try {
             setHousesGrid();
             setAppointmentsGrid();
@@ -222,38 +232,12 @@ public class MainViewController implements Initializable {
 
         // Al click del bottone di inserimento casa: porta alla View di inserimento
         btn1.setOnAction(e -> {
-            try {
-                final var stage = (Stage)gridPane.getScene().getWindow();
-                final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
-                final var scene = new Scene(fxmlLoader.load());
-                stage.setScene(scene);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            invoker.placeCommand(goAddHouseViewCommand);
         });
 
         // Al click del bottone di inserimento disponibilità: apre il popup relativo
         btn2.setOnAction(e -> {
-            try {
-                final var primaryStage = (Stage)gridPane.getScene().getWindow();
-
-                // Crea la nuova scena
-                final var newStage = new Stage();
-                final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
-                final var newScene = new Scene(fxmlLoader.load());
-                newStage.setScene(newScene);
-
-                // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
-                newStage.initModality(Modality.WINDOW_MODAL);
-                newStage.initOwner(primaryStage);
-
-                // Mostra la nuova finestra
-                newStage.setResizable(false);
-                newStage.setTitle("Select Available Dates");
-                newStage.show();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            invoker.placeCommand(goInsertAvailabilityViewCommand);
         });
 
     }
@@ -262,16 +246,8 @@ public class MainViewController implements Initializable {
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
     void logoutButton(ActionEvent event) throws Exception {
-        // Operazioni di logout
-        //...
-
-        // Torna alla schermata di login
-        final var stage = (Stage)gridPane.getScene().getWindow();
-        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        final var scene = new Scene(fxmlLoader.load());
-        stage.hide();
-        stage.setScene(scene);
-        stage.show();
+        // Pattern Command
+        invoker.placeCommand(goLoginViewCommand);
     }
 
 

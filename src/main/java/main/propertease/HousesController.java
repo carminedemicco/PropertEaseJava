@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -72,9 +71,10 @@ public class HousesController implements Initializable {
         anchorPane.setOnMouseClicked(event -> {
             // Istruzioni di cambio schermata
             try {
+                // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
                 final var fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("houseDetailsView.fxml"));
-                final var stage = (Stage)anchorPane.getScene().getWindow();
+                final var stage = StageSingleton.getInstance().getPrimaryStage();
                 final var scene = new Scene(fxmlLoader.load());
 
                 // Istruzioni di set per la nuova schermata
