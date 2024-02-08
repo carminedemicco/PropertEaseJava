@@ -1,6 +1,7 @@
 package main.propertease.server.mediator;
 
+import main.propertease.server.strategy.ClientManagerStrategy;
+
 public interface ServerMediator {
-    public void broadcast(AbstractClientManager sender, String message);
-    public void add(AbstractClientManager client);
+    public boolean notify(ClientManagerStrategy sender, String line);
 }

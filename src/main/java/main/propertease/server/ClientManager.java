@@ -1,15 +1,13 @@
-package main.propertease.server.mediator;
+package main.propertease.server;
 
-import main.propertease.server.StringUtility;
 import main.propertease.server.proxy.DatabaseConnection;
 import main.propertease.server.proxy.DatabaseConnectionProxy;
 
 import java.io.*;
 import java.net.Socket;
 
-public abstract class AbstractClientManager {
-    public AbstractClientManager(ServerMediator serverMediator, Socket socket) {
-        this.serverMediator = serverMediator;
+public class ClientManager {
+    public ClientManager(Socket socket) {
         this.socket = socket;
         this.database = new DatabaseConnectionProxy();
         try {
@@ -19,8 +17,6 @@ public abstract class AbstractClientManager {
             throw new RuntimeException(e);
         }
     }
-
-    public abstract void broadcast(String message);
 
     public void writeLine(String line) {
         outputStream.println(StringUtility.escape(line));
@@ -59,7 +55,6 @@ public abstract class AbstractClientManager {
         return String.format(template, StringUtility.escape(message));
     }
 
-    protected final ServerMediator serverMediator;
     private final DatabaseConnection database;
     private final Socket socket;
     private final BufferedReader inputStream;

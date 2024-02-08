@@ -1,7 +1,6 @@
 package main.propertease.decorator;
 
-public class HouseVat
-        extends HouseDecorator {
+public class HouseVat extends HouseDecorator {
     public HouseVat(HouseInterface source) {
         super(source);
     }
@@ -12,6 +11,6 @@ public class HouseVat
     }
 
     private int getWithoutVAT(int price) {
-        return (int) (price * 0.78);
+        return (int)(price * 0.78);
     }
 }

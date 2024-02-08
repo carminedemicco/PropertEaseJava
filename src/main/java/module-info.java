@@ -7,6 +7,9 @@ module main.propertease {
     exports main.propertease.builder;
     exports main.propertease.decorator;
     exports main.propertease.server;
+    exports main.propertease.server.mediator;
+    exports main.propertease.server.strategy;
+    exports main.propertease.server.proxy;
     opens main.propertease to javafx.fxml;
     opens main.propertease.server to javafx.fxml;
 }

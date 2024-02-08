@@ -50,8 +50,8 @@ create table if not exists Appointment (
 );
 
 create table if not exists Availability (
+    time        date            primary key,
     agent       varchar(256)    not null,
-    time        date            not null,
 
     foreign key (agent)
         references User(username)
