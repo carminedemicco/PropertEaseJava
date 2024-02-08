@@ -27,7 +27,7 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
             clientManager.close();
             return false;
         }
-        final var database = new DatabaseConnectionProxy();
+        final var database = clientManager.getDatabase();
         final var message = new JSONObject(line);
         try {
             final var request = message.getString("request");

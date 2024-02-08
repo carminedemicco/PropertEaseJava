@@ -63,7 +63,7 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
 
     private void handleGenericRequest(JSONObject data) {
         final var request = data.getString("request");
-        final var connection = new DatabaseConnectionProxy();
+        final var database = clientManager.getDatabase();
         switch (request) {
             case "signin": {
                 final var parameters = data.getJSONObject("parameters");
@@ -71,7 +71,7 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                 final var password = parameters.getString("password");
                 final var query = "select * from User where username = ? and password = ?";
                 final var queryData = Arrays.<Object>asList(username, password);
-                connection.executeQuery(query, Optional.of(queryData), (result) -> {
+                database.executeQuery(query, Optional.of(queryData), (result) -> {
                     final var response = new JSONObject();
                     try {
                         if (result.next()) {
@@ -108,7 +108,7 @@ public class HandlerClientStrategy implements ClientManagerStrategy {
                 );
                 final var response = new JSONObject();
                 try {
-                    connection.executeUpdate(query, Optional.of(queryData));
+                    database.executeUpdate(query, Optional.of(queryData));
                     response.put("response", new JSONObject());
                 } catch (Exception e) {
                     response.put("response", JSONObject.NULL);

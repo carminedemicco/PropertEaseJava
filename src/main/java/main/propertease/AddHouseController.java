@@ -297,10 +297,7 @@ public class AddHouseController implements Initializable {
 
                         break;
                 }
-
-
-                //TODO inserire tutta la logica di modifica nel database usando l'oggetto house
-                // ...
+                sendInsertHouseRequest(Objects.requireNonNull(house), true);
 
                 errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
@@ -366,70 +363,7 @@ public class AddHouseController implements Initializable {
                     }
                 }
 
-                Objects.requireNonNull(house);
-                final var message = new JSONObject(
-                    String.format(
-                        """
-                        {
-                          "type": "poster",
-                          "data": {
-                            "request": "insertHouse",
-                            "parameters": {
-                              "type": %d,
-                              "address": "%s",
-                              "floor": %d,
-                              "elevator": %b,
-                              "balconies": %d,
-                              "terrace": %d,
-                              "garden": %d,
-                              "accessories": %d,
-                              "bedrooms": %d,
-                              "sqm": %d,
-                              "price": %d,
-                              "description": "%s",
-                              "pictures": [],
-                            }
-                          }
-                        }
-                        """,
-                        house.getType().getValue(),
-                        house.getAddress(),
-                        house.getFloor(),
-                        house.hasElevator(),
-                        house.getBalconies(),
-                        house.getTerrace(),
-                        house.getGarden(),
-                        house.getAccessories(),
-                        house.getBedrooms(),
-                        house.getSqm(),
-                        house.getPrice(),
-                        house.getDescription()
-                    )
-                );
-                for (final var pic : pics) {
-                    String data = null;
-                    if (pic != null) {
-                        try {
-                            final var bytes = Base64
-                                .getEncoder()
-                                .encode(
-                                    Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
-                                );
-                            data = new String(bytes);
-                        } catch (IOException | URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    message
-                        .getJSONObject("data")
-                        .getJSONObject("parameters")
-                        .getJSONArray("pictures")
-                        .put(Objects.requireNonNullElse(data, JSONObject.NULL));
-                }
-                ClientConnection
-                    .getInstance()
-                    .getClient()
-                    .exchange(message);
+                sendInsertHouseRequest(Objects.requireNonNull(house), false);
                 // dopo aver inserito ritorna alla schermata principale
                 try {
                     homeButton(null);
@@ -452,6 +386,8 @@ public class AddHouseController implements Initializable {
                 houseMemento.restoreState();
                 // Ricarica i valori nei Field
                 setModifyData(house);
+                // Invia la richiesta di update
+                sendInsertHouseRequest(Objects.requireNonNull(house), true);
 
                 errorLabel.setText("Reset successfully completed. Click 'Confirm' to confirm changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
@@ -570,6 +506,74 @@ public class AddHouseController implements Initializable {
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
     }
 
+    private void sendInsertHouseRequest(House house, boolean update) {
+        final var message = new JSONObject(
+            String.format(
+                """
+                {
+                  "type": "poster",
+                  "data": {
+                    "request": "insertHouse",
+                    "parameters": {
+                      "id": %d,
+                      "type": %d,
+                      "address": "%s",
+                      "floor": %d,
+                      "elevator": %b,
+                      "balconies": %d,
+                      "terrace": %d,
+                      "garden": %d,
+                      "accessories": %d,
+                      "bedrooms": %d,
+                      "sqm": %d,
+                      "price": %d,
+                      "description": "%s",
+                      "pictures": [],
+                    }
+                  }
+                }
+                """,
+                update ? house.getId() : null,
+                house.getType().getValue(),
+                house.getAddress(),
+                house.getFloor(),
+                house.hasElevator(),
+                house.getBalconies(),
+                house.getTerrace(),
+                house.getGarden(),
+                house.getAccessories(),
+                house.getBedrooms(),
+                house.getSqm(),
+                house.getPrice(),
+                house.getDescription()
+            )
+        );
+        for (final var pic : pics) {
+            String data = null;
+            if (pic != null) {
+                try {
+                    final var bytes = Base64
+                        .getEncoder()
+                        .encode(
+                            Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
+                        );
+                    data = new String(bytes);
+                } catch (IOException | URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            message
+                .getJSONObject("data")
+                .getJSONObject("parameters")
+                .getJSONArray("pictures")
+                .put(Objects.requireNonNullElse(data, JSONObject.NULL));
+        }
+        final var response = ClientConnection
+            .getInstance()
+            .getClient()
+            .exchange(message);
+
+    }
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML

@@ -28,7 +28,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
             clientManager.close();
             return false;
         }
-        final var database = new DatabaseConnectionProxy();
+        final var database = clientManager.getDatabase();
         final var message = new JSONObject(line);
         try {
             final var request = message.getString("request");
@@ -87,50 +87,100 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                     final var pictures = parameters.getJSONArray("pictures");
                     final var houseId = getNewHouseId(database);
                     final var images = storeHouseImages(houseId, pictures);
-                    final var query = """
-                        insert into House values (
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?,
-                          ?
-                        )
-                    """;
-                    final var values = Arrays.<Object>asList(
-                        type,
-                        address,
-                        price,
-                        floor,
-                        elevator,
-                        balconies,
-                        terrace,
-                        garden,
-                        accessories,
-                        bedrooms,
-                        sqm,
-                        description,
-                        images.get(0),
-                        images.get(1),
-                        images.get(2)
-                    );
+
                     final var response = new JSONObject();
-                    try {
-                        database.executeUpdate(query, Optional.of(values));
-                        response.put("response", new JSONObject().put("id", houseId));
-                    } catch (Exception e) {
-                        response.put("response", JSONObject.NULL);
-                    } finally {
-                        clientManager.writeLine(response.toString());
+                    if (!parameters.isNull("id")) {
+                        final var updateHouseId = parameters.getInt("id");
+                        final var query = """
+                            update House set
+                              type = ?,
+                              address = ?,
+                              price = ?,
+                              floor = ?,
+                              elevator = ?,
+                              balconies = ?,
+                              terrace = ?,
+                              garden = ?,
+                              accessories = ?,
+                              bedrooms = ?,
+                              sqm = ?,
+                              description = ?,
+                              image0 = ?,
+                              image1 = ?,
+                              image2 = ?
+                            where ROWID = ?
+                        """;
+                        final var values = Arrays.<Object>asList(
+                            type,
+                            address,
+                            price,
+                            floor,
+                            elevator,
+                            balconies,
+                            terrace,
+                            garden,
+                            accessories,
+                            bedrooms,
+                            sqm,
+                            description,
+                            images.get(0),
+                            images.get(1),
+                            images.get(2),
+                            updateHouseId
+                        );
+                        try {
+                            database.executeUpdate(query, Optional.of(values));
+                            response.put("response", new JSONObject().put("id", updateHouseId));
+                        } catch (Exception e) {
+                            response.put("response", JSONObject.NULL);
+                        } finally {
+                            clientManager.writeLine(response.toString());
+                        }
+                    } else {
+                        final var query = """
+                            insert into House values (
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?,
+                              ?
+                            )
+                        """;
+                        final var values = Arrays.<Object>asList(
+                            type,
+                            address,
+                            price,
+                            floor,
+                            elevator,
+                            balconies,
+                            terrace,
+                            garden,
+                            accessories,
+                            bedrooms,
+                            sqm,
+                            description,
+                            images.get(0),
+                            images.get(1),
+                            images.get(2)
+                        );
+                        try {
+                            database.executeUpdate(query, Optional.of(values));
+                            response.put("response", new JSONObject().put("id", houseId));
+                        } catch (Exception e) {
+                            response.put("response", JSONObject.NULL);
+                        } finally {
+                            clientManager.writeLine(response.toString());
+                        }
                     }
                     break;
                 }
