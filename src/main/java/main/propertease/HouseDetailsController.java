@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,8 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import main.propertease.builder.House;
+import main.propertease.decorator.HouseInterface;
+import main.propertease.decorator.HouseVat;
 
 import java.io.IOException;
 import java.net.URL;
@@ -75,6 +75,9 @@ public class HouseDetailsController implements Initializable {
 
     @FXML
     private Label terraceLabel;
+
+    @FXML
+    private Label priceLabel;
 
     @FXML
     private Label usernameLabel;
@@ -171,6 +174,15 @@ public class HouseDetailsController implements Initializable {
 
     }
 
+    // al click di 'Price without VAT' usa il Pattern Decorator per calcolare il prezzo senza VAT
+    @FXML
+    void vatButton(ActionEvent event) {
+        // Uso il Pattern Decorator per estendere l'oggetto house a run-time
+        HouseInterface vatHouse = new HouseVat(house);
+        // Ottengo e imposto il nuovo prezzo con l'eliminazione della VAT
+        priceLabel.setText(String.valueOf(vatHouse.getPrice()));
+    }
+
     // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
     @FXML
     void makeAppointmentButton(ActionEvent event) throws IOException {
@@ -209,6 +221,7 @@ public class HouseDetailsController implements Initializable {
         accessoriesLabel.setText(String.valueOf(house.getAccessories()));
         bedroomsLabel.setText(String.valueOf(house.getBedrooms()));
         sqmLabel.setText(String.valueOf(house.getSqm()));
+        priceLabel.setText(String.valueOf(house.getPrice()));
         descriptionLabel.setText(house.getDescription());
     }
 }
