@@ -579,7 +579,13 @@ public class AddHouseController implements Initializable {
                 house.getDescription()
             )
         );
-        for (final var pic : pics) {
+        final var pictures = pics;
+        if (update) {
+            for (var i = 0; i < pictures.length; i++) {
+                pictures[i] = house.getPics(i);
+            }
+        }
+        for (final var pic : pictures) {
             String data = null;
             if (pic != null) {
                 try {
