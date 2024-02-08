@@ -582,7 +582,9 @@ public class AddHouseController implements Initializable {
         final var pictures = pics;
         if (update) {
             for (var i = 0; i < pictures.length; i++) {
-                pictures[i] = house.getPics(i);
+                if (pictures[i] == null) {
+                    pictures[i] = house.getPics(i);
+                }
             }
         }
         for (final var pic : pictures) {
