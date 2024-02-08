@@ -145,7 +145,7 @@ public class MainViewController implements Initializable {
     // Per ciascuna istanza crea un oggetto Appointment corrispondente e lo inserisce nell'ArrayList
     // Restituisce l'ArrayList di oggetti Appointment
 
-    private List<Appointment> getAppointmentData() throws Exception {
+    private List<Appointment> getAppointmentData() {
         final var appointments = new ArrayList<Appointment>();
         final var user = UserAccess.getUser();
         // Seleziona i dati dell'esperto e della casa relativi agli appuntamenti dell'utente loggato
