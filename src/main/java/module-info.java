@@ -6,6 +6,8 @@ module main.propertease {
     exports main.propertease;
     exports main.propertease.builder;
     exports main.propertease.decorator;
+    exports main.propertease.memento;
+    exports main.propertease.command;
     exports main.propertease.server;
     exports main.propertease.server.mediator;
     exports main.propertease.server.strategy;

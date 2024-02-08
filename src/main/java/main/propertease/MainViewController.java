@@ -110,8 +110,8 @@ public class MainViewController implements Initializable {
                         house.getInt("id"),
                         type,
                         house.getString("address"),
-                        house.getInt("price"),
                         house.getInt("sqm"),
+                        house.getInt("price"),
                         house.getString("description"),
                         images
                     );
