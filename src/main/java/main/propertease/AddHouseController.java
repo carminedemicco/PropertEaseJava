@@ -297,15 +297,14 @@ public class AddHouseController implements Initializable {
 
                         break;
                 }
-                sendInsertHouseRequest(Objects.requireNonNull(house), true);
+                Objects.requireNonNull(house);
+                sendInsertHouseRequest(true);
 
                 errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
                 errorLabel.setVisible(true);
             } else {
                 // Se sono in modalità di inserimento
-
-                var house = (House)null;
                 switch (houseTypeComboBox.getValue()) {
                     case "Apartment": {
                         final var builder = new ApartmentBuilder();
@@ -362,8 +361,8 @@ public class AddHouseController implements Initializable {
                         break;
                     }
                 }
-
-                sendInsertHouseRequest(Objects.requireNonNull(house), false);
+                Objects.requireNonNull(house);
+                sendInsertHouseRequest(false);
                 // dopo aver inserito ritorna alla schermata principale
                 try {
                     homeButton(null);
@@ -385,9 +384,9 @@ public class AddHouseController implements Initializable {
                 // Memento: ristabilisce il vecchio stato
                 houseMemento.restoreState();
                 // Ricarica i valori nei Field
-                setModifyData(house);
+                setModifyData(Objects.requireNonNull(house));
                 // Invia la richiesta di update
-                sendInsertHouseRequest(Objects.requireNonNull(house), true);
+                sendInsertHouseRequest(true);
 
                 errorLabel.setText("Reset successfully completed. Click 'Confirm' to confirm changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
@@ -506,7 +505,7 @@ public class AddHouseController implements Initializable {
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
     }
 
-    private void sendInsertHouseRequest(House house, boolean update) {
+    private void sendInsertHouseRequest(boolean update) {
         final var message = new JSONObject(
             String.format(
                 """
@@ -572,7 +571,9 @@ public class AddHouseController implements Initializable {
             .getInstance()
             .getClient()
             .exchange(message);
-
+        if (!update && !response.isNull("response")) {
+            house.setId(response.getJSONObject("response").getInt("id"));
+        }
     }
 
     // Al click del bottone di logout: ritorna alla View di login
