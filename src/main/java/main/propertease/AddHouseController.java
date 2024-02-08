@@ -308,13 +308,12 @@ public class AddHouseController implements Initializable {
             } else {
                 // Se sono in modalità di inserimento
 
-                final var director = new HouseDirector();
                 var house = (House)null;
                 switch (houseTypeComboBox.getValue()) {
                     case "Apartment": {
                         final var builder = new ApartmentBuilder();
+                        final var director = new HouseDirector(builder);
                         house = director.constructApartment(
-                            builder,
                             -1, // id sarà assegnato dal DB
                             HouseType.APARTMENT,
                             addressField.getText(),
@@ -334,8 +333,8 @@ public class AddHouseController implements Initializable {
 
                     case "Garage": {
                         final var builder = new ApartmentBuilder();
+                        final var director = new HouseDirector(builder);
                         house = director.constructGarage(
-                            builder,
                             -1, // id sarà assegnato dal DB
                             HouseType.GARAGE,
                             addressField.getText(),
@@ -349,8 +348,8 @@ public class AddHouseController implements Initializable {
 
                     case "Independent": {
                         final var builder = new ApartmentBuilder();
+                        final var director = new HouseDirector(builder);
                         house = director.constructIndependent(
-                            builder,
                             -1, // id sarà assegnato dal DB
                             HouseType.INDEPENDENT,
                             addressField.getText(),

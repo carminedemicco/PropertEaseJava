@@ -3,8 +3,11 @@ package main.propertease.builder;
 import javafx.scene.image.Image;
 
 public class HouseDirector {
+    public HouseDirector(HouseBuilder builder) {
+        this.builder = builder;
+    }
+
     public House constructApartment(
-        HouseBuilder builder,
         int id,
         HouseType type,
         String address,
@@ -37,14 +40,13 @@ public class HouseDirector {
     }
 
     public House constructGarage(
-            HouseBuilder builder,
-            int id,
-            HouseType type,
-            String address,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         builder.setId(id);
         builder.setType(type);
@@ -58,18 +60,17 @@ public class HouseDirector {
     }
 
     public House constructIndependent(
-            HouseBuilder builder,
-            int id,
-            HouseType type,
-            String address,
-            int balconies,
-            int terrace,
-            int accessories,
-            int bedrooms,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int balconies,
+        int terrace,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         builder.setId(id);
         builder.setType(type);
@@ -85,4 +86,6 @@ public class HouseDirector {
 
         return builder.getResult();
     }
+
+    private final HouseBuilder builder;
 }

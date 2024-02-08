@@ -66,7 +66,6 @@ public class MainViewController implements Initializable {
             .getClient()
             .exchange(new JSONObject(query));
         final var response = data.getJSONArray("response");
-        final var houseDirector = new HouseDirector();
         for (var i = 0; i < response.length(); i++) {
             final var house = response.getJSONObject(i);
             final var type = HouseType.fromValue(house.getInt("type"));
@@ -82,8 +81,8 @@ public class MainViewController implements Initializable {
             switch (type) {
                 case APARTMENT: {
                     final var builder = new ApartmentBuilder();
+                    final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructApartment(
-                        builder,
                         house.getInt("id"),
                         type,
                         house.getString("address"),
@@ -103,8 +102,8 @@ public class MainViewController implements Initializable {
                 }
                 case GARAGE: {
                     final var builder = new GarageBuilder();
+                    final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructGarage(
-                        builder,
                         house.getInt("id"),
                         type,
                         house.getString("address"),
@@ -118,8 +117,8 @@ public class MainViewController implements Initializable {
                 }
                 case INDEPENDENT: {
                     final var builder = new IndependentBuilder();
+                    final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructIndependent(
-                        builder,
                         house.getInt("id"),
                         type,
                         house.getString("address"),
