@@ -51,7 +51,9 @@ public class HousesController implements Initializable {
         // Divido la stringa utilizzando il carattere "|"
         final var addressSplit = house.getAddress().split("\\|");
         address1.setText(addressSplit[0]);
-        address2.setText(addressSplit[1]);
+        if (addressSplit.length > 1) {
+            address2.setText(addressSplit[1]);
+        }
 
         img.setImage(house.getPics(0));
         //Proprietà dell'immagine
