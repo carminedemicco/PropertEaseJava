@@ -1,5 +1,6 @@
 package main.propertease;
 
+import javafx.scene.image.Image;
 import main.propertease.builder.House;
 
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 // Classe che gestisce houses.fxml: la view dedicata alla scheda delle case
@@ -54,7 +56,12 @@ public class HousesController implements Initializable {
             address2.setText(addressSplit[1]);
         }
 
-        img.setImage(house.getPics(0));
+        var pic = house.getPics(0);
+        if (pic == null) {
+            final var defaultResource = Objects.requireNonNull(getClass().getResourceAsStream("/main/propertease/img/icons/placeholder.png"));
+            pic = new Image(defaultResource);
+        }
+        img.setImage(pic);
         //Proprietà dell'immagine
         img.setPreserveRatio(false); //si adatta alla dimensione
         //smusso gli angoli

@@ -10,7 +10,6 @@ module main.propertease {
     exports main.propertease.memento;
     exports main.propertease.command;
     exports main.propertease.server;
-    exports main.propertease.server.mediator;
     exports main.propertease.server.strategy;
     exports main.propertease.server.proxy;
     opens main.propertease to javafx.fxml;
