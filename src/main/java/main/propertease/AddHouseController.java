@@ -104,6 +104,11 @@ public class AddHouseController implements Initializable {
         modifyHouse = true;
 
         this.house = house;
+        for (var i = 0; i < pics.length; i++) {
+            if (pics[i] == null) {
+                pics[i] = house.getPics(i);
+            }
+        }
 
         // Precompila i campi per la modifica
         nameImg1.setStyle("-fx-text-fill: #f0f8ff");
@@ -581,13 +586,9 @@ public class AddHouseController implements Initializable {
                 house.getDescription()
             )
         );
-        final var pictures = pics;
-        if (update) {
-            for (var i = 0; i < pictures.length; i++) {
-                if (pictures[i] == null) {
-                    pictures[i] = house.getPics(i);
-                }
-            }
+        final var pictures = new Image[3];
+        for (var i = 0; i < pictures.length; i++) {
+            pictures[i] = house.getPics(i);
         }
         for (final var pic : pictures) {
             String data = null;
