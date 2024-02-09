@@ -3,6 +3,7 @@ module main.propertease {
     requires javafx.fxml;
     requires java.sql;
     requires org.json;
+    requires org.glavo.png;
     exports main.propertease;
     exports main.propertease.builder;
     exports main.propertease.decorator;

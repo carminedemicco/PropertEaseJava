@@ -17,8 +17,11 @@ import main.propertease.command.GoLoginViewCommand;
 import main.propertease.command.GoMainViewCommand;
 import main.propertease.command.Invoker;
 import main.propertease.memento.Memento;
+import org.glavo.png.PNGWriter;
+import org.glavo.png.image.ArgbImage;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -596,15 +599,34 @@ public class AddHouseController implements Initializable {
                 try {
                     byte[] bytes;
                     if (pic.getUrl() == null) {
-                        final var width = (int)pic.getWidth();
-                        final var height = (int)pic.getHeight();
-                        final var buffer = ByteBuffer.allocate(width * height * 4);
-                        pic
-                            .getPixelReader()
-                            .getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), buffer, width * 4);
+                        final var buffer = new ByteArrayOutputStream();
+                        try (final var writer = new PNGWriter(buffer)) {
+                            final var imageBytes = getBytesFromImage(pic);
+                            writer.write(new ArgbImage() {
+                                @Override
+                                public int getWidth() {
+                                    return (int)pic.getWidth();
+                                }
+
+                                @Override
+                                public int getHeight() {
+                                    return (int)pic.getHeight();
+                                }
+
+                                @Override
+                                public int getArgb(int x, int y) {
+                                    final var index = (y * getWidth() + x) * 4;
+                                    final var b = imageBytes[index] & 0xFF;
+                                    final var g = imageBytes[index + 1] & 0xFF;
+                                    final var r = imageBytes[index + 2] & 0xFF;
+                                    final var a = imageBytes[index + 3] & 0xFF;
+                                    return (a << 24) | (r << 16) | (g << 8) | b;
+                                }
+                            });
+                        }
                         bytes = Base64
                             .getEncoder()
-                            .encode(buffer.array());
+                            .encode(buffer.toByteArray());
                     } else {
                         bytes = Base64
                             .getEncoder()
@@ -630,6 +652,16 @@ public class AddHouseController implements Initializable {
         if (!update && !response.isNull("response")) {
             house.setId(response.getJSONObject("response").getInt("id"));
         }
+    }
+
+    private byte[] getBytesFromImage(Image image) {
+        final var width = (int)image.getWidth();
+        final var height = (int)image.getHeight();
+        final var buffer = ByteBuffer.allocate(width * height * 4);
+        image
+            .getPixelReader()
+            .getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), buffer, width * 4);
+        return buffer.array();
     }
 
     // Al click del bottone di logout: ritorna alla View di login
