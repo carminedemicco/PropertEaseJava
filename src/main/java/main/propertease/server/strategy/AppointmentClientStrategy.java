@@ -74,12 +74,12 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
                                 final var agent = result.getString("agent");
                                 // controllo se esistono altri appuntamenti per lo stesso giorno
                                 final var checkQuery = """
-                                        select count(*) as count
-                                          from Appointment
-                                          where time = ? and
-                                                agent = ? and
-                                                buyer = ?
-                                    """;
+                                    select count(*) as count
+                                      from Appointment
+                                      where time = ? and
+                                            agent = ? and
+                                            buyer = ?
+                                """;
                                 final var checkQueryParameters = Arrays.<Object>asList(date, agent, buyer);
                                 database.executeQuery(checkQuery, checkQueryParameters, (checkResult) -> {
                                     final var insertQuery = "insert into Appointment values (?, ?, ?, ?)";
@@ -160,32 +160,32 @@ public class AppointmentClientStrategy implements ClientManagerStrategy {
         var query = "";
         if (isAgent) {
             query = """
-                    select
-                        A.ROWID as id,
-                        A.time as time,
-                        U.first_name as first_name,
-                        U.last_name as last_name,
-                        H.address as address,
-                        H.type as type
-                      from Appointment as A
-                        inner join User U on U.username = A.agent
-                        inner join House H on H.ROWID = A.house
-                      where A.agent = ?
-                """;
+                select
+                    A.ROWID as id,
+                    A.time as time,
+                    U.first_name as first_name,
+                    U.last_name as last_name,
+                    H.address as address,
+                    H.type as type
+                  from Appointment as A
+                    inner join User U on U.username = A.buyer
+                    inner join House H on H.ROWID = A.house
+                  where A.agent = ?
+            """;
         } else {
             query = """
-                    select
-                        A.ROWID as id,
-                        A.time as time,
-                        U.first_name as first_name,
-                        U.last_name as last_name,
-                        H.address as address,
-                        H.type as type
-                      from Appointment as A
-                        inner join User U on U.username = A.agent
-                        inner join House H on H.ROWID = A.house
-                      where A.buyer = ?
-                """;
+                select
+                    A.ROWID as id,
+                    A.time as time,
+                    U.first_name as first_name,
+                    U.last_name as last_name,
+                    H.address as address,
+                    H.type as type
+                  from Appointment as A
+                    inner join User U on U.username = A.agent
+                    inner join House H on H.ROWID = A.house
+                  where A.buyer = ?
+            """;
         }
         final var queryParameters = Collections.<Object>singletonList(username);
         database.executeQuery(query, queryParameters, (result) -> {
