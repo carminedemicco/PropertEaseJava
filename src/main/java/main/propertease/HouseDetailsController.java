@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,7 @@ import main.propertease.decorator.HouseVat;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 // Classe che gestisce houseDetails.fxml: la view dedicata ai dettagli di una casa
@@ -218,9 +220,27 @@ public class HouseDetailsController implements Initializable {
     public void setData(House house) {
         this.house = house;
 
-        img1.setImage(house.getPics(0));
-        img2.setImage(house.getPics(1));
-        img3.setImage(house.getPics(2));
+        img1.setImage(Objects.requireNonNullElse(
+            house.getPics(0),
+            new Image(Objects.requireNonNull(
+                getClass()
+                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+            ))
+        ));
+        img2.setImage(Objects.requireNonNullElse(
+            house.getPics(1),
+            new Image(Objects.requireNonNull(
+                getClass()
+                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+            ))
+        ));
+        img3.setImage(Objects.requireNonNullElse(
+            house.getPics(2),
+            new Image(Objects.requireNonNull(
+                getClass()
+                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+            ))
+        ));
         addressLabel.setText(house.getAddress());
         floorLabel.setText(String.valueOf(house.getFloor()));
         elevatorLabel.setText(house.hasElevator() ? "Yes" : "No");

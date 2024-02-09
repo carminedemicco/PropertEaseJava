@@ -216,13 +216,7 @@ public class PosterClientStrategy implements ClientManagerStrategy {
     private static Object getHouseImageAsBase64(int houseId, String name) {
         var path = Path.of(getHouseImagePath(houseId, name));
         if (!Files.exists(path)) {
-            final var classPath = "/main/propertease/img/icons/placeholder.png";
-            final var defaultResource = PosterClientStrategy.class.getResource(classPath);
-            try {
-                path = Path.of(Objects.requireNonNull(defaultResource).toURI());
-            } catch (URISyntaxException e) {
-                return JSONObject.NULL;
-            }
+            return JSONObject.NULL;
         }
         try {
             final var bytes = Files.readAllBytes(path);
@@ -252,7 +246,13 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                 }
             }
             try {
-                Files.write(path, decoded, StandardOpenOption.CREATE);
+                Files.write(
+                    path,
+                    decoded,
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.WRITE,
+                    StandardOpenOption.TRUNCATE_EXISTING
+                );
                 images.add(name);
             } catch (Exception e) {
                 e.printStackTrace();

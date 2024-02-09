@@ -81,9 +81,11 @@ public class SelectDateController implements Initializable {
                 .getInstance()
                 .getClient()
                 .exchange(message);
-            if (response.has("error")) {
+            final var data = response.getJSONObject("response");
+            if (data.has("error")) {
+                final var error = data.getString("error");
                 // Gestisci l'errore
-                switch (response.getString("error")) {
+                switch (error) {
                     case "alreadyBooked":
                         errorLabel.setText("Already booked for this date.");
                         break;
