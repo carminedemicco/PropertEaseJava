@@ -544,7 +544,7 @@ public class AddHouseController implements Initializable {
         invoker = new Invoker();
 
         // Definisco le estensioni accettate del FileChooser
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
     }
 
     private void sendInsertHouseRequest(boolean update) {

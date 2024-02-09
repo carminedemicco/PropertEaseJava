@@ -187,13 +187,7 @@ public class MainViewController implements Initializable {
         appointment.setId(info.getInt("id"));
         appointment.setHouseName(HouseType.fromValue(houseInfo.getInt("type")).toString());
         appointment.setHouseAddress(houseInfo.getString("address"));
-        appointment.setAdministratorName(
-            String.format(
-                "Estate Agent: %s %s",
-                agentInfo.getString("first_name"),
-                agentInfo.getString("last_name")
-            )
-        );
+        appointment.setAdministratorName(agentInfo.getString("first_name") + " " + agentInfo.getString("last_name"));
         appointment.setAppointmentDate(info.getString("date"));
         return appointment;
     }

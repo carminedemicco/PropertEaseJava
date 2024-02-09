@@ -198,7 +198,7 @@
                                                             </Label>
                                                          </children>
                                                       </HBox>
-                                                      <Button mnemonicParsing="false" onAction="#vatButton" style="-fx-font-size: 10;" styleClass="appointment-button" text="Price without VAT" />
+                                                      <Button fx:id="vatButtonId" mnemonicParsing="false" onAction="#vatButton" style="-fx-font-size: 10;" styleClass="appointment-button" text="Price without VAT" />
                                                    </children>
                                                 </VBox>
                                                 <VBox>

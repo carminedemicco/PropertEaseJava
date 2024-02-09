@@ -56,6 +56,9 @@ public class HouseDetailsController implements Initializable {
     private VBox detailbox3;
 
     @FXML
+    private Button vatButtonId;
+
+    @FXML
     private Label elevatorLabel;
 
     @FXML
@@ -186,12 +189,25 @@ public class HouseDetailsController implements Initializable {
     }
 
     // al click di 'Price without VAT' usa il Pattern Decorator per calcolare il prezzo senza VAT
+    Boolean vatCalc = false;
     @FXML
     void vatButton(ActionEvent event) {
-        // Uso il Pattern Decorator per estendere l'oggetto house a run-time
-        HouseInterface vatHouse = new HouseVat(house);
-        // Ottengo e imposto il nuovo prezzo con l'eliminazione della VAT
-        priceLabel.setText(String.valueOf(vatHouse.getPrice()));
+        if (!vatCalc){
+            // Uso il Pattern Decorator per estendere l'oggetto house a run-time
+            HouseInterface vatHouse = new HouseVat(house);
+            // Ottengo e imposto il nuovo prezzo con l'eliminazione della VAT
+            priceLabel.setText(String.valueOf(vatHouse.getPrice()));
+            // Cambio il testo del bottone per fare l'operazione inversa
+            vatButtonId.setText("Price with VAT");
+            vatCalc = true;
+        }
+        else{
+            // Ottengo e imposto il prezzo con VAT inclusa
+            priceLabel.setText(String.valueOf(house.getPrice()));
+            // Cambio il testo del bottone per fare l'operazione inversa
+            vatButtonId.setText("Price without VAT");
+            vatCalc = false;
+        }
     }
 
     // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
@@ -241,7 +257,7 @@ public class HouseDetailsController implements Initializable {
                     .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
             ))
         ));
-        addressLabel.setText(house.getAddress());
+        addressLabel.setText(house.getAddress().replace("|",", "));
         floorLabel.setText(String.valueOf(house.getFloor()));
         elevatorLabel.setText(house.hasElevator() ? "Yes" : "No");
         balconiesLabel.setText(String.valueOf(house.getBalconies()));

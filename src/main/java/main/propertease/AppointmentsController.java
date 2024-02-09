@@ -37,9 +37,14 @@ public class AppointmentsController {
     public void setData(Appointment appointment) {
         id = appointment.getId();
         labelDate.setText(appointment.getAppointmentDate());
-        labelAgent.setText(appointment.getAdministratorName());
+        if(UserAccess.getUser().getPrivileges() == 1){
+            labelAgent.setText("Client: " + appointment.getAdministratorName());
+        }
+        else{
+            labelAgent.setText("Estate Agent: " + appointment.getAdministratorName());
+        }
         labelHouseName.setText(appointment.getHouseName());
-        labelHouseAddr.setText(appointment.getHouseAddress());
+        labelHouseAddr.setText(appointment.getHouseAddress().replace("|",", "));
     }
 
     // Al click del bottone di rimozione appuntamento
