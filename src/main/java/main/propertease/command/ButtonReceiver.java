@@ -13,13 +13,13 @@ public class ButtonReceiver {
     private FXMLLoader fxmlLoader;
     private Scene newScene;
 
-    public ButtonReceiver(Stage primaryStage){
+    public ButtonReceiver(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public void goMainView(){
+    public void goMainView() {
         // Istruzioni per andare alla homepage
-       fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
+        fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
@@ -28,7 +28,7 @@ public class ButtonReceiver {
         primaryStage.setScene(newScene);
     }
 
-    public void goLoginView(){
+    public void goLoginView() {
         // Istruzioni per andare alla LoginView
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         try {
@@ -41,7 +41,7 @@ public class ButtonReceiver {
         primaryStage.show();
     }
 
-    public void goAddHouseView(){
+    public void goAddHouseView() {
         // Istruzioni per andare alla pagina di inserimento casa
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
         try {
@@ -52,7 +52,7 @@ public class ButtonReceiver {
         primaryStage.setScene(newScene);
     }
 
-    public void goInsertAvailabilityView(){
+    public void goInsertAvailabilityView() {
         // Crea la nuova scena
         final var newStage = new Stage();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));

@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -213,33 +215,33 @@ public class AddHouseController implements Initializable {
                 case "Apartment":
                     isGood &=
                         !addressField.getText().isEmpty() &
-                        !floorField.getText().isEmpty() &
-                        !elevatorField.getText().isEmpty() &
-                        !balconiesField.getText().isEmpty() &
-                        !terraceField.getText().isEmpty() &
-                        !accessoriesField.getText().isEmpty() &
-                        !bedroomsField.getText().isEmpty() &
-                        !sqmField.getText().isEmpty() &
-                        !priceField.getText().isEmpty();
+                            !floorField.getText().isEmpty() &
+                            !elevatorField.getText().isEmpty() &
+                            !balconiesField.getText().isEmpty() &
+                            !terraceField.getText().isEmpty() &
+                            !accessoriesField.getText().isEmpty() &
+                            !bedroomsField.getText().isEmpty() &
+                            !sqmField.getText().isEmpty() &
+                            !priceField.getText().isEmpty();
                     break;
 
                 case "Garage":
                     isGood &=
                         !addressField.getText().isEmpty() &
-                        !sqmField.getText().isEmpty() &
-                        !priceField.getText().isEmpty();
+                            !sqmField.getText().isEmpty() &
+                            !priceField.getText().isEmpty();
                     break;
 
                 case "Independent":
                     isGood &=
                         !addressField.getText().isEmpty() &
-                        !balconiesField.getText().isEmpty() &
-                        !terraceField.getText().isEmpty() &
-                        !gardenField.getText().isEmpty() &
-                        !accessoriesField.getText().isEmpty() &
-                        !bedroomsField.getText().isEmpty() &
-                        !sqmField.getText().isEmpty() &
-                        !priceField.getText().isEmpty();
+                            !balconiesField.getText().isEmpty() &
+                            !terraceField.getText().isEmpty() &
+                            !gardenField.getText().isEmpty() &
+                            !accessoriesField.getText().isEmpty() &
+                            !bedroomsField.getText().isEmpty() &
+                            !sqmField.getText().isEmpty() &
+                            !priceField.getText().isEmpty();
                     break;
 
                 default:
@@ -441,16 +443,16 @@ public class AddHouseController implements Initializable {
             final var query = new JSONObject(
                 String.format(
                     """
-                    {
-                      "type": "poster",
-                      "data": {
-                        "request": "deleteHouse",
-                        "parameters": {
-                          "id": %d
+                        {
+                          "type": "poster",
+                          "data": {
+                            "request": "deleteHouse",
+                            "parameters": {
+                              "id": %d
+                            }
+                          }
                         }
-                      }
-                    }
-                    """,
+                        """,
                     house.getId()
                 )
             );
@@ -541,29 +543,29 @@ public class AddHouseController implements Initializable {
         final var message = new JSONObject(
             String.format(
                 """
-                {
-                  "type": "poster",
-                  "data": {
-                    "request": "insertHouse",
-                    "parameters": {
-                      "id": %d,
-                      "type": %d,
-                      "address": "%s",
-                      "floor": %d,
-                      "elevator": %b,
-                      "balconies": %d,
-                      "terrace": %d,
-                      "garden": %d,
-                      "accessories": %d,
-                      "bedrooms": %d,
-                      "sqm": %d,
-                      "price": %d,
-                      "description": "%s",
-                      "pictures": [],
+                    {
+                      "type": "poster",
+                      "data": {
+                        "request": "insertHouse",
+                        "parameters": {
+                          "id": %d,
+                          "type": %d,
+                          "address": "%s",
+                          "floor": %d,
+                          "elevator": %b,
+                          "balconies": %d,
+                          "terrace": %d,
+                          "garden": %d,
+                          "accessories": %d,
+                          "bedrooms": %d,
+                          "sqm": %d,
+                          "price": %d,
+                          "description": "%s",
+                          "pictures": [],
+                        }
+                      }
                     }
-                  }
-                }
-                """,
+                    """,
                 update ? house.getId() : null,
                 house.getType().getValue(),
                 house.getAddress(),
@@ -591,11 +593,24 @@ public class AddHouseController implements Initializable {
             String data = null;
             if (pic != null) {
                 try {
-                    final var bytes = Base64
-                        .getEncoder()
-                        .encode(
-                            Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
-                        );
+                    byte[] bytes;
+                    if (pic.getUrl() == null) {
+                        final var width = (int)pic.getWidth();
+                        final var height = (int)pic.getHeight();
+                        final var buffer = ByteBuffer.allocate(width * height * 4);
+                        pic
+                            .getPixelReader()
+                            .getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), buffer, width * 4);
+                        bytes = Base64
+                            .getEncoder()
+                            .encode(buffer.array());
+                    } else {
+                        bytes = Base64
+                            .getEncoder()
+                            .encode(
+                                Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
+                            );
+                    }
                     data = new String(bytes);
                 } catch (IOException | URISyntaxException e) {
                     throw new RuntimeException(e);
@@ -618,14 +633,14 @@ public class AddHouseController implements Initializable {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event){
+    void logoutButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event){
+    void homeButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goMainViewCommand);
     }

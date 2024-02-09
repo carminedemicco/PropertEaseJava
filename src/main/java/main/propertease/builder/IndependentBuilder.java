@@ -56,7 +56,9 @@ public class IndependentBuilder implements HouseBuilder {
     }
 
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public void setPics(Image[] pics) {

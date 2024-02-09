@@ -1,9 +1,9 @@
 package main.propertease.command;
 
-public class GoMainViewCommand implements Command{
+public class GoMainViewCommand implements Command {
     private final ButtonReceiver buttonReceiver;
 
-    public GoMainViewCommand(ButtonReceiver br){
+    public GoMainViewCommand(ButtonReceiver br) {
         buttonReceiver = br;
     }
 
