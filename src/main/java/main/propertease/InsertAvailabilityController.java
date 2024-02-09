@@ -63,18 +63,18 @@ public class InsertAvailabilityController implements Initializable {
             } else {
                 final var user = UserAccess.getUser();
                 final var query = """
-                    {
-                      "type": "appointment",
-                      "data": {
-                        "request": "insertAgentAvailability",
-                        "parameters": {
-                          "agent": "%s",
-                          "start_date": "%s",
-                          "end_date": "%s",
+                        {
+                          "type": "appointment",
+                          "data": {
+                            "request": "insertAgentAvailability",
+                            "parameters": {
+                              "agent": "%s",
+                              "start_date": "%s",
+                              "end_date": "%s",
+                            }
+                          }
                         }
-                      }
-                    }
-                """;
+                    """;
                 final var message = new JSONObject(String.format(query, user.getUsername(), startDate, endDate));
                 final var data = ClientConnection
                     .getInstance()

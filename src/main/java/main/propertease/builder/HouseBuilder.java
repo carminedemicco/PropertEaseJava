@@ -28,6 +28,7 @@ public interface HouseBuilder {
     void setPics(Image[] pics);
 
     void setId(int id);
+
     void setType(HouseType type);
 
     House getResult();

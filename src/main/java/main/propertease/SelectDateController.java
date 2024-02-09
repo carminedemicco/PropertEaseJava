@@ -60,18 +60,18 @@ public class SelectDateController implements Initializable {
             final var message = new JSONObject(
                 String.format(
                     """
-                        {
-                          "type": "appointment",
-                          "data": {
-                            "request": "bookAppointment",
-                            "parameters": {
-                              "username": "%s",
-                              "date": "%s",
-                              "house": %d
+                            {
+                              "type": "appointment",
+                              "data": {
+                                "request": "bookAppointment",
+                                "parameters": {
+                                  "username": "%s",
+                                  "date": "%s",
+                                  "house": %d
+                                }
+                              }
                             }
-                          }
-                        }
-                    """,
+                        """,
                     UserAccess.getUser().getUsername(),
                     date,
                     houseId

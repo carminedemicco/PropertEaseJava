@@ -89,24 +89,24 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                         final var houseId = parameters.getInt("id");
                         final var images = storeHouseImages(houseId, pictures);
                         final var query = """
-                            update House set
-                              type = ?,
-                              address = ?,
-                              price = ?,
-                              floor = ?,
-                              elevator = ?,
-                              balconies = ?,
-                              terrace = ?,
-                              garden = ?,
-                              accessories = ?,
-                              bedrooms = ?,
-                              sqm = ?,
-                              description = ?,
-                              image0 = ?,
-                              image1 = ?,
-                              image2 = ?
-                            where ROWID = ?
-                        """;
+                                update House set
+                                  type = ?,
+                                  address = ?,
+                                  price = ?,
+                                  floor = ?,
+                                  elevator = ?,
+                                  balconies = ?,
+                                  terrace = ?,
+                                  garden = ?,
+                                  accessories = ?,
+                                  bedrooms = ?,
+                                  sqm = ?,
+                                  description = ?,
+                                  image0 = ?,
+                                  image1 = ?,
+                                  image2 = ?
+                                where ROWID = ?
+                            """;
                         final var values = Arrays.<Object>asList(
                             type,
                             address,
@@ -137,24 +137,24 @@ public class PosterClientStrategy implements ClientManagerStrategy {
                         final var houseId = getNewHouseId(database);
                         final var images = storeHouseImages(houseId, pictures);
                         final var query = """
-                            insert into House values (
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?,
-                              ?
-                            )
-                        """;
+                                insert into House values (
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?,
+                                  ?
+                                )
+                            """;
                         final var values = Arrays.<Object>asList(
                             type,
                             address,

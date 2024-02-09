@@ -106,14 +106,14 @@ public class HouseDetailsController implements Initializable {
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event){
+    void logoutButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }
 
     // Al click del bottone home: ritorna alla View generale mainView.fxml
     @FXML
-    void homeButton(ActionEvent event){
+    void homeButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goMainViewCommand);
     }

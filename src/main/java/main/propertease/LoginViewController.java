@@ -67,19 +67,19 @@ public class LoginViewController implements Initializable {
             errorSignUpText.setVisible(true);
         } else {
             final var query = """
-                  {
-                    "type": "generic",
-                    "data": {
-                      "request": "signup",
-                      "parameters": {
-                        "username": "%s",
-                        "first_name": "%s",
-                        "last_name": "%s",
-                        "password": "%s",
+                      {
+                        "type": "generic",
+                        "data": {
+                          "request": "signup",
+                          "parameters": {
+                            "username": "%s",
+                            "first_name": "%s",
+                            "last_name": "%s",
+                            "password": "%s",
+                          }
+                        }
                       }
-                    }
-                  }
-            """;
+                """;
             final var message = new JSONObject(
                 String.format(
                     query,

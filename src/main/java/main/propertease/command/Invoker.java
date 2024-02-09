@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Invoker {
     private ArrayList<Command> commands = new ArrayList<>();
-    public void placeCommand(Command command){
+
+    public void placeCommand(Command command) {
         // Aggiunge il comando alla lista
         commands.add(command);
 

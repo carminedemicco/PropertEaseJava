@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class StartServer {
     public static void main(String[] args) throws Exception {
         try (final var forkPool = ForkJoinPool.commonPool()) {
-            final var servers = new Server[] {
+            final var servers = new Server[]{
                 new Server(1928),
                 new Server(1927),
                 new Server(1926),

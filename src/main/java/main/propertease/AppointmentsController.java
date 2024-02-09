@@ -67,16 +67,16 @@ public class AppointmentsController {
             final var message = new JSONObject(
                 String.format(
                     """
-                    {
-                      "type": "appointment",
-                      "data": {
-                        "request": "removeAppointment",
-                        "parameters": {
-                          "id": %d
+                        {
+                          "type": "appointment",
+                          "data": {
+                            "request": "removeAppointment",
+                            "parameters": {
+                              "id": %d
+                            }
+                          }
                         }
-                      }
-                    }
-                    """,
+                        """,
                     id
                 )
             );

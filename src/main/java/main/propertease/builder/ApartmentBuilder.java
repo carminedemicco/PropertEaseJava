@@ -56,7 +56,9 @@ public class ApartmentBuilder implements HouseBuilder {
     }
 
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public void setPics(Image[] pics) {

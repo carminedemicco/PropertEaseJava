@@ -86,6 +86,5 @@ public class HousesController implements Initializable {
                 e.printStackTrace();
             }
         });
-
     }
 }
