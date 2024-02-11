@@ -8,32 +8,45 @@ import main.propertease.StartApplication;
 
 import java.io.IOException;
 
+/**
+ * Receiver class for handling button actions in the UI.
+ */
 public class ButtonReceiver {
+
     private final Stage primaryStage;
     private FXMLLoader fxmlLoader;
     private Scene newScene;
 
-    public ButtonReceiver(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
+    /**
+     * Constructor for ButtonReceiver.
+     *
+     * @param primaryStage The primary stage of the application.
+     */
+    public ButtonReceiver(Stage primaryStage) { this.primaryStage = primaryStage; }
 
+    /**
+     * Switches the scene to the main view.
+     */
     public void goMainView() {
-        // Istruzioni per andare alla homepage
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.setScene(newScene);
     }
 
+    /**
+     * Switches the scene to the login view.
+     */
     public void goLoginView() {
-        // Istruzioni per andare alla LoginView
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.hide();
@@ -41,33 +54,37 @@ public class ButtonReceiver {
         primaryStage.show();
     }
 
+    /**
+     * Switches the scene to the add house view.
+     */
     public void goAddHouseView() {
-        // Istruzioni per andare alla pagina di inserimento casa
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.setScene(newScene);
     }
 
+    /**
+     * Opens a popup window for inserting availability dates.
+     */
     public void goInsertAvailabilityView() {
-        // Crea la nuova scena
         final var newStage = new Stage();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
         newStage.setScene(newScene);
 
-        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(primaryStage);
 
-        // Mostra la nuova finestra
         newStage.setResizable(false);
         newStage.setTitle("Select Available Dates");
         newStage.show();
