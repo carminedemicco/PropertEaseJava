@@ -25,8 +25,10 @@ import java.util.Base64;
 import java.util.List;
 import java.util.ResourceBundle;
 
-// Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
-// Contiene la lista degli appuntamenti e la griglia delle case
+/**
+ * Manages the mainView.fxml, the view dedicated to the initial screen.
+ * Contains the list of appointments and the grid of houses.
+ */
 public class MainViewController implements Initializable {
     @FXML
     private GridPane gridPane;
@@ -48,29 +50,32 @@ public class MainViewController implements Initializable {
     Invoker invoker;
 
 
-    // Prende dal database i dati di tutte le case
-    // Per ciascuna istanza crea un oggetto House corrispondente e lo inserisce nell'ArrayList
-    // Restituisce l'ArrayList di oggetti House
-
+    /**
+     * Retrieves house data from the database.
+     * Constructs House objects based on the data retrieved.
+     * Returns a list of House objects.
+     *
+     * @return A list of House objects.
+     */
     private List<House> getHouseData() {
         final List<House> houses = new ArrayList<>();
         final var query = """
-              {
-                "type": "poster",
-                "data": {
-                  "request": "getHouses",
-                },
-              }
-            """;
+                  {
+                    "type": "poster",
+                    "data": {
+                      "request": "getHouses",
+                    },
+                  }
+                """;
         final var data = ClientConnection
-            .getInstance()
-            .getClient()
-            .exchange(new JSONObject(query));
+                .getInstance()
+                .getClient()
+                .exchange(new JSONObject(query));
         final var response = data.getJSONArray("response");
         for (var i = 0; i < response.length(); i++) {
             final var house = response.getJSONObject(i);
             final var type = HouseType.fromValue(house.getInt("type"));
-            final var images = new Image[]{null, null, null};
+            final var images = new Image[]{ null, null, null };
             for (var j = 0; j < images.length; j++) {
                 if (!house.isNull("image" + j)) {
                     final var image = house.getString("image" + j);
@@ -84,19 +89,19 @@ public class MainViewController implements Initializable {
                     final var builder = new ApartmentBuilder();
                     final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructApartment(
-                        house.getInt("id"),
-                        type,
-                        house.getString("address"),
-                        house.getInt("floor"),
-                        house.getBoolean("elevator"),
-                        house.getInt("balconies"),
-                        house.getInt("terrace"),
-                        house.getInt("accessories"),
-                        house.getInt("bedrooms"),
-                        house.getInt("sqm"),
-                        house.getInt("price"),
-                        house.getString("description"),
-                        images
+                            house.getInt("id"),
+                            type,
+                            house.getString("address"),
+                            house.getInt("floor"),
+                            house.getBoolean("elevator"),
+                            house.getInt("balconies"),
+                            house.getInt("terrace"),
+                            house.getInt("accessories"),
+                            house.getInt("bedrooms"),
+                            house.getInt("sqm"),
+                            house.getInt("price"),
+                            house.getString("description"),
+                            images
                     );
                     houses.add(result);
                     break;
@@ -105,13 +110,13 @@ public class MainViewController implements Initializable {
                     final var builder = new GarageBuilder();
                     final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructGarage(
-                        house.getInt("id"),
-                        type,
-                        house.getString("address"),
-                        house.getInt("sqm"),
-                        house.getInt("price"),
-                        house.getString("description"),
-                        images
+                            house.getInt("id"),
+                            type,
+                            house.getString("address"),
+                            house.getInt("sqm"),
+                            house.getInt("price"),
+                            house.getString("description"),
+                            images
                     );
                     houses.add(result);
                     break;
@@ -120,17 +125,17 @@ public class MainViewController implements Initializable {
                     final var builder = new IndependentBuilder();
                     final var houseDirector = new HouseDirector(builder);
                     final var result = houseDirector.constructIndependent(
-                        house.getInt("id"),
-                        type,
-                        house.getString("address"),
-                        house.getInt("garden"),
-                        house.getInt("terrace"),
-                        house.getInt("accessories"),
-                        house.getInt("bedrooms"),
-                        house.getInt("sqm"),
-                        house.getInt("price"),
-                        house.getString("description"),
-                        images
+                            house.getInt("id"),
+                            type,
+                            house.getString("address"),
+                            house.getInt("garden"),
+                            house.getInt("terrace"),
+                            house.getInt("accessories"),
+                            house.getInt("bedrooms"),
+                            house.getInt("sqm"),
+                            house.getInt("price"),
+                            house.getString("description"),
+                            images
                     );
                     houses.add(result);
                     break;
@@ -142,41 +147,51 @@ public class MainViewController implements Initializable {
     }
 
 
-    // Prende dal database i dati sugli appuntamenti dell'utente loggato
-    // Per ciascuna istanza crea un oggetto Appointment corrispondente e lo inserisce nell'ArrayList
-    // Restituisce l'ArrayList di oggetti Appointment
-
+    /**
+     * Retrieves appointment data from the database.
+     * Constructs Appointment objects based on the data retrieved.
+     * Returns a list of Appointment objects.
+     *
+     * @return A list of Appointment objects.
+     */
     private List<Appointment> getAppointmentData() {
         final var appointments = new ArrayList<Appointment>();
         final var user = UserAccess.getUser();
-        // Seleziona i dati dell'esperto e della casa relativi agli appuntamenti dell'utente loggato
+        // Selects the appointment data based on the logged user
         final var query = """
-            {
-              "type": "appointment",
-              "data": {
-                "parameters": {
-                  "username": "%s"
-                }
-              }
-            }
-        """;
+                    {
+                      "type": "appointment",
+                      "data": {
+                        "parameters": {
+                          "username": "%s"
+                        }
+                      }
+                    }
+                """;
         final var message = new JSONObject(String.format(query, user.getUsername()));
         if (user.getPrivileges() == 1) {
             message.getJSONObject("data").put("request", "getAppointmentsForAgent");
-        } else {
+        }
+        else {
             message.getJSONObject("data").put("request", "getAppointmentsForUser");
         }
         final var data = ClientConnection
-            .getInstance()
-            .getClient()
-            .exchange(message);
+                .getInstance()
+                .getClient()
+                .exchange(message);
         final var response = data.getJSONArray("response");
         for (final var each : response) {
-            appointments.add(getAppointment((JSONObject)each));
+            appointments.add(getAppointment((JSONObject) each));
         }
         return appointments;
     }
 
+    /**
+     * Constructs an Appointment object from the provided JSON data.
+     *
+     * @param info The JSON object containing appointment information.
+     * @return An Appointment object constructed from the JSON data.
+     */
     private Appointment getAppointment(JSONObject info) {
         final var agentInfo = info.getJSONObject("agent");
         final var houseInfo = info.getJSONObject("house");
@@ -190,7 +205,16 @@ public class MainViewController implements Initializable {
         return appointment;
     }
 
-    // Avviato alla creazione della View
+    /**
+     * Initializes the view upon creation.
+     * Sets the name displayed on the user label, initializes the Command pattern objects,
+     * loads the grids of houses and appointments, and adds admin buttons if the user has admin privileges.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location
+     *                      is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not
+     *                       localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
@@ -205,7 +229,8 @@ public class MainViewController implements Initializable {
         try {
             setHousesGrid();
             setAppointmentsGrid();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -214,6 +239,10 @@ public class MainViewController implements Initializable {
         }
     }
 
+    /**
+     * Adds admin buttons to the view if the user has admin privileges.
+     * Initializes two buttons and sets their actions.
+     */
     private void addAdminButtons() {
         final var btn1 = new Button();
         final var btn2 = new Button();
@@ -222,25 +251,28 @@ public class MainViewController implements Initializable {
         adminButtonsArea.getChildren().add(btn1);
         adminButtonsArea.getChildren().add(btn2);
 
-        // Al click del bottone di inserimento casa: porta alla View di inserimento
         btn1.setOnAction(e -> invoker.placeCommand(goAddHouseViewCommand));
-
-        // Al click del bottone di inserimento disponibilità: apre il popup relativo
         btn2.setOnAction(e -> invoker.placeCommand(goInsertAvailabilityViewCommand));
-
     }
 
-
-    // Al click del bottone di logout: ritorna alla View di login
+    /**
+     * Logs the user out and navigates back to the login view.
+     *
+     * @param event The ActionEvent triggered by clicking the button.
+     */
     @FXML
     void logoutButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }
 
-
-    // Carica la griglia delle case
-    public void setHousesGrid() throws Exception {
+    /**
+     * Loads the grid of houses.
+     *
+     * @throws Exception If an error occurs during loading.
+     */
+    public void setHousesGrid() throws
+                                Exception {
         int row = 1;
         int column = 0;
 
@@ -263,9 +295,13 @@ public class MainViewController implements Initializable {
         }
     }
 
-
-    // Carica la griglia degli appuntamenti
-    public void setAppointmentsGrid() throws Exception {
+    /**
+     * Loads the grid of appointments.
+     *
+     * @throws Exception If an error occurs during loading.
+     */
+    public void setAppointmentsGrid() throws
+                                      Exception {
         for (final var appointment : getAppointmentData()) {
             final var fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("appointments.fxml"));
@@ -278,6 +314,4 @@ public class MainViewController implements Initializable {
             gridAppointments.getChildren().add(anchorPane);
         }
     }
-
-
 }
