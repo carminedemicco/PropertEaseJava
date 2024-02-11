@@ -89,20 +89,23 @@ public class AddHouseController implements Initializable {
 
     @FXML
     private ComboBox<String> houseTypeComboBox;
-    private final String[] houseType = {"Apartment", "Garage", "Independent"};
+    private final String[] houseType = { "Apartment", "Garage", "Independent" };
 
     // Pattern Command
     ButtonReceiver buttonReceiver;
     GoMainViewCommand goMainViewCommand;
     GoLoginViewCommand goLoginViewCommand;
     Invoker invoker;
-
-    // Variabile bool che contiene true se la casa deve essere modificata
     Boolean modifyHouse = false;
 
     House house;
     Memento houseMemento;
 
+    /**
+     * Sets the data of the house to be modified.
+     *
+     * @param house The house object containing the data to be modified.
+     */
     public void setModifyData(House house) {
         modifyHouse = true;
 
@@ -113,7 +116,6 @@ public class AddHouseController implements Initializable {
             }
         }
 
-        // Precompila i campi per la modifica
         nameImg1.setStyle("-fx-text-fill: #f0f8ff");
         nameImg1.setText("img1.png");
         nameImg2.setStyle("-fx-text-fill: #f0f8ff");
@@ -121,12 +123,10 @@ public class AddHouseController implements Initializable {
         nameImg3.setStyle("-fx-text-fill: #f0f8ff");
         nameImg3.setText("img3.png");
         houseTypeComboBox.setValue(house.getType().toString());
-        // Durante la modifica non è possibile modificare il tipo di casa
         houseTypeComboBox.setDisable(true);
 
         addressField.setText(house.getAddress());
 
-        // Disabilito i Fields
         blockFields();
 
         switch (house.getType()) {
@@ -140,6 +140,7 @@ public class AddHouseController implements Initializable {
                 break;
 
             case GARAGE:
+                // No additional fields for garage type.
                 break;
 
             case INDEPENDENT:
@@ -148,39 +149,43 @@ public class AddHouseController implements Initializable {
                 gardenField.setText(String.valueOf(house.getGarden()));
                 accessoriesField.setText(String.valueOf(house.getAccessories()));
                 bedroomsField.setText(String.valueOf(house.getBedrooms()));
-
                 break;
         }
 
         sqmField.setText(String.valueOf(house.getSqm()));
         priceField.setText(String.valueOf(house.getPrice()));
         descriptionField.setText(house.getDescription());
-
-        // Si rende visibile il bottone di cancellazione casa
         deleteButton.setVisible(true);
     }
 
 
     File[] picsFile = new File[3];
     Image[] pics = new Image[3];
-
-    // l'utente sceglie l'immagine 1 da caricare
     final FileChooser fc = new FileChooser();
 
+    // TODO unificare in una sola funzione
+
+    /**
+     * Adds an image to the first slot of the pictures array.
+     *
+     * @param event The ActionEvent triggered by the user action.
+     */
     @FXML
     void addImg1(ActionEvent event) {
+        // Show file chooser dialog to select an image file
         picsFile[0] = fc.showOpenDialog(null);
 
+        // If an image file is selected
         if (picsFile[0] != null) {
+            // Update UI to display the selected image file name
             nameImg1.setStyle("-fx-text-fill: #f0f8ff");
             nameImg1.setText(picsFile[0].getName());
 
-            // Creo un oggetto Image usando il file selezionato
+            // Create an Image object from the selected file and store it in the pics array
             pics[0] = new Image(picsFile[0].toURI().toString());
         }
     }
 
-    // l'utente sceglie l'immagine 2 da caricare
     @FXML
     void addImg2(ActionEvent event) {
         picsFile[1] = fc.showOpenDialog(null);
@@ -188,13 +193,10 @@ public class AddHouseController implements Initializable {
         if (picsFile[1] != null) {
             nameImg2.setStyle("-fx-text-fill: #f0f8ff");
             nameImg2.setText(picsFile[1].getName());
-
-            // Creo un oggetto Image usando il file selezionato
             pics[1] = new Image(picsFile[1].toURI().toString());
         }
     }
 
-    // l'utente sceglie l'immagine 3 da caricare
     @FXML
     void addImg3(ActionEvent event) {
         picsFile[2] = fc.showOpenDialog(null);
@@ -202,54 +204,57 @@ public class AddHouseController implements Initializable {
         if (picsFile[2] != null) {
             nameImg3.setStyle("-fx-text-fill: #f0f8ff");
             nameImg3.setText(picsFile[2].getName());
-
-            // Creo un oggetto Image usando il file selezionato
             pics[2] = new Image(picsFile[2].toURI().toString());
         }
     }
 
-
-    // Al click del bottone di conferma inserisce la nuova casa nel database
+    /**
+     * Event handler for confirming house details.
+     *
+     * <p> This method validates the entered details based on the selected house type,
+     * updates the house object accordingly, and sends a request to insert/update the house data.
+     *
+     * @param event The ActionEvent object representing the event triggered by confirming the details.
+     */
     @FXML
     void confirmButton(ActionEvent event) {
         var isGood = true;
-
-        // Controllo che tutti i campi siano compilati
         if (houseTypeComboBox.getValue() == null) {
             isGood = false;
             System.out.println("No house type selected.");
-        } else {
+        }
+        else {
             switch (houseTypeComboBox.getValue()) {
                 case "Apartment":
                     isGood &=
-                        !addressField.getText().isEmpty() &
-                            !floorField.getText().isEmpty() &
-                            !elevatorField.getText().isEmpty() &
-                            !balconiesField.getText().isEmpty() &
-                            !terraceField.getText().isEmpty() &
-                            !accessoriesField.getText().isEmpty() &
-                            !bedroomsField.getText().isEmpty() &
-                            !sqmField.getText().isEmpty() &
-                            !priceField.getText().isEmpty();
+                            !addressField.getText().isEmpty() &
+                                    !floorField.getText().isEmpty() &
+                                    !elevatorField.getText().isEmpty() &
+                                    !balconiesField.getText().isEmpty() &
+                                    !terraceField.getText().isEmpty() &
+                                    !accessoriesField.getText().isEmpty() &
+                                    !bedroomsField.getText().isEmpty() &
+                                    !sqmField.getText().isEmpty() &
+                                    !priceField.getText().isEmpty();
                     break;
 
                 case "Garage":
                     isGood &=
-                        !addressField.getText().isEmpty() &
-                            !sqmField.getText().isEmpty() &
-                            !priceField.getText().isEmpty();
+                            !addressField.getText().isEmpty() &
+                                    !sqmField.getText().isEmpty() &
+                                    !priceField.getText().isEmpty();
                     break;
 
                 case "Independent":
                     isGood &=
-                        !addressField.getText().isEmpty() &
-                            !balconiesField.getText().isEmpty() &
-                            !terraceField.getText().isEmpty() &
-                            !gardenField.getText().isEmpty() &
-                            !accessoriesField.getText().isEmpty() &
-                            !bedroomsField.getText().isEmpty() &
-                            !sqmField.getText().isEmpty() &
-                            !priceField.getText().isEmpty();
+                            !addressField.getText().isEmpty() &
+                                    !balconiesField.getText().isEmpty() &
+                                    !terraceField.getText().isEmpty() &
+                                    !gardenField.getText().isEmpty() &
+                                    !accessoriesField.getText().isEmpty() &
+                                    !bedroomsField.getText().isEmpty() &
+                                    !sqmField.getText().isEmpty() &
+                                    !priceField.getText().isEmpty();
                     break;
 
                 default:
@@ -260,20 +265,14 @@ public class AddHouseController implements Initializable {
         }
 
         if (!isGood) {
-            //Se qualche campo non è compilato
             errorLabel.setText("Fill in all required fields.");
             errorLabel.setStyle("-fx-text-fill: red");
             errorLabel.setVisible(true);
-        } else {
-            // Se tutti i campi sono compilati
-
+        }
+        else {
             if (modifyHouse) {
-                // Se sono in modalità modifica
-
-                // Memento: prima della modifica dell'oggetto salvo il suo stato
                 houseMemento = house.createMemento();
 
-                // Modifica l'oggetto con i nuovi parametri inseriti
                 switch (house.getType()) {
                     case APARTMENT:
                         house.setAddress(addressField.getText());
@@ -287,7 +286,6 @@ public class AddHouseController implements Initializable {
                         house.setPrice(Integer.parseInt(priceField.getText()));
                         house.setDescription(descriptionField.getText());
                         house.setPics(pics);
-
                         break;
 
                     case GARAGE:
@@ -296,7 +294,6 @@ public class AddHouseController implements Initializable {
                         house.setPrice(Integer.parseInt(priceField.getText()));
                         house.setDescription(descriptionField.getText());
                         house.setPics(pics);
-
                         break;
 
                     case INDEPENDENT:
@@ -310,7 +307,6 @@ public class AddHouseController implements Initializable {
                         house.setPrice(Integer.parseInt(priceField.getText()));
                         house.setDescription(descriptionField.getText());
                         house.setPics(pics);
-
                         break;
                 }
                 Objects.requireNonNull(house);
@@ -319,26 +315,26 @@ public class AddHouseController implements Initializable {
                 errorLabel.setText("Update successfully completed. Click 'Reset' to undo confirmed changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
                 errorLabel.setVisible(true);
-            } else {
-                // Se sono in modalità di inserimento
+            }
+            else {
                 switch (houseTypeComboBox.getValue()) {
                     case "Apartment": {
                         final var builder = new ApartmentBuilder();
                         final var director = new HouseDirector(builder);
                         house = director.constructApartment(
-                            -1, // id sarà assegnato dal DB
-                            HouseType.APARTMENT,
-                            addressField.getText(),
-                            Integer.parseInt(floorField.getText()),
-                            Boolean.parseBoolean(elevatorField.getText()),
-                            Integer.parseInt(balconiesField.getText()),
-                            Integer.parseInt(terraceField.getText()),
-                            Integer.parseInt(accessoriesField.getText()),
-                            Integer.parseInt(bedroomsField.getText()),
-                            Integer.parseInt(sqmField.getText()),
-                            Integer.parseInt(priceField.getText()),
-                            descriptionField.getText(),
-                            pics
+                                -1, //The ID is assigned by the database
+                                HouseType.APARTMENT,
+                                addressField.getText(),
+                                Integer.parseInt(floorField.getText()),
+                                Boolean.parseBoolean(elevatorField.getText()),
+                                Integer.parseInt(balconiesField.getText()),
+                                Integer.parseInt(terraceField.getText()),
+                                Integer.parseInt(accessoriesField.getText()),
+                                Integer.parseInt(bedroomsField.getText()),
+                                Integer.parseInt(sqmField.getText()),
+                                Integer.parseInt(priceField.getText()),
+                                descriptionField.getText(),
+                                pics
                         );
                         break;
                     }
@@ -347,13 +343,13 @@ public class AddHouseController implements Initializable {
                         final var builder = new GarageBuilder();
                         final var director = new HouseDirector(builder);
                         house = director.constructGarage(
-                            -1, // id sarà assegnato dal DB
-                            HouseType.GARAGE,
-                            addressField.getText(),
-                            Integer.parseInt(sqmField.getText()),
-                            Integer.parseInt(priceField.getText()),
-                            descriptionField.getText(),
-                            pics
+                                -1, //The ID is assigned by the database
+                                HouseType.GARAGE,
+                                addressField.getText(),
+                                Integer.parseInt(sqmField.getText()),
+                                Integer.parseInt(priceField.getText()),
+                                descriptionField.getText(),
+                                pics
                         );
                         break;
                     }
@@ -362,27 +358,27 @@ public class AddHouseController implements Initializable {
                         final var builder = new IndependentBuilder();
                         final var director = new HouseDirector(builder);
                         house = director.constructIndependent(
-                            -1, // id sarà assegnato dal DB
-                            HouseType.INDEPENDENT,
-                            addressField.getText(),
-                            Integer.parseInt(balconiesField.getText()),
-                            Integer.parseInt(terraceField.getText()),
-                            Integer.parseInt(accessoriesField.getText()),
-                            Integer.parseInt(bedroomsField.getText()),
-                            Integer.parseInt(sqmField.getText()),
-                            Integer.parseInt(priceField.getText()),
-                            descriptionField.getText(),
-                            pics
+                                -1, //The ID is assigned by the database
+                                HouseType.INDEPENDENT,
+                                addressField.getText(),
+                                Integer.parseInt(balconiesField.getText()),
+                                Integer.parseInt(terraceField.getText()),
+                                Integer.parseInt(accessoriesField.getText()),
+                                Integer.parseInt(bedroomsField.getText()),
+                                Integer.parseInt(sqmField.getText()),
+                                Integer.parseInt(priceField.getText()),
+                                descriptionField.getText(),
+                                pics
                         );
                         break;
                     }
                 }
                 Objects.requireNonNull(house);
                 sendInsertHouseRequest(false);
-                // dopo aver inserito ritorna alla schermata principale
                 try {
                     homeButton(null);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -390,28 +386,32 @@ public class AddHouseController implements Initializable {
 
     }
 
-    // Al click del bottone di reset vengono puliti tutti i campi
+    /**
+     * Resets the form fields and loaded images.
+     *
+     * <p> If the house is being modified, restores the previous state of the house
+     * and updates the form fields accordingly. Otherwise, clears all form fields
+     * and image slots.
+     *
+     * @param event The ActionEvent triggered by the user clicking the reset button.
+     */
     @FXML
     void resetButton(ActionEvent event) {
         if (modifyHouse) {
-            // in modalità 'modifica casa' usa memento per ripristinare i Field
-            // lo stato ripristinato è quello che precede l'ultima modifica
             if (houseMemento != null) {
-                // Memento: ristabilisce il vecchio stato
                 houseMemento.restoreState();
-                // Ricarica i valori nei Field
                 setModifyData(Objects.requireNonNull(house));
-                // Invia la richiesta di update
                 sendInsertHouseRequest(true);
 
                 errorLabel.setText("Reset successfully completed. Click 'Confirm' to confirm changes.");
                 errorLabel.setStyle("-fx-text-fill: green");
                 errorLabel.setVisible(true);
-            } else {
-                System.out.println("Nessuna modifica vecchia");
             }
-        } else {
-            // in modalità 'inserimento casa' azzera tutti i Field
+            else {
+                System.out.println("No stored edits.");
+            }
+        }
+        else {
             picsFile = new File[3];
             nameImg1.setStyle("-fx-text-fill: red");
             nameImg1.setText("No file selected yet.");
@@ -428,10 +428,20 @@ public class AddHouseController implements Initializable {
         }
     }
 
+    /**
+     * Handles the action when the delete button is clicked.
+     *
+     * <p> Opens a confirmation dialog window to confirm deletion. If confirmed,
+     * sends a delete request for the current house to the server and navigates
+     * back to the home screen.
+     *
+     * @param event The ActionEvent triggered by the user clicking the delete button.
+     * @throws Exception if there is an issue with loading the confirmation popup FXML.
+     */
     @FXML
-    void deleteButtonAction(ActionEvent event) throws Exception {
-        // Apri il popup di conferma
-        // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
+    void deleteButtonAction(ActionEvent event) throws
+                                               Exception {
+        // The view change isn't implemented through the Command pattern because data is dynamically assigned
         final var primaryStage = StageSingleton.getInstance().getPrimaryStage();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupConfirm.fxml"));
         final var newScene = new Scene(fxmlLoader.load());
@@ -439,56 +449,53 @@ public class AddHouseController implements Initializable {
         newStage.setScene(newScene);
         newStage.setResizable(false);
         newStage.setTitle("Confirm Cancellation");
-        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(primaryStage);
-        // mostra il popup e blocca l'esecuzione fino a quando lo Stage secondario non viene chiuso
         newStage.showAndWait();
-        // Prendo il controller del popup
         final var popupConfirmController = fxmlLoader.<PopupConfirmController>getController();
-        // Prendo il valore di ritorno del popup dal controller
         if (popupConfirmController.getResult()) {
             final var query = new JSONObject(
-                String.format(
-                    """
-                        {
-                          "type": "poster",
-                          "data": {
-                            "request": "deleteHouse",
-                            "parameters": {
-                              "id": %d
-                            }
-                          }
-                        }
-                        """,
-                    house.getId()
-                )
+                    String.format(
+                            """
+                                    {
+                                      "type": "poster",
+                                      "data": {
+                                        "request": "deleteHouse",
+                                        "parameters": {
+                                          "id": %d
+                                        }
+                                      }
+                                    }
+                                    """,
+                            house.getId()
+                    )
             );
-            // Ignora la risposta
             ClientConnection
-                .getInstance()
-                .getClient()
-                .exchange(query);
+                    .getInstance()
+                    .getClient()
+                    .exchange(query);
 
-            // dopo aver eliminato ritorna alla schermata principale
             homeButton(null);
         }
-
     }
 
-
-    // function che si attiva ogni volta che cambia il valore della combobox(anche quando faccio reset)
-    // alla selezione del tipo di casa blocca i campi non compilabili
+    /**
+     * Disables specific fields based on the selected house type.
+     */
     @FXML
     private void blockFields() {
+        // Reset key features fields to enable all fields by default
         resetKeyFeaturesFields();
+
+        // Check the selected house type from the ComboBox
         switch (houseTypeComboBox.getValue()) {
             case "Apartment":
+                // Disable garden field for apartments
                 gardenField.setDisable(true);
-
                 break;
 
             case "Garage":
+                // Disable all fields for garages
                 floorField.setDisable(true);
                 elevatorField.setDisable(true);
                 balconiesField.setDisable(true);
@@ -496,22 +503,26 @@ public class AddHouseController implements Initializable {
                 gardenField.setDisable(true);
                 accessoriesField.setDisable(true);
                 bedroomsField.setDisable(true);
-
                 break;
 
             case "Independent":
+                // Disable floor and elevator fields for independent houses
                 floorField.setDisable(true);
                 elevatorField.setDisable(true);
                 break;
 
             default:
+                // If no house type is selected, display a message
                 System.out.println("No house type selected.");
                 break;
         }
-
     }
 
+    /**
+     * Resets and enables all key features fields.
+     */
     private void resetKeyFeaturesFields() {
+        // Clear all key features fields
         floorField.clear();
         elevatorField.clear();
         balconiesField.clear();
@@ -521,6 +532,7 @@ public class AddHouseController implements Initializable {
         bedroomsField.clear();
         sqmField.clear();
 
+        // Enable all key features fields
         floorField.setDisable(false);
         elevatorField.setDisable(false);
         balconiesField.setDisable(false);
@@ -530,65 +542,85 @@ public class AddHouseController implements Initializable {
         bedroomsField.setDisable(false);
     }
 
-
+    /**
+     * Initializes the controller class.
+     * <p>
+     * This method is automatically called by the FXMLLoader when the FXML file is loaded.
+     * It initializes the UI components and sets up necessary objects.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location
+     *                       is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not
+     *                       localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set the user's name in the greeting label
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
-        // aggiunge gli elementi della ComboBox
+
+        // Populate the house type combo box with available options
         houseTypeComboBox.getItems().setAll(houseType);
 
-        // Pattern Command
+        // Initialize Command pattern objects
         buttonReceiver = new ButtonReceiver(StageSingleton.getInstance().getPrimaryStage());
         goMainViewCommand = new GoMainViewCommand(buttonReceiver);
         goLoginViewCommand = new GoLoginViewCommand(buttonReceiver);
         invoker = new Invoker();
 
-        // Definisco le estensioni accettate del FileChooser
+        // Add extension filter to file chooser for PNG files
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
     }
 
+    /**
+     * Sends an insert house request to the server.
+     *
+     * @param update Indicates whether this is an update request or not.
+     */
     private void sendInsertHouseRequest(boolean update) {
+        // Construct the JSON message for the insert house request
         final var message = new JSONObject(
-            String.format(
-                """
-                    {
-                      "type": "poster",
-                      "data": {
-                        "request": "insertHouse",
-                        "parameters": {
-                          "id": %d,
-                          "type": %d,
-                          "address": "%s",
-                          "floor": %d,
-                          "elevator": %b,
-                          "balconies": %d,
-                          "terrace": %d,
-                          "garden": %d,
-                          "accessories": %d,
-                          "bedrooms": %d,
-                          "sqm": %d,
-                          "price": %d,
-                          "description": "%s",
-                          "pictures": [],
-                        }
-                      }
-                    }
-                    """,
-                update ? house.getId() : null,
-                house.getType().getValue(),
-                house.getAddress(),
-                house.getFloor(),
-                house.hasElevator(),
-                house.getBalconies(),
-                house.getTerrace(),
-                house.getGarden(),
-                house.getAccessories(),
-                house.getBedrooms(),
-                house.getSqm(),
-                house.getPrice(),
-                house.getDescription()
-            )
+                String.format(
+                        """
+                                {
+                                  "type": "poster",
+                                  "data": {
+                                    "request": "insertHouse",
+                                    "parameters": {
+                                      "id": %d,
+                                      "type": %d,
+                                      "address": "%s",
+                                      "floor": %d,
+                                      "elevator": %b,
+                                      "balconies": %d,
+                                      "terrace": %d,
+                                      "garden": %d,
+                                      "accessories": %d,
+                                      "bedrooms": %d,
+                                      "sqm": %d,
+                                      "price": %d,
+                                      "description": "%s",
+                                      "pictures": [],
+                                    }
+                                  }
+                                }
+                                """,
+                        update ? house.getId() : null,
+                        house.getType().getValue(),
+                        house.getAddress(),
+                        house.getFloor(),
+                        house.hasElevator(),
+                        house.getBalconies(),
+                        house.getTerrace(),
+                        house.getGarden(),
+                        house.getAccessories(),
+                        house.getBedrooms(),
+                        house.getSqm(),
+                        house.getPrice(),
+                        house.getDescription()
+                )
         );
+
+        // Prepare picture data
         final var pictures = new Image[3];
         for (var i = 0; i < pictures.length; i++) {
             pictures[i] = house.getPics(i);
@@ -605,12 +637,12 @@ public class AddHouseController implements Initializable {
                             writer.write(new ArgbImage() {
                                 @Override
                                 public int getWidth() {
-                                    return (int)pic.getWidth();
+                                    return (int) pic.getWidth();
                                 }
 
                                 @Override
                                 public int getHeight() {
-                                    return (int)pic.getHeight();
+                                    return (int) pic.getHeight();
                                 }
 
                                 @Override
@@ -625,56 +657,87 @@ public class AddHouseController implements Initializable {
                             });
                         }
                         bytes = Base64
-                            .getEncoder()
-                            .encode(buffer.toByteArray());
-                    } else {
+                                .getEncoder()
+                                .encode(buffer.toByteArray());
+                    }
+                    else {
                         bytes = Base64
-                            .getEncoder()
-                            .encode(
-                                Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
-                            );
+                                .getEncoder()
+                                .encode(
+                                        Files.readAllBytes(Paths.get(new URI(pic.getUrl())))
+                                );
                     }
                     data = new String(bytes);
-                } catch (IOException | URISyntaxException e) {
+                }
+                catch (IOException | URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             }
+            // Add picture data to the JSON message
             message
-                .getJSONObject("data")
-                .getJSONObject("parameters")
-                .getJSONArray("pictures")
-                .put(Objects.requireNonNullElse(data, JSONObject.NULL));
+                    .getJSONObject("data")
+                    .getJSONObject("parameters")
+                    .getJSONArray("pictures")
+                    .put(Objects.requireNonNullElse(data, JSONObject.NULL));
         }
+
+        // Send the insert house request to the server
         final var response = ClientConnection
-            .getInstance()
-            .getClient()
-            .exchange(message);
+                .getInstance()
+                .getClient()
+                .exchange(message);
+
+        // If it's a new entry and the response contains an ID, set the ID for the house
         if (!update && !response.isNull("response")) {
             house.setId(response.getJSONObject("response").getInt("id"));
         }
     }
 
+    /**
+     * Converts an Image object to a byte array.
+     *
+     * @param image The Image object to convert.
+     * @return A byte array representing the image data.
+     */
     private byte[] getBytesFromImage(Image image) {
-        final var width = (int)image.getWidth();
-        final var height = (int)image.getHeight();
+        // Get the width and height of the image
+        final var width = (int) image.getWidth();
+        final var height = (int) image.getHeight();
+
+        // Allocate a ByteBuffer to hold the image data
         final var buffer = ByteBuffer.allocate(width * height * 4);
+
+        // Get the pixel data from the image and store it in the ByteBuffer
         image
-            .getPixelReader()
-            .getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), buffer, width * 4);
+                .getPixelReader()
+                .getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), buffer, width * 4);
+
+        // Return the byte array representation of the image data
         return buffer.array();
     }
 
-    // Al click del bottone di logout: ritorna alla View di login
+    /**
+     * Handles the action when the logout button is clicked.
+     *
+     * <p> Uses the Command pattern to execute the action of switching to the login view.
+     *
+     * @param event The ActionEvent triggered by the user clicking the logout button.
+     */
     @FXML
     void logoutButton(ActionEvent event) {
-        // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }
 
-    // Al click del bottone home: ritorna alla View generale mainView.fxml
+    /**
+     * Handles the action when the home button is clicked.
+     *
+     * <p>Uses the Command pattern to execute the action of switching to the main view.
+     *
+     * @param event The ActionEvent triggered by the user clicking the home button.
+     */
     @FXML
     void homeButton(ActionEvent event) {
-        // Pattern Command
+        // Execute the command to switch to the main view
         invoker.placeCommand(goMainViewCommand);
     }
 }
