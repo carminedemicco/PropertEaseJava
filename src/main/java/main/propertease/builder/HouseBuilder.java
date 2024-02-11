@@ -1,6 +1,7 @@
 package main.propertease.builder;
 
 import javafx.scene.image.Image;
+import main.propertease.House;
 
 /**
  * Interface for building houses.

@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import main.propertease.builder.House;
 import main.propertease.command.ButtonReceiver;
 import main.propertease.command.GoLoginViewCommand;
 import main.propertease.command.GoMainViewCommand;

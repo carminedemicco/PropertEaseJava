@@ -1,6 +1,7 @@
 package main.propertease.builder;
 
 import javafx.scene.image.Image;
+import main.propertease.House;
 
 /**
  * Director class responsible for constructing houses using a given builder.

@@ -1,7 +1,6 @@
 package main.propertease;
 
 import javafx.scene.image.Image;
-import main.propertease.builder.House;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

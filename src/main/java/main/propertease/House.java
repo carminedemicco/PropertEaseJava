@@ -1,5 +1,6 @@
-package main.propertease.builder;
+package main.propertease;
 
+import main.propertease.builder.HouseType;
 import main.propertease.decorator.HouseInterface;
 import javafx.scene.image.Image;
 import main.propertease.memento.Memento;
