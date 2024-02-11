@@ -28,7 +28,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-// Classe che gestisce houseDetails.fxml: la view dedicata ai dettagli di una casa
+/**
+ * Controller class for managing houseDetails.fxml: the view dedicated to the details of a house.
+ */
 public class HouseDetailsController implements Initializable {
     @FXML
     private Label addressLabel;
@@ -99,7 +101,6 @@ public class HouseDetailsController implements Initializable {
     @FXML
     private Button makeAppButton;
 
-
     // Pattern Command
     ButtonReceiver buttonReceiver;
     GoMainViewCommand goMainViewCommand;
@@ -108,22 +109,39 @@ public class HouseDetailsController implements Initializable {
 
     private House house;
 
-    // Al click del bottone di logout: ritorna alla View di login
+    /**
+     * Handles the action when the logout button is clicked.
+     * It uses the Command pattern.
+     *
+     * @param event The ActionEvent triggered by the user clicking the logout button.
+     */
     @FXML
     void logoutButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }
 
-    // Al click del bottone home: ritorna alla View generale mainView.fxml
+    /**
+     * Handles the action when the home button is clicked.
+     * It uses the Command pattern.
+     *
+     * @param event The ActionEvent triggered by the user clicking the home button.
+     */
     @FXML
     void homeButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goMainViewCommand);
     }
 
-
-    // Avviato alla creazione della View
+    /**
+     * Initializes the controller.
+     * It sets up the user interface elements and applies effects.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location
+     *                       is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not
+     *                       localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nameUser.setText("Hi, " + UserAccess.getUser().getLastName());
@@ -134,8 +152,8 @@ public class HouseDetailsController implements Initializable {
         goLoginViewCommand = new GoLoginViewCommand(buttonReceiver);
         invoker = new Invoker();
 
-        // Imposta le immagini tonde
-        img1.setPreserveRatio(false); //si adatta alla dimensione
+        // Set the images to have rounded corners
+        img1.setPreserveRatio(false); // Adjusts to size
         var roundedRectangle = new Rectangle(img1.getFitWidth(), img1.getFitHeight());
         roundedRectangle.setArcWidth(25);
         roundedRectangle.setArcHeight(25);
@@ -153,19 +171,20 @@ public class HouseDetailsController implements Initializable {
         roundedRectangle.setArcHeight(25);
         img3.setClip(roundedRectangle);
 
-        // Imposta l'effetto sfumato alle box
+        // Apply drop shadow effect to the detail boxes
         detailbox1.setEffect(new DropShadow(20, Color.BLACK));
         detailbox2.setEffect(new DropShadow(20, Color.BLACK));
         detailbox3.setEffect(new DropShadow(20, Color.BLACK));
 
         if (UserAccess.getUser().getPrivileges() == 1) {
             addAdminButtons();
-
             makeAppButton.setVisible(false);
         }
     }
 
-    // Funzione che aggiunge il bottone di modifica casa solo se i log è admin
+    /**
+     * Adds admin buttons to edit the house details.
+     */
     private void addAdminButtons() {
         final var btn1 = new Button();
         btn1.getStyleClass().add("modify-house-button");
@@ -173,48 +192,62 @@ public class HouseDetailsController implements Initializable {
 
         btn1.setOnAction(e -> {
             try {
-                // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
+                // The view change isn't implemented through the Command pattern because data is dynamically assigned
                 final var stage = StageSingleton.getInstance().getPrimaryStage();
                 final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
                 final var scene = new Scene(fxmlLoader.load());
                 final var addHouseController = fxmlLoader.<AddHouseController>getController();
                 addHouseController.setModifyData(house);
                 stage.setScene(scene);
-            } catch (IOException ex) {
+            }
+            catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
 
     }
 
-    // al click di 'Price without VAT' usa il Pattern Decorator per calcolare il prezzo senza VAT
-    private boolean vatCalc = false;
+    Boolean vatCalc = false; //Declared here to avoid reinitialization
 
+    /**
+     * Handles the action when the VAT button is clicked.
+     * It uses the Decorator pattern to calculate the price with or without VAT.
+     *
+     * @param event The ActionEvent triggered by the user clicking the VAT button.
+     */
     @FXML
     void vatButton(ActionEvent event) {
         if (!vatCalc) {
-            // Uso il Pattern Decorator per estendere l'oggetto house a run-time
+            // Use the Decorator pattern to extend the house object at run-time
             HouseInterface vatHouse = new HouseVat(house);
-            // Ottengo e imposto il nuovo prezzo con l'eliminazione della VAT
+            // Get and set the new price with VAT removed
             priceLabel.setText(String.valueOf(vatHouse.getPrice()));
-            // Cambio il testo del bottone per fare l'operazione inversa
+            // Change the button text to perform the reverse operation
             vatButtonId.setText("Price with VAT");
             vatCalc = true;
-        } else {
-            // Ottengo e imposto il prezzo con VAT inclusa
+        }
+        else {
+            // Get and set the price with VAT included
             priceLabel.setText(String.valueOf(house.getPrice()));
-            // Cambio il testo del bottone per fare l'operazione inversa
+            // Change the button text to perform the reverse operation
             vatButtonId.setText("Price without VAT");
             vatCalc = false;
         }
     }
 
-    // al click di 'Make an Appointment' apre una finestra che fa selezionare la data dell'appuntamento
+    /**
+     * Handles the action when the 'Make an Appointment' button is clicked.
+     * It opens a window for selecting the appointment date.
+     *
+     * @param event The ActionEvent triggered by the user clicking the 'Make an Appointment' button.
+     * @throws IOException If an I/O error occurs when loading the popupSelectDate.fxml file.
+     */
     @FXML
-    void makeAppointmentButton(ActionEvent event) throws IOException {
-        final var primaryStage = (Stage)detailbox1.getScene().getWindow();
+    void makeAppointmentButton(ActionEvent event) throws
+                                                  IOException {
+        final var primaryStage = (Stage) detailbox1.getScene().getWindow();
 
-        // Crea la nuova scena
+        // Create the new scene
         final var newStage = new Stage();
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupSelectDate.fxml"));
         final var newScene = new Scene(fxmlLoader.load());
@@ -222,39 +255,44 @@ public class HouseDetailsController implements Initializable {
         selectDataController.setData(house.getId());
         newStage.setScene(newScene);
 
-        // Blocca l'interazione con le altre finestre finché la finestra appena aperta non viene chiusa.
+        // Block interaction with other windows until the newly opened window is closed.
         newStage.initModality(Modality.WINDOW_MODAL);
         newStage.initOwner(primaryStage);
 
-        // Mostra la nuova finestra
+        // Show the new window
         newStage.setResizable(false);
         newStage.setTitle("Make an Appointment");
         newStage.show();
     }
 
+    /**
+     * Sets the data of the house to be displayed in the view.
+     *
+     * @param house The house object containing the details to be displayed.
+     */
     public void setData(House house) {
         this.house = house;
 
         img1.setImage(Objects.requireNonNullElse(
-            house.getPics(0),
-            new Image(Objects.requireNonNull(
-                getClass()
-                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
-            ))
+                house.getPics(0),
+                new Image(Objects.requireNonNull(
+                        getClass()
+                                .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+                ))
         ));
         img2.setImage(Objects.requireNonNullElse(
-            house.getPics(1),
-            new Image(Objects.requireNonNull(
-                getClass()
-                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
-            ))
+                house.getPics(1),
+                new Image(Objects.requireNonNull(
+                        getClass()
+                                .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+                ))
         ));
         img3.setImage(Objects.requireNonNullElse(
-            house.getPics(2),
-            new Image(Objects.requireNonNull(
-                getClass()
-                    .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
-            ))
+                house.getPics(2),
+                new Image(Objects.requireNonNull(
+                        getClass()
+                                .getResourceAsStream("/main/propertease/img/icons/placeholder.png")
+                ))
         ));
         addressLabel.setText(house.getAddress().replace("|", ", "));
         floorLabel.setText(String.valueOf(house.getFloor()));

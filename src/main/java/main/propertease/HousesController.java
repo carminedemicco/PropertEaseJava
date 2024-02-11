@@ -15,7 +15,9 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-// Classe che gestisce houses.fxml: la view dedicata alla scheda delle case
+/**
+ * Controller class for managing houses.fxml: the view dedicated to the house card.
+ */
 public class HousesController implements Initializable {
     private int id;
 
@@ -39,15 +41,18 @@ public class HousesController implements Initializable {
 
     private House house;
 
-    // Aggiornamento del valore dei campi della View
-    // Prende in input un oggetto di classe House
+    /**
+     * Updates the values of the view fields with data from a House object.
+     *
+     * @param house The House object containing the data to be displayed.
+     */
     public void setData(House house) {
         this.house = house;
 
         id = house.getId();
         name.setText(house.getName());
         price.setText("$ " + house.getPrice());
-        // Divido la stringa utilizzando il carattere "|"
+        // Split the address string using the "|" character
         final var addressSplit = house.getAddress().split("\\|");
         address1.setText(addressSplit[0]);
         if (addressSplit.length > 1) {
@@ -56,38 +61,50 @@ public class HousesController implements Initializable {
 
         var pic = house.getPics(0);
         if (pic == null) {
-            final var defaultResource = Objects.requireNonNull(getClass().getResourceAsStream("/main/propertease/img/icons/placeholder.png"));
+            final var defaultResource = Objects.requireNonNull(getClass().getResourceAsStream("/main/propertease/img" +
+                                                                                                      "/icons" +
+                                                                                                      "/placeholder" +
+                                                                                                      ".png"));
             pic = new Image(defaultResource);
         }
         img.setImage(pic);
-        //Proprietà dell'immagine
-        img.setPreserveRatio(false); //si adatta alla dimensione
-        //smusso gli angoli
+        // Set image properties
+        img.setPreserveRatio(false); // Adjusts to size
+        // Round the corners
         final var roundedRectangle = new Rectangle(img.getFitWidth(), img.getFitHeight());
         roundedRectangle.setArcWidth(25);
         roundedRectangle.setArcHeight(25);
         img.setClip(roundedRectangle);
     }
 
-
+    /**
+     * Initializes the controller.
+     * Handles the action when a house card is clicked to show its details.
+     *
+     * @param url            The location used to resolve relative paths for the root object, or null if the location
+     *                      is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not
+     *                       localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Click su una casa -> mostra la View con i suoi dettagli
+        // Click on a house card -> show the View with its details
         anchorPane.setOnMouseClicked(event -> {
-            // Istruzioni di cambio schermata
+            // Screen change instructions
             try {
-                // Il cambio schermata non è implementato con il command perché i dati sono impostati dinamicamente
+                // The view change isn't implemented through the Command pattern because data is dynamically assigned
                 final var fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("houseDetailsView.fxml"));
                 final var stage = StageSingleton.getInstance().getPrimaryStage();
                 final var scene = new Scene(fxmlLoader.load());
 
-                // Istruzioni di set per la nuova schermata
+                // Set instructions for the new screen
                 final var houseDetailsController = fxmlLoader.<HouseDetailsController>getController();
                 houseDetailsController.setData(house);
 
                 stage.setScene(scene);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         });
