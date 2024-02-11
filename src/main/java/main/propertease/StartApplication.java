@@ -7,18 +7,18 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class StartApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Image icon = new Image(StartApplication.class.getResourceAsStream("img/icons/app_icon.png"));
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
-        //FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("houseDetailsView.fxml"));
+        final var icon = new Image(Objects.requireNonNull(StartApplication.class.getResourceAsStream("img/icons/app_icon.png")));
+        final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
 
         // Imposto lo stage primario che sarà utilizzato per il cambio tra le view
         StageSingleton.getInstance().setPrimaryStage(stage);
 
-        Scene scene = new Scene(fxmlLoader.load());
+        final var scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
         stage.setTitle("PropertEase");
         stage.setScene(scene);

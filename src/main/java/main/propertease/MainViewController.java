@@ -223,21 +223,17 @@ public class MainViewController implements Initializable {
         adminButtonsArea.getChildren().add(btn2);
 
         // Al click del bottone di inserimento casa: porta alla View di inserimento
-        btn1.setOnAction(e -> {
-            invoker.placeCommand(goAddHouseViewCommand);
-        });
+        btn1.setOnAction(e -> invoker.placeCommand(goAddHouseViewCommand));
 
         // Al click del bottone di inserimento disponibilità: apre il popup relativo
-        btn2.setOnAction(e -> {
-            invoker.placeCommand(goInsertAvailabilityViewCommand);
-        });
+        btn2.setOnAction(e -> invoker.placeCommand(goInsertAvailabilityViewCommand));
 
     }
 
 
     // Al click del bottone di logout: ritorna alla View di login
     @FXML
-    void logoutButton(ActionEvent event) throws Exception {
+    void logoutButton(ActionEvent event) {
         // Pattern Command
         invoker.placeCommand(goLoginViewCommand);
     }

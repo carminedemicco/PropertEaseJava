@@ -14,6 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+/**
+ * FXML Controller class for the date selection view (popupSelectDate.fxml)
+ */
 public class SelectDateController implements Initializable {
     private int houseId;
 
@@ -26,31 +29,40 @@ public class SelectDateController implements Initializable {
     @FXML
     private Label errorLabel;
 
+    /**
+     * Utility method to set the house id
+     * @param houseId the house id
+     */
     public void setData(int houseId) {
         this.houseId = houseId;
     }
 
-    // Al click di 'Cancel' chiude la finestra
+    /**
+     * Closes thecurrent window when the 'cancel' button is clicked
+     * @param event The event that triggered the method
+     */
     @FXML
     public void cancelButton(ActionEvent event) {
-        // Chiusura della finestra corrente
         final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 
-    // AL click di 'Confirm' effettua i controlli sulla data selezionata
-    // Se la data è corretta prende l'appuntamento e chiude la finestra
-    // Se la data non è corretta visualizza l'errore senza chiudere la finestra
+    /**
+     * Confirms the selected date and books the appointment
+     * <p>If the date is correct, the appointment is booked, otherwise, the server
+     *    responds with an error message that is displayed to the user</p>
+     * @param event The event that triggered the method
+     */
     @FXML
     public void confirmButton(ActionEvent event) {
-        // Prendo il testo del datePicker
+        // Get the date from the DatePicker
         final var dateString = datePicker1.getEditor().getText();
-        // Creo una regex: regular expression, permette di definire il formato
+        // Regular expression to match the date format
         final var regex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$";
         final var pattern = Pattern.compile(regex);
         final var matcher = pattern.matcher(dateString);
 
-        // Se la data è nel formato corretto
+        // If the date is in the correct format, send the request to the server
         if (matcher.matches()) {
             final var date = datePicker1.getValue();
             final var message = new JSONObject(
@@ -80,7 +92,7 @@ public class SelectDateController implements Initializable {
             final var data = response.getJSONObject("response");
             if (data.has("error")) {
                 final var error = data.getString("error");
-                // Gestisci l'errore
+                // If the server responds with an error, display the error message
                 switch (error) {
                     case "alreadyBooked":
                         errorLabel.setText("Already booked for this date.");
@@ -96,20 +108,26 @@ public class SelectDateController implements Initializable {
                 }
                 errorLabel.setVisible(true);
             } else {
-                // Appuntamento preso con successo
-                // Chiusura della finestra corrente
+                // If the server responds with no error, close the window
                 final var currentStage = (Stage)anchorPane.getScene().getWindow();
                 currentStage.close();
             }
 
         } else {
-            // La data non è nel formato corretto
             errorLabel.setText("Invalid date format.");
             errorLabel.setVisible(true);
         }
     }
 
 
+    /**
+     * Initializes the controller class.
+     * @param url The location used to resolve relative paths for the root object, or <b>null</b>
+     *            if the location is not known.
+     *
+     * @param resourceBundle The resources used to localize the root object, or <b>null</b> if
+     *                       the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // annulla il prompt automatico sul DataPicker

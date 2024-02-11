@@ -5,32 +5,41 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-// Classe che gestisce popupConfirm.fxml: un popup che chide la conferma di cancellazione appuntamento
+/**
+ * FXML Controller class for the confirmation popup (popupConfirm.fxml)
+ */
 public class PopupConfirmController {
 
     @FXML
     private AnchorPane anchorPane;
 
-    // Alla chiusura del popup viene restituito true se l'utente clicca il bottone di conferma
     private boolean result = false;
 
+    /**
+     * Get the result of the confirmation
+     * @return the result of the confirmation
+     */
     public boolean getResult() {
         return result;
     }
 
-    // Al click di 'Cancel' chiude la finestra
+    /**
+     * Closes the current window when the 'cancel' button is clicked and sets the result to false
+     * @param event The event that triggered the method
+     */
     @FXML
     void cancelButton(ActionEvent event) {
-        // Chiusura della finestra corrente
         final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }
 
-    // Al click di 'Confirm' viene restituito true e si chiude la finestra
+    /**
+     * Confirms the action and sets the result to true
+     * @param event The event that triggered the method
+     */
     @FXML
     void confirmButton(ActionEvent event) {
         result = true;
-        // Chiusura della finestra corrente
         final var currentStage = (Stage)anchorPane.getScene().getWindow();
         currentStage.close();
     }

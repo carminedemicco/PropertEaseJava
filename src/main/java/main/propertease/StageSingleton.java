@@ -2,15 +2,22 @@ package main.propertease;
 
 import javafx.stage.Stage;
 
-// Utilizzo il pattern Singleton per
+/**
+ * Singleton class to store the primary stage
+ */
 public class StageSingleton {
     private static StageSingleton instance;
     private Stage primaryStage;
 
-    private StageSingleton() {
-        // Costruttore privato per evitare l'istanziazione diretta
-    }
+    /**
+     * Private constructor to prevent instantiation
+     */
+    private StageSingleton() {}
 
+    /**
+     * Get the instance of the singleton
+     * @return the instance of the singleton
+     */
     public static StageSingleton getInstance() {
         if (instance == null) {
             instance = new StageSingleton();
@@ -18,10 +25,18 @@ public class StageSingleton {
         return instance;
     }
 
+    /**
+     * Get the primary stage
+     * @return the primary stage
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Set the primary stage
+     * @param stage the primary stage
+     */
     public void setPrimaryStage(Stage stage) {
         this.primaryStage = stage;
     }

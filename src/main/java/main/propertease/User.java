@@ -1,5 +1,9 @@
 package main.propertease;
 
+/**
+ * Class to store and access the current logged-in user
+ * @see User
+ */
 public class User {
     public User(String firstName, String lastName, String username, int privileges) {
         this.firstName = firstName;

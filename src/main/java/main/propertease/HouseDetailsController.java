@@ -188,7 +188,7 @@ public class HouseDetailsController implements Initializable {
     }
 
     // al click di 'Price without VAT' usa il Pattern Decorator per calcolare il prezzo senza VAT
-    Boolean vatCalc = false;
+    private boolean vatCalc = false;
 
     @FXML
     void vatButton(ActionEvent event) {
