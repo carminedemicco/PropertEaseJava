@@ -438,16 +438,16 @@ public class AddHouseController implements Initializable {
             final var query = new JSONObject(
                 String.format(
                     """
-                            {
-                              "type": "poster",
-                              "data": {
-                                "request": "deleteHouse",
-                                "parameters": {
-                                  "id": %d
-                                }
-                              }
+                        {
+                          "type": "poster",
+                          "data": {
+                            "request": "deleteHouse",
+                            "parameters": {
+                              "id": %d
                             }
-                        """,
+                          }
+                        }
+                    """,
                     house.getId()
                 )
             );
@@ -584,7 +584,7 @@ public class AddHouseController implements Initializable {
                         }
                       }
                     }
-                    """,
+                """,
                 update ? house.getId() : null,
                 house.getType().getValue(),
                 house.getAddress(),

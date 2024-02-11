@@ -70,19 +70,19 @@ public class LoginViewController implements Initializable {
             errorSignUpText.setVisible(true);
         } else {
             final var query = """
-                      {
-                        "type": "generic",
-                        "data": {
-                          "request": "signup",
-                          "parameters": {
-                            "username": "%s",
-                            "first_name": "%s",
-                            "last_name": "%s",
-                            "password": "%s",
-                          }
-                        }
+                  {
+                    "type": "generic",
+                    "data": {
+                      "request": "signup",
+                      "parameters": {
+                        "username": "%s",
+                        "first_name": "%s",
+                        "last_name": "%s",
+                        "password": "%s",
                       }
-                """;
+                    }
+                  }
+            """;
             final var message = new JSONObject(
                 String.format(
                     query,
@@ -129,17 +129,17 @@ public class LoginViewController implements Initializable {
     @FXML
     void singInButtonAction(ActionEvent event) throws Exception {
         final var query = """
-              {
-                "type": "generic",
-                "data": {
-                  "request": "signin",
-                  "parameters": {
-                    "username": "%s",
-                    "password": "%s"
-                  }
+            {
+              "type": "generic",
+              "data": {
+                "request": "signin",
+                "parameters": {
+                  "username": "%s",
+                  "password": "%s"
                 }
               }
-            """;
+            }
+        """;
         final var username = usernameSignInField.getText();
         final var password = passwordSingInField.getText();
         final var message = new JSONObject(String.format(query, username, password));

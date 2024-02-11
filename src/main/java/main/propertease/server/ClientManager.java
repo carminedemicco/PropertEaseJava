@@ -85,8 +85,8 @@ public class ClientManager {
      */
     public String makeErrorMessage(String message) {
         final var template = """
-              {"type":"error","message":"%s"}
-            """;
+            {"type":"error","message":"%s"}
+        """;
         return String.format(template, StringUtility.escape(message));
     }
 

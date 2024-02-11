@@ -151,15 +151,15 @@ public class MainViewController implements Initializable {
         final var user = UserAccess.getUser();
         // Seleziona i dati dell'esperto e della casa relativi agli appuntamenti dell'utente loggato
         final var query = """
-                  {
-                    "type": "appointment",
-                    "data": {
-                      "parameters": {
-                        "username": "%s"
-                      }
-                    }
-                  }
-            """;
+            {
+              "type": "appointment",
+              "data": {
+                "parameters": {
+                  "username": "%s"
+                }
+              }
+            }
+        """;
         final var message = new JSONObject(String.format(query, user.getUsername()));
         if (user.getPrivileges() == 1) {
             message.getJSONObject("data").put("request", "getAppointmentsForAgent");
