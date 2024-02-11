@@ -1,6 +1,15 @@
 package main.propertease.server;
 
+/**
+ * A utility class for string manipulation.
+ */
 public class StringUtility {
+    /**
+     * Escapes a string.
+     *
+     * @param str The string to escape.
+     * @return The escaped string.
+     */
     public static String escape(String str) {
         final var result = new StringBuilder();
         for (final var c : str.toCharArray()) {

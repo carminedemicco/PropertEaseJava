@@ -3,8 +3,6 @@ package main.propertease.builder;
 import javafx.scene.image.Image;
 import main.propertease.House;
 
-import java.lang.UnsupportedOperationException;
-
 /**
  * Concrete builder class for building independent houses.
  */
@@ -29,7 +27,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param address The address of the independent house.
      */
     @Override
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * Throws an UnsupportedOperationException as setting floor is not allowed for IndependentBuilder.
@@ -59,7 +59,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param balconies The number of balconies in the independent house.
      */
     @Override
-    public void setBalconies(int balconies) { this.balconies = balconies; }
+    public void setBalconies(int balconies) {
+        this.balconies = balconies;
+    }
 
     /**
      * Sets the terrace area of the independent house.
@@ -67,7 +69,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param terrace The terrace area of the independent house.
      */
     @Override
-    public void setTerrace(int terrace) { this.terrace = terrace; }
+    public void setTerrace(int terrace) {
+        this.terrace = terrace;
+    }
 
     /**
      * Sets the garden area of the independent house.
@@ -75,7 +79,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param garden The garden area of the independent house.
      */
     @Override
-    public void setGarden(int garden) { this.garden = garden; }
+    public void setGarden(int garden) {
+        this.garden = garden;
+    }
 
     /**
      * Sets the number of accessories in the independent house.
@@ -83,7 +89,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param accessories The number of accessories in the independent house.
      */
     @Override
-    public void setAccessories(int accessories) { this.accessories = accessories; }
+    public void setAccessories(int accessories) {
+        this.accessories = accessories;
+    }
 
     /**
      * Sets the number of bedrooms in the independent house.
@@ -91,7 +99,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param bedrooms The number of bedrooms in the independent house.
      */
     @Override
-    public void setBedrooms(int bedrooms) { this.bedrooms = bedrooms; }
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
 
     /**
      * Sets the square meters (sqm) of the independent house.
@@ -99,7 +109,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param sqm The square meters (sqm) of the independent house.
      */
     @Override
-    public void setSqm(int sqm) { this.sqm = sqm; }
+    public void setSqm(int sqm) {
+        this.sqm = sqm;
+    }
 
     /**
      * Sets the price of the independent house.
@@ -107,7 +119,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param price The price of the independent house.
      */
     @Override
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     /**
      * Sets the description of the independent house.
@@ -115,7 +129,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param description The description of the independent house.
      */
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Sets the pictures of the independent house.
@@ -123,7 +139,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param pics The pictures of the independent house.
      */
     @Override
-    public void setPics(Image[] pics) { this.pics = pics; }
+    public void setPics(Image[] pics) {
+        this.pics = pics;
+    }
 
     /**
      * Sets the ID of the independent house.
@@ -131,7 +149,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param id The ID of the independent house.
      */
     @Override
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Sets the type of the house (Apartment, Villa, etc.).
@@ -139,7 +159,9 @@ public class IndependentBuilder implements HouseBuilder {
      * @param type The type of the house.
      */
     @Override
-    public void setType(HouseType type) { this.type = type; }
+    public void setType(HouseType type) {
+        this.type = type;
+    }
 
     /**
      * Builds and returns the independent house based on the provided information.
@@ -149,20 +171,20 @@ public class IndependentBuilder implements HouseBuilder {
     @Override
     public House getResult() {
         return new House(
-                id,
-                type,
-                address,
-                0, // Independent house doesn't have a floor
-                false, // Independent house doesn't have an elevator
-                balconies,
-                terrace,
-                garden,
-                accessories,
-                bedrooms,
-                sqm,
-                price,
-                description,
-                pics
+            id,
+            type,
+            address,
+            0, // Independent house doesn't have a floor
+            false, // Independent house doesn't have an elevator
+            balconies,
+            terrace,
+            garden,
+            accessories,
+            bedrooms,
+            sqm,
+            price,
+            description,
+            pics
         );
     }
 }

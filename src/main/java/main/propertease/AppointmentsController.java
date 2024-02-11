@@ -10,9 +10,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.Statement;
-
 // Classe che gestisce appointments.fxml: la view dedicata ai dettagli degli appuntamenti
 public class AppointmentsController {
     private int id;
@@ -37,14 +34,13 @@ public class AppointmentsController {
     public void setData(Appointment appointment) {
         id = appointment.getId();
         labelDate.setText(appointment.getAppointmentDate());
-        if(UserAccess.getUser().getPrivileges() == 1){
+        if (UserAccess.getUser().getPrivileges() == 1) {
             labelAgent.setText("Client: " + appointment.getAdministratorName());
-        }
-        else{
+        } else {
             labelAgent.setText("Estate Agent: " + appointment.getAdministratorName());
         }
         labelHouseName.setText(appointment.getHouseName());
-        labelHouseAddr.setText(appointment.getHouseAddress().replace("|",", "));
+        labelHouseAddr.setText(appointment.getHouseAddress().replace("|", ", "));
     }
 
     // Al click del bottone di rimozione appuntamento

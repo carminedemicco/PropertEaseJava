@@ -1,4 +1,3 @@
-
 package main.propertease;
 
 import javafx.application.Platform;
@@ -11,11 +10,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
-
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SelectDateController implements Initializable {

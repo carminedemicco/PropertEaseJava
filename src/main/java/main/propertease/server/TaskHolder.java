@@ -5,7 +5,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A utility class that holds tasks and consumes them in a separate thread on their completion.
+ */
 public class TaskHolder {
+    /**
+     * Creates a new task holder.
+     */
     public TaskHolder() {
         isRunning = new AtomicBoolean(true);
         tasks = new LinkedBlockingQueue<>();
@@ -29,6 +35,9 @@ public class TaskHolder {
         pollThread.start();
     }
 
+    /**
+     * Stops the task holder.
+     */
     public void stop() {
         isRunning.set(false);
         try {
@@ -38,6 +47,11 @@ public class TaskHolder {
         }
     }
 
+    /**
+     * Adds a task to the task holder.
+     *
+     * @param task The task to add.
+     */
     public void add(Future<?> task) {
         tasks.add(task);
     }

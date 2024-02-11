@@ -3,8 +3,6 @@ package main.propertease.builder;
 import javafx.scene.image.Image;
 import main.propertease.House;
 
-import java.lang.UnsupportedOperationException;
-
 /**
  * Concrete builder class for building garages.
  */
@@ -24,7 +22,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param address The address of the garage.
      */
     @Override
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * Throws an UnsupportedOperationException as setting floor is not allowed for GarageBuilder.
@@ -109,7 +109,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param sqm The square meters (sqm) of the garage.
      */
     @Override
-    public void setSqm(int sqm) { this.sqm = sqm; }
+    public void setSqm(int sqm) {
+        this.sqm = sqm;
+    }
 
     /**
      * Sets the price of the garage.
@@ -117,7 +119,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param price The price of the garage.
      */
     @Override
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     /**
      * Sets the description of the garage.
@@ -125,7 +129,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param description The description of the garage.
      */
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Sets the pictures of the garage.
@@ -133,7 +139,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param pics The pictures of the garage.
      */
     @Override
-    public void setPics(Image[] pics) { this.pics = pics; }
+    public void setPics(Image[] pics) {
+        this.pics = pics;
+    }
 
     /**
      * Sets the ID of the garage.
@@ -141,7 +149,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param id The ID of the garage.
      */
     @Override
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Sets the type of the house (Apartment, Villa, etc.).
@@ -149,7 +159,9 @@ public class GarageBuilder implements HouseBuilder {
      * @param type The type of the house.
      */
     @Override
-    public void setType(HouseType type) { this.type = type; }
+    public void setType(HouseType type) {
+        this.type = type;
+    }
 
     /**
      * Builds and returns the garage based on the provided information.
@@ -159,20 +171,20 @@ public class GarageBuilder implements HouseBuilder {
     @Override
     public House getResult() {
         return new House(
-                id,
-                type,
-                address,
-                0, // Garage doesn't have a floor
-                false, // Garage doesn't have an elevator
-                0, // Garage doesn't have balconies
-                0, // Garage doesn't have a terrace
-                0, // Garage doesn't have a garden
-                0, // Garage doesn't have accessories
-                0, // Garage doesn't have bedrooms
-                sqm,
-                price,
-                description,
-                pics
+            id,
+            type,
+            address,
+            0, // Garage doesn't have a floor
+            false, // Garage doesn't have an elevator
+            0, // Garage doesn't have balconies
+            0, // Garage doesn't have a terrace
+            0, // Garage doesn't have a garden
+            0, // Garage doesn't have accessories
+            0, // Garage doesn't have bedrooms
+            sqm,
+            price,
+            description,
+            pics
         );
     }
 }

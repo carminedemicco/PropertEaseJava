@@ -15,7 +15,9 @@ public class HouseDirector {
      *
      * @param builder The builder to be used for constructing houses.
      */
-    public HouseDirector(HouseBuilder builder) { this.builder = builder; }
+    public HouseDirector(HouseBuilder builder) {
+        this.builder = builder;
+    }
 
     /**
      * Constructs an apartment using the provided parameters.
@@ -36,19 +38,19 @@ public class HouseDirector {
      * @return The constructed apartment.
      */
     public House constructApartment(
-            int id,
-            HouseType type,
-            String address,
-            int floor,
-            boolean elevator,
-            int balconies,
-            int terrace,
-            int accessories,
-            int bedrooms,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int floor,
+        boolean elevator,
+        int balconies,
+        int terrace,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         builder.setId(id);
         builder.setType(type);
@@ -80,13 +82,13 @@ public class HouseDirector {
      * @return The constructed garage.
      */
     public House constructGarage(
-            int id,
-            HouseType type,
-            String address,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         builder.setId(id);
         builder.setType(type);
@@ -116,17 +118,17 @@ public class HouseDirector {
      * @return The constructed independent house.
      */
     public House constructIndependent(
-            int id,
-            HouseType type,
-            String address,
-            int balconies,
-            int terrace,
-            int accessories,
-            int bedrooms,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int balconies,
+        int terrace,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         builder.setId(id);
         builder.setType(type);

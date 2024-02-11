@@ -1,8 +1,8 @@
 package main.propertease;
 
+import javafx.scene.image.Image;
 import main.propertease.builder.HouseType;
 import main.propertease.decorator.HouseInterface;
-import javafx.scene.image.Image;
 import main.propertease.memento.Memento;
 
 /**
@@ -44,20 +44,20 @@ public class House implements HouseInterface {
      * @param pics        The pictures of the house.
      */
     public House(
-            int id,
-            HouseType type,
-            String address,
-            int floor,
-            boolean elevator,
-            int balconies,
-            int terrace,
-            int garden,
-            int accessories,
-            int bedrooms,
-            int sqm,
-            int price,
-            String description,
-            Image[] pics
+        int id,
+        HouseType type,
+        String address,
+        int floor,
+        boolean elevator,
+        int balconies,
+        int terrace,
+        int garden,
+        int accessories,
+        int bedrooms,
+        int sqm,
+        int price,
+        String description,
+        Image[] pics
     ) {
         this.id = id;
         this.type = type;
@@ -80,91 +80,117 @@ public class House implements HouseInterface {
      *
      * @return The ID of the house.
      */
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     /**
      * Returns the type of the house.
      *
      * @return The type of the house.
      */
-    public HouseType getType() { return type; }
+    public HouseType getType() {
+        return type;
+    }
 
     /**
      * Returns the address of the house.
      *
      * @return The address of the house.
      */
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
     /**
      * Returns the floor number of the house.
      *
      * @return The floor number of the house.
      */
-    public int getFloor() { return floor; }
+    public int getFloor() {
+        return floor;
+    }
 
     /**
      * Returns true if the house has an elevator, otherwise false.
      *
      * @return True if the house has an elevator, otherwise false.
      */
-    public boolean hasElevator() { return elevator; }
+    public boolean hasElevator() {
+        return elevator;
+    }
 
     /**
      * Returns the number of balconies in the house.
      *
      * @return The number of balconies in the house.
      */
-    public int getBalconies() { return balconies; }
+    public int getBalconies() {
+        return balconies;
+    }
 
     /**
      * Returns the terrace area of the house.
      *
      * @return The terrace area of the house.
      */
-    public int getTerrace() { return terrace; }
+    public int getTerrace() {
+        return terrace;
+    }
 
     /**
      * Returns the garden area of the house.
      *
      * @return The garden area of the house.
      */
-    public int getGarden() { return garden; }
+    public int getGarden() {
+        return garden;
+    }
 
     /**
      * Returns the number of accessories in the house.
      *
      * @return The number of accessories in the house.
      */
-    public int getAccessories() { return accessories; }
+    public int getAccessories() {
+        return accessories;
+    }
 
     /**
      * Returns the number of bedrooms in the house.
      *
      * @return The number of bedrooms in the house.
      */
-    public int getBedrooms() { return bedrooms; }
+    public int getBedrooms() {
+        return bedrooms;
+    }
 
     /**
      * Returns the square meters (sqm) of the house.
      *
      * @return The square meters (sqm) of the house.
      */
-    public int getSqm() { return sqm; }
+    public int getSqm() {
+        return sqm;
+    }
 
     /**
      * Returns the price of the house.
      *
      * @return The price of the house.
      */
-    public int getPrice() { return price; }
+    public int getPrice() {
+        return price;
+    }
 
     /**
      * Returns the description of the house.
      *
      * @return The description of the house.
      */
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
     /**
      * Returns the picture at the specified index.
@@ -172,119 +198,153 @@ public class House implements HouseInterface {
      * @param index The index of the picture.
      * @return The picture at the specified index.
      */
-    public Image getPics(int index) { return this.pics[index]; }
+    public Image getPics(int index) {
+        return this.pics[index];
+    }
 
     /**
      * Returns the name of the house type.
      *
      * @return The name of the house type.
      */
-    public String getName() { return getType().toString(); }
+    public String getName() {
+        return getType().toString();
+    }
 
     /**
      * Sets the ID of the house.
      *
      * @param id The ID of the house.
      */
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Sets the type of the house.
      *
      * @param type The type of the house.
      */
-    public void setType(HouseType type) { this.type = type; }
+    public void setType(HouseType type) {
+        this.type = type;
+    }
 
     /**
      * Sets the address of the house.
      *
      * @param address The address of the house.
      */
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * Sets the floor number of the house.
      *
      * @param floor The floor number of the house.
      */
-    public void setFloor(int floor) { this.floor = floor; }
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
 
     /**
      * Sets whether the house has an elevator.
      *
      * @param elevator True if the house has an elevator, otherwise false.
      */
-    public void setElevator(boolean elevator) { this.elevator = elevator; }
+    public void setElevator(boolean elevator) {
+        this.elevator = elevator;
+    }
 
     /**
      * Sets the number of balconies in the house.
      *
      * @param balconies The number of balconies in the house.
      */
-    public void setBalconies(int balconies) { this.balconies = balconies; }
+    public void setBalconies(int balconies) {
+        this.balconies = balconies;
+    }
 
     /**
      * Sets the terrace area of the house.
      *
      * @param terrace The terrace area of the house.
      */
-    public void setTerrace(int terrace) { this.terrace = terrace; }
+    public void setTerrace(int terrace) {
+        this.terrace = terrace;
+    }
 
     /**
      * Sets the garden area of the house.
      *
      * @param garden The garden area of the house.
      */
-    public void setGarden(int garden) { this.garden = garden; }
+    public void setGarden(int garden) {
+        this.garden = garden;
+    }
 
     /**
      * Sets the number of accessories in the house.
      *
      * @param accessories The number of accessories in the house.
      */
-    public void setAccessories(int accessories) { this.accessories = accessories; }
+    public void setAccessories(int accessories) {
+        this.accessories = accessories;
+    }
 
     /**
      * Sets the number of bedrooms in the house.
      *
      * @param bedrooms The number of bedrooms in the house.
      */
-    public void setBedrooms(int bedrooms) { this.bedrooms = bedrooms; }
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
 
     /**
      * Sets the square meters (sqm) of the house.
      *
      * @param sqm The square meters (sqm) of the house.
      */
-    public void setSqm(int sqm) { this.sqm = sqm; }
+    public void setSqm(int sqm) {
+        this.sqm = sqm;
+    }
 
     /**
      * Sets the price of the house.
      *
      * @param price The price of the house.
      */
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     /**
      * Sets the description of the house.
      *
      * @param description The description of the house.
      */
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Sets the pictures of the house.
      *
      * @param pics The pictures of the house.
      */
-    public void setPics(Image[] pics) { this.pics = pics; }
+    public void setPics(Image[] pics) {
+        this.pics = pics;
+    }
 
     /**
      * Creates a memento object representing the current state of the house.
      *
      * @return The memento object.
      */
-    public Memento createMemento() { return new HouseMemento(); }
+    public Memento createMemento() {
+        return new HouseMemento();
+    }
 
     /**
      * Class representing a memento object for the house.

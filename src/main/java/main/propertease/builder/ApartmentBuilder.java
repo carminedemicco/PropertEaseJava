@@ -3,8 +3,6 @@ package main.propertease.builder;
 import javafx.scene.image.Image;
 import main.propertease.House;
 
-import java.lang.UnsupportedOperationException;
-
 /**
  * Concrete builder class for building apartments.
  */
@@ -15,7 +13,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param address The address of the apartment.
      */
     @Override
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     /**
      * Sets the floor number of the apartment.
@@ -23,7 +23,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param floor The floor number of the apartment.
      */
     @Override
-    public void setFloor(int floor) { this.floor = floor; }
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
 
     /**
      * Sets whether the apartment has an elevator.
@@ -31,7 +33,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param elevator True if the apartment has an elevator, false otherwise.
      */
     @Override
-    public void setElevator(boolean elevator) { this.elevator = elevator; }
+    public void setElevator(boolean elevator) {
+        this.elevator = elevator;
+    }
 
     /**
      * Sets the number of balconies in the apartment.
@@ -39,7 +43,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param balconies The number of balconies in the apartment.
      */
     @Override
-    public void setBalconies(int balconies) { this.balconies = balconies; }
+    public void setBalconies(int balconies) {
+        this.balconies = balconies;
+    }
 
     /**
      * Sets the terrace area of the apartment.
@@ -47,7 +53,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param terrace The terrace area of the apartment.
      */
     @Override
-    public void setTerrace(int terrace) { this.terrace = terrace; }
+    public void setTerrace(int terrace) {
+        this.terrace = terrace;
+    }
 
     /**
      * Throws an UnsupportedOperationException as setting a garden is not allowed for ApartmentBuilder.
@@ -66,7 +74,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param accessories The number of accessories in the apartment.
      */
     @Override
-    public void setAccessories(int accessories) { this.accessories = accessories; }
+    public void setAccessories(int accessories) {
+        this.accessories = accessories;
+    }
 
     /**
      * Sets the number of bedrooms in the apartment.
@@ -74,7 +84,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param bedrooms The number of bedrooms in the apartment.
      */
     @Override
-    public void setBedrooms(int bedrooms) { this.bedrooms = bedrooms; }
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
 
     /**
      * Sets the square meters (sqm) of the apartment.
@@ -82,7 +94,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param sqm The square meters (sqm) of the apartment.
      */
     @Override
-    public void setSqm(int sqm) { this.sqm = sqm; }
+    public void setSqm(int sqm) {
+        this.sqm = sqm;
+    }
 
     /**
      * Sets the price of the apartment.
@@ -90,7 +104,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param price The price of the apartment.
      */
     @Override
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     /**
      * Sets the description of the apartment.
@@ -98,7 +114,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param description The description of the apartment.
      */
     @Override
-    public void setDescription(String description) { this.description = description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Sets the pictures of the apartment.
@@ -106,7 +124,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param pics The pictures of the apartment.
      */
     @Override
-    public void setPics(Image[] pics) { this.pics = pics; }
+    public void setPics(Image[] pics) {
+        this.pics = pics;
+    }
 
     /**
      * Sets the ID of the apartment.
@@ -114,7 +134,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param id The ID of the apartment.
      */
     @Override
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Sets the type of the house (Apartment, Villa, etc.).
@@ -122,7 +144,9 @@ public class ApartmentBuilder implements HouseBuilder {
      * @param type The type of the house.
      */
     @Override
-    public void setType(HouseType type) { this.type = type; }
+    public void setType(HouseType type) {
+        this.type = type;
+    }
 
     /**
      * Builds and returns the apartment based on the provided information.
@@ -132,20 +156,20 @@ public class ApartmentBuilder implements HouseBuilder {
     @Override
     public House getResult() {
         return new House(
-                id,
-                type,
-                address,
-                floor,
-                elevator,
-                balconies,
-                terrace,
-                0, // Garden is not applicable for apartments
-                accessories,
-                bedrooms,
-                sqm,
-                price,
-                description,
-                pics
+            id,
+            type,
+            address,
+            floor,
+            elevator,
+            balconies,
+            terrace,
+            0, // Garden is not applicable for apartments
+            accessories,
+            bedrooms,
+            sqm,
+            price,
+            description,
+            pics
         );
     }
 

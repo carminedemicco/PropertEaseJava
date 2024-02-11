@@ -3,11 +3,20 @@ package main.propertease.server;
 import main.propertease.server.strategy.ClientManagerContext;
 import main.propertease.server.strategy.ClientManagerStrategy;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.function.Function;
 
+/**
+ * A simple server that listens for incoming connections and manages them using a strategy.
+ */
 public class Server {
+    /**
+     * Creates a new server.
+     *
+     * @param port The port to listen on.
+     * @throws RuntimeException If an error occurs during server creation.
+     */
     public Server(int port) {
         try {
             socket = new ServerSocket(port);
@@ -19,6 +28,11 @@ public class Server {
         }
     }
 
+    /**
+     * Starts the server.
+     *
+     * @param strategyFactory A factory to create a strategy for each client.
+     */
     public void start(Function<ClientManager, ClientManagerStrategy> strategyFactory) {
         while (true) {
             try {
@@ -26,8 +40,7 @@ public class Server {
                 final var strategy = strategyFactory.apply(clientManager);
                 final var strategyContext = new ClientManagerContext(strategy);
                 taskHolder.add(threadPool.add(strategyContext.getRunnable()));
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
         }
     }

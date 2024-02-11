@@ -1,27 +1,29 @@
 package main.propertease;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import main.propertease.builder.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import main.propertease.builder.*;
 import main.propertease.command.*;
 import org.json.JSONObject;
 
-
 import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.ResourceBundle;
 
 // Classe che gestisce mainView.fxml: la view dedicata alla schermata iniziale
 // Contiene la lista degli appuntamenti e la griglia delle case

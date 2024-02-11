@@ -22,7 +22,9 @@ public class ButtonReceiver {
      *
      * @param primaryStage The primary stage of the application.
      */
-    public ButtonReceiver(Stage primaryStage) { this.primaryStage = primaryStage; }
+    public ButtonReceiver(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     /**
      * Switches the scene to the main view.
@@ -31,8 +33,7 @@ public class ButtonReceiver {
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("mainView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.setScene(newScene);
@@ -45,8 +46,7 @@ public class ButtonReceiver {
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("loginView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.hide();
@@ -61,8 +61,7 @@ public class ButtonReceiver {
         fxmlLoader = new FXMLLoader(StartApplication.class.getResource("addHouseView.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         primaryStage.setScene(newScene);
@@ -76,8 +75,7 @@ public class ButtonReceiver {
         final var fxmlLoader = new FXMLLoader(StartApplication.class.getResource("popupInsertAvailability.fxml"));
         try {
             newScene = new Scene(fxmlLoader.load());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         newStage.setScene(newScene);

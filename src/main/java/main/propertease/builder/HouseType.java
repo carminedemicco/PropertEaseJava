@@ -15,7 +15,9 @@ public enum HouseType {
      *
      * @param value The numerical value associated with the house type.
      */
-    HouseType(int value) { this.value = value; }
+    HouseType(int value) {
+        this.value = value;
+    }
 
     /**
      * Returns the HouseType enum corresponding to the given numerical value.
@@ -38,7 +40,9 @@ public enum HouseType {
      *
      * @return The numerical value.
      */
-    public int getValue() { return value; }
+    public int getValue() {
+        return value;
+    }
 
     /**
      * Returns a string representation of the house type.

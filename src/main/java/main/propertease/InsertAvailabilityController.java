@@ -1,4 +1,3 @@
-
 package main.propertease;
 
 import javafx.application.Platform;
