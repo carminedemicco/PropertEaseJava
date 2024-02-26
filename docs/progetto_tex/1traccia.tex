@@ -1,0 +1,42 @@
+\thispagestyle{headings}
+
+\chapter{Traccia progetto} \label{trac}
+\noindent Si vuole sviluppare un sistema software per per un'agenzia immobiliare che offre servizi di vendita di proprietà e consulenze da parte di professionisti.
+\\
+Ogni immobile ha caratteristiche come \textbf{indirizzo, metratura, descrizione, ascensori, numero di vani, accessori, giardini e terrazzi.}
+\\\\
+Le case sono suddivise in:
+\begin{itemize}
+\item \textbf{Appartamento:} inteso come un locale in un condominio;
+\item \textbf{Casa indipendente:} inteso come una villetta;
+\item \textbf{Garage:} inteso come spazio non adibito al domicilio.
+\end{itemize}
+Il sistema deve essere gestito in modalità \textbf{amministratore} e in modalità \textbf{cliente} (e.g. operazioni sul web).
+\\\\
+L'\textbf{amministratore}, inteso come un \textit{agente immobiliare}, può effettuare le seguenti operazioni:
+\begin{itemize}
+    \item Visualizzare, inserire, modificare ed eliminare un immobile con le relative informazioni;
+    \item Inserire le date in cui è disponibile per appuntamenti con i clienti;
+    \item Visualizzare ed eliminare gli appuntamenti presi con i clienti.
+\end{itemize}
+Il \textbf{cliente} può effettuare le seguenti operazioni:
+\begin{itemize}
+    \item Visualizzare gli immobili;
+    \item Prendere appuntamenti con gli amministratori nel limite di quelle messe a disposizione da questi ultimi;
+    \item Eliminare i propri appuntamenti presi in precedenza.
+\end{itemize}
+L'architettura del software è basata su quella \textbf{Client-Server}.
+A tal fine, sono stati richiesti tre server:
+\begin{itemize}
+\item \textbf{Gestore degli immobili:} gestisce tutte le interazioni da parte dei vari client che necessitano di operazioni sul database riguardanti gli immobili; 
+\item \textbf{Gestore degli appuntamenti:} gestisce tutte le interazioni da parte dei vari client che necessitano di operazioni sul database riguardanti gli appuntamenti; 
+\item \textbf{Main handler:} il suo compito principale è quello di smistare le richieste agli altri due server, tuttavia, svolge anche funzioni che non ricadono nelle altre due categorie, come registrazione e login degi client.
+\end{itemize}
+
+\section{Tecnologie}
+\noindent La realizzazione del progetto ha coinvolto l'utilizzo di diverse tecnologie:
+\begin{itemize}
+    \item Il \textit{linguaggio di programmazione} scelto è \textbf{Java}, noto per la sua versatilità e portabilità.
+    \item Per l'implementazione dell'\textit{interfaccia grafica}, è stato utilizzato \textbf{JavaFX}, un framework flessibile che ha permesso la creazione di un'esperienza utente semplice e intuitiva.
+    \item Per garantire la \textit{persistenza dei dati}, è stato adottato il DBMS \textbf{SQLite}: scelto per la sua leggerezza e faciltà di integrazione, consentendo un'efficace archiviazione e recupero delle informazioni e garantendo un'ottima gestione dei dati.
+\end{itemize}

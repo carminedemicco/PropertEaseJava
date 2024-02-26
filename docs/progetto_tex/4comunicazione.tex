@@ -1,0 +1,82 @@
+\chapter{Comunicazione}
+\noindent La comunicazione tra le varie entità del sistema è eseguita tramite \textbf{primitive bloccanti} per \texttt{read} e per \texttt{write}, nel caso di Java, \texttt{writeLine} e \texttt{readLine}. Lo scambio di messaggi avviene in \textbf{locale} basandosi sul protocollo \textbf{TCP/IP} tramite l'utilizzo di socket \textbf{bidirezionali}; pertanto, sarà sufficiente utilizzare una singola socket per ogni client connesso.\\
+\\
+\noindent Quando viene \textbf{inviato} un messaggio, questo viene posto in un \textbf{buffer interno}: qualora il buffer dovesse essere \textit{pieno}, il thread è bloccato finché non si \textit{svuota}.\\
+Al fine di garantire questo comportamente, viene utilizzato il tipo \texttt{PrintWriter}, configurato con \texttt{autoFlush}.\\
+\textit{N.B.:} il messaggio viene processato prima di essere inviato, aggiungendo simboli di escape.\\
+\\
+Quando viene \textbf{ricevuto} un messaggio, il thread è bloccato in attesa di un messaggio da leggere, una volta che il messaggio è presente sullo stream di input, viene processato rimuovendo i simboli di escape e inserito in una struttura dati \texttt{JSON}.\\
+\\
+\noindent Per design, è assunto che il contenuto e la struttra dei messaggi in JSON siano validi e NON è per tanto necessario eseguire operazioni di controllo.\\
+Verranno però validati i parametri inviati dal client.
+
+\section{$\text{Main Client} \Leftrightarrow \text{Handler Server}$}
+\noindent Il client principale si interfaccia con l’Handler Server per autenticarsi, e per la comunicazione con gli altri server.\\
+L’istante in cui un client si connette all’Handler Server, questo genera automaticamente altre due connessioni ai server ausiliari; a questo punto i tre server si mettono in attesa di messaggi.\\
+La comunicazione diretta per l’autenticazione viene effettuata specificando nel campo \texttt{type} della richiesta “generic”.
+\section{Autenticazione - \texttt{handleSignInRequest}}
+\noindent All’avvio del client, viene mostrata una finestra di login dove l’utente potrà inserire il suo username e la sua password, una volta confermati i dati, l’applicazione costruirà una richiesta \texttt{JSON} con i parametri necessari al login e verrà inviata immediatamente al server.\\Il client si mette poi in attesa di una risposta dal server, se questa contiene i privilegi di accesso allora il login avrà avuto successo, altrimenti la risposta conterrà un errore con una breve spiegazione del problema.
+
+\section{Registrazione - \texttt{handleSignUpRequest}}
+\noindent Dalla schermata di login, viene mostrato un bottone che permette di registrarsi, la registrazione richiede all’utente di inserire:
+\begin{itemize}
+    \item Username;
+    \item Password;
+    \item Nome;
+    \item Cognome.
+\end{itemize}
+Una volta confermati i dati, l’applicazione costruisce una richiesta \texttt{JSON} con i parametri necessari per la registrazione e la invia immediatamente al server.\\
+A questo punto, il client si mette in attesa di una risposta dal server. Se la risposta contiene un \texttt{JSON} vuoto, l’utente viene registrato nel sistema. In caso contrario, la risposta conterrà un errore con una breve spiegazione del problema (es. l’username scelto è già in uso).
+
+\section{$\text{Main Client} \Leftrightarrow \text{Handler Server}$}
+\noindent L’Handler Server gestisce la comunicazione con il Poster Server internamente e in maniera trasparente all’utente. I messaggi aventi il campo type impostato a “poster” vengono inoltrati automaticamente a questo server.\\
+Le richieste supportate dal Poster Server sono:
+\begin{itemize}
+    \item \texttt{getHouses};
+    \item \texttt{insertHouse};
+    \item \texttt{deleteHouse}.
+\end{itemize}
+
+\section{Richiesta di Immobili – \texttt{getHouses}}
+\noindent Questa richiesta viene effettuata immediatamente quando \texttt{MainViewController}, ossia la pagina principale dell’applicazione, viene mostrata; oppure quando si cambia pagina verso \texttt{MainViewController}.\\
+Questa richiesta non ha bisogno di parametri e si limita a restituire l’intera collezione di immobili disponibili nel database come un array \texttt{JSON}.\\
+Non essendo previsti errori per questa richiesta, possiamo assumere che andrà sempre a buon fine.
+
+\section{Inserimento di Immobili – \texttt{insertHouse}}
+\noindent La richiesta di inserimento di un immobile gestisce sia l’inserimento che la modifica degli stessi. Viene originata da \texttt{AddHouseController}, ossia la pagina di inserimento e modifica immobili.\\
+\\
+La richiesta dovrà contenere tutti i parametri necessari per l’inserimento di un immobile, con eventuali parametri opzionali come le immagini da inserire e l’id per l’immobile.\\
+Quest'ultimo risulta opzionale in quanto, quando la richiesta contiene l’id, viene interpretata come una modifica.\\
+\textit{N.B.:} Qualora un immobile non abbia una o più immagini, ne verrà utilizzata una placeholder.\\
+Le immagini sono trasmesse dal server e al client in formato \textbf{base64}.\\
+Non essendo previsti errori per questa richiesta, possiamo assumere che andrà sempre a buon fine.
+
+\section{Cancellazione di Immobili – \texttt{deleteHouse}}
+\noindent La richiesta di cancellazione di un immobile è originata da \texttt{AddHouseController} e necessita solo di un parametro, l’id dell’immobile da eliminare.\\
+Poiché l’amministratore non specifica mai manualmente l’id (in quanto automaticamente determinato da \texttt{AddHouseController}), si può assumere che questo sia sempre valido, pertanto, tale funzione non restituisce nessun errore.
+
+\section{$\text{Handler Server} \Leftrightarrow \text{Appointment Server}$}
+\noindent L’Handler Server gestisce la comunicazione con l’Appointment Server internamente e in maniera \textit{trasparente} all’utente. I messaggi che hanno il campo \texttt{type} impostato ad “appointment” vengono inoltrati automaticamente a questo server.\\
+
+\section{Richiesta Appuntamenti – \texttt{getAppointmentsForUser / Agent}}
+\noindent Questa richiesta acquisisce gli appuntamenti per l’utente specificato, il quale può essere sia un cliente che un agente immobiliare. La richiesta è originata da \texttt{MainViewController} automaticamente.\\
+In base al tipo di utente attualmente loggato, viene richiamata la funzione\\ \texttt{getAppointmentsForUser} o \texttt{getAppointmentsForAgent}.\\
+Sarà ritornata una lista di appuntamenti presi dall’utente oppure la lista di appuntamenti a cui partecipa l’agente sottoforma di array \texttt{JSON}. Si può inoltre assumere che non saranno ritornati errori.
+
+\section{Richiesta Appuntamenti – insertAgentAvailability}
+\noindent Questa richiesta è originata da \texttt{InsertAvailabilityController} ed inserisce un range di disponibilità in base ai parametri \texttt{start\_date} e \texttt{end\_date}.\\
+Le date saranno inserite una ad una nel database e, nel caso una data sia già presente, sarà semplicemente saltata.\\
+Poiché il controllo \texttt{end\_date > start\_date} è effettuato dal client, si può assumere che non saranno ritornati errori.
+
+\section{Richiesta Appuntamenti – \texttt{bookAppointment}}
+\noindent Questa richiesta è originata da \texttt{HouseDetailsController}, in questo caso, l’utente loggato, ossia il cliente, vuole riservare un appuntamento per un immobile scegliendo il primo agente disponibile.\\
+La funzione ritorna due errori che devono essere obbligatoriamente gestiti dal client; in entrambi i casi l’appuntamento NON è prenotato e la disponibilità dell’agente rimane invariata.
+Gli errori sono:
+\begin{itemize}
+    \item \textbf{\texttt{notAvailable}:} Se l’utente sceglie una data dove nessun agente ha dato disponibilità;
+    \item \textbf{\texttt{alreadyBooked}:} Se l’utente sceglie una data per cui ha già preso un appuntamento. 
+\end{itemize}
+
+\section{Richiesta Appuntamenti – removeAppointment}
+\noindent Questa richiesta è originata da \texttt{MainViewController} quando l’utente, ossia il cliente, vuole cancellare un appuntamento. La funzione richiede un solo parametro: l’id dell’appuntamento da rimuovere.\\
+Poiché l’utente può solo cancellare un appuntamento che appare nella lista di appuntamenti, si può assumere che l’id sarà sempre valido, pertanto la richiesta non ritorna errori.

@@ -1,0 +1,19 @@
+\chapter{Architettura}
+\noindent Il sistema impiega un’architettura di tipo \textbf{ibrido}, utilizzando sia caratteristiche del modello \textbf{client/server} chee quelle del modello \textbf{peer-to-peer}.\\
+In dettaglio, la struttura prevede l’utilizzo di tre server:
+\begin{itemize}
+    \item \textbf{Handler Server:} coordina la comunicazione tra il client e gli altri due server;
+    \item \textbf{Poster Server:} svolge funzioni di gestione degli \textit{annunci};
+    \item \textbf{Appointment Server:} svolge funzioni di gestione degli \textit{appuntamenti}.
+\end{itemize}
+La connessione è effettuata tramite \textbf{Socket}, con protocollo \textbf{TCP/IP}, risultando quindi \textit{connection-oriented} e \textit{reliable}.
+Possiamo dividere l’architettura in quattro processi:
+\begin{itemize}
+    \item \textbf{Main Client:} agisce puramente da client e si interfaccia esclusivamente con il processo “Handler Server”, sia per l’autenticazione che per la comunicazione con gli altri due processi;
+    \item \textbf{Handler Server:} agisce sia da server, verso il processo “Handler Server” che da client, verso di processi “Poster Server” e “Appointment Server”.\\
+    Si occupa principalmente di smistare i messaggi in arrivo dal processo “Main Client” e di gestire l’autenticazione con lo stesso;
+    \item \textbf{Poster Server:} agisce puramente da server, verso il processo “Handler Server”.\\
+    Si occupa di gestire i comandi riguardanti gli immobili, ossia inserimento, cancellazione e selezione.;
+    \item \textbf{Appointment Server:} agisce puramente da server, verso il processo “Handler Server”.\\
+    Si occupa di gestire i comandi riguardanti gli appuntamenti, ossia inserimento, cancellazione e selezione..
+\end{itemize}
