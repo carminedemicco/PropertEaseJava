@@ -20,6 +20,9 @@ public class Client {
      */
     public Client(String host, int port) {
         try {
+            /*
+             * Creates a new Socket and connects to the host specified by *host* and *port*
+             */
             socket = new Socket(host, port);
         } catch (Exception e) {
             throw new RuntimeException(e);

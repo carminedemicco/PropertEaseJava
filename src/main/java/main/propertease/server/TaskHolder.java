@@ -15,6 +15,10 @@ public class TaskHolder {
     public TaskHolder() {
         isRunning = new AtomicBoolean(true);
         tasks = new LinkedBlockingQueue<>();
+        /*
+         * Thread used to wait on Future<?> objects, whenever a client disconnects, terminate the Thread and clean
+         * things up so that it can be reused by ThreadPool.
+         */
         pollThread = new Thread(() -> {
             while (isRunning.get()) {
                 try {
